@@ -1,0 +1,15 @@
+{
+    "title": "Discord Integration",
+    "description": "Integrates TTT2 with Discord",
+    "type": "servercontent",
+    "tags": [
+        "fun",
+        "realism"
+    ],
+    "ignore": [
+        ".git/*",
+        ".glualint.json",
+        "README.md",
+        "docs/*"
+    ]
+}
