@@ -62,28 +62,20 @@ function shouldAutoMapId()
     return GetConVar(CON_VARS.AUTO_MAP_ID):GetBool()
 end
 
-function muteLogicEnabled()
-    return GetConVar(CON_VARS.ENABLE_MUTE_LOGIC):GetBool()
-end
-
-function channelLogicEnabled()
-    return GetConVar(CON_VARS.ENABLE_CHANNEL_LOGIC):GetBool()
+function internalMuteLogicEnabled()
+    return GetConVar(CON_VARS.ENABLE_INTERNAL_MUTE_LOGIC):GetBool()
 end
 
 function getMuteDuration()
     return GetConVar(CON_VARS.MUTE_DURATION):GetInt()
 end
 
-function mutingEnabled()
-    return GetConVar(CON_VARS.ENABLE_MUTE):GetBool()
+function internalMutingEnabled()
+    return GetConVar(CON_VARS.ENABLE_INTERNAL_MUTE):GetBool()
 end
 
-function unmutingEnabled()
-    return GetConVar(CON_VARS.ENABLE_UNMUTE):GetBool()
-end
-
-function getChannelMoveDuration()
-    return GetConVar(CON_VARS.CHANNEL_MOVE_DURATION):GetInt()
+function internalUnmutingEnabled()
+    return GetConVar(CON_VARS.ENABLE_INTERNAL_UNMUTE):GetBool()
 end
 
 -- Setter
@@ -111,26 +103,18 @@ function setAutoMapId(auto_map_id)
     RunConsoleCommand(CON_VARS.AUTO_MAP_ID, boolToString(auto_map_id))
 end
 
-function setMuteLogicEnabled(mute_logic_enabled)
-    RunConsoleCommand(CON_VARS.ENABLE_MUTE_LOGIC, boolToString(mute_logic_enabled))
-end
-
-function setChannelLogicEnabled(channel_logic_enabled)
-    RunConsoleCommand(CON_VARS.ENABLE_CHANNEL_LOGIC, boolToString(channel_logic_enabled))
+function setInternalMuteLogicEnabled(mute_logic_enabled)
+    RunConsoleCommand(CON_VARS.ENABLE_INTERNAL_MUTE_LOGIC, boolToString(mute_logic_enabled))
 end
 
 function setMuteDuration(mute_duration)
     RunConsoleCommand(CON_VARS.MUTE_DURATION, mute_duration)
 end
 
-function setMuteEnabled(mute_enabled)
-    RunConsoleCommand(CON_VARS.ENABLE_MUTE, boolToString(mute_enabled))
+function setInternalMuteEnabled(mute_enabled)
+    RunConsoleCommand(CON_VARS.ENABLE_INTERNAL_MUTE, boolToString(mute_enabled))
 end
 
-function setUnmuteEnabled(unmute_enabled)
-    RunConsoleCommand(CON_VARS.ENABLE_UNMUTE, unmute_enabled)
-end
-
-function setChannelMoveDuration(channel_move_duration)
-    RunConsoleCommand(CON_VARS.CHANNEL_MOVE_DURATION, channel_move_duration)
+function setInternalUnmuteEnabled(unmute_enabled)
+    RunConsoleCommand(CON_VARS.ENABLE_INTERNAL_UNMUTE, unmute_enabled)
 end

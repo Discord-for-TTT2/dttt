@@ -10,16 +10,14 @@ CON_VARS = {
     AUTO_MAP_ID = "dttt_auto_map_id",
 
     -- BASE LOGIC
-    ENABLE_MUTE_LOGIC = "dttt_enable_mute_logic", -- Enables all mute logic (Mute, Unmute)
-    ENABLE_CHANNEL_LOGIC = "dttt_enable_channel_logic", -- Enables all channel logic (Channel Move)
+    ENABLE_INTERNAL_MUTE_LOGIC = "dttt_enable_internal_mute_logic", -- Enables all mute logic (Mute, Unmute)
 
     -- MUTING
     MUTE_DURATION = "dttt_mute_duration", -- Duration the user is muted
-    ENABLE_MUTE = "dttt_enable_mute", -- Whether muting is allowed
-    ENABLE_UNMUTE = "dttt_enable_unmute", -- Whether muting is not allowed
+    ENABLE_INTERNAL_MUTE = "dttt_enable_internal_mute", -- Whether muting is allowed
+    ENABLE_INTERNAL_UNMUTE = "dttt_enable_internal_unmute", -- Whether muting is not allowed
 
     -- Channel
-    CHANNEL_MOVE_DURATION = "dttt_channel_move_duration",
 }
 
 -- Used to communicate with client/server
@@ -65,4 +63,11 @@ HOOKS = {
 
     -- Channel
     MOVE_PLAYER = "DTTTMovePlayer", -- ply, channelID
+
+    GET_DISCORD_IDS = "DTTTDiscordIDs",
+    GET_MUTED_PLAYERS = "DTTTMutedPlayers",
+    GET_DISCORD_ID = "DTTTPlayerDiscordID",
+    GET_MUTE_STATUS = "DTTTPlayerMuteStatus",
+
+    SET_INTERNAL_MUTE_LOGIC = "DTTTSetInternalMuteLogic"
 }
