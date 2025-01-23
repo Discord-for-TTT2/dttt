@@ -34,3 +34,6 @@ include("server/commands/sv_dttt_commands.lua")
 
 include("server/discord/sv_discord_id_cache.lua")
 loadIdCache()
+
+include("shared/sh_logger.lua")
+logInfo("Server Loaded")
