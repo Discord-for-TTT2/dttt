@@ -1,5 +1,7 @@
 include("shared/sh_globals.lua")
 
+print("DISCORD")
+
 -- Create ConVars --
 
 -- Debugging
