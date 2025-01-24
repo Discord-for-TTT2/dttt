@@ -27,8 +27,6 @@ function unmutePlayer(ply, duration)
 end
 
 function muteAll(duration)
-    if ply:IsBot() then return end
-
     local players = player.GetHumans()
 
     -- postMuteAll({}, true)
@@ -36,8 +34,6 @@ function muteAll(duration)
 end
 
 function unmuteAll(duration)
-    if ply:IsBot() then return end
-
     local players = player.GetHumans()
 
     -- postUnmuteAll({}, false)
@@ -55,9 +51,7 @@ function undeafenPlayer(ply, duration)
 end
 
 function deafenAll(duration)
-    if ply:IsBot() then return end
 end
 
 function undeafenAll(duration)
-    if ply:IsBot() then return end
 end
