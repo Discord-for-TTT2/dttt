@@ -1,14 +1,9 @@
 --- MUTING ---
-
-function setMuteState(ply, state)
-    g_dttt_player_states.muted[playerIdToString(ply)] = state
-end
-
 function mutePlayer(ply, duration)
     if ply:IsBot() then return end
 
     setMuteState(ply, true)
-    postMuteRequest(ply, true)
+    postMuteRequest(ply)
 
     if duration > 0 then
         timer.Simple(duration, function() unmutePlayer(ply) end)
@@ -19,7 +14,7 @@ function unmutePlayer(ply, duration)
     if ply:IsBot() then return end
 
     setMuteState(ply, false)
-    postMuteRequest(ply, false)
+    postMuteRequest(ply)
 
     if duration > 0 then
         timer.Simple(duration, function() mutePlayer(ply) end)
@@ -29,27 +24,33 @@ end
 function muteAll(duration)
     local players = player.GetHumans()
 
-    local mute_tbl = {}
-
     for _, ply in ipairs(players) do
         setMuteState(ply, true)
-
-        if hasMappedId(ply) then
-            local player_map = {["id"]=getMappedId(ply), ["status"]=tostring("true")}
-            table.insert(mute_tbl, player_map)
-        end
     end
 
-    postMuteAllRequest(mute_tbl, function()
+    postMuteAllRequest(players, function()
         logInfo("MUTED ALL PLAYERS")
     end)
+
+    if duration > 0 then
+        timer.Simple(unmuteAll())
+    end
 end
 
 function unmuteAll(duration)
     local players = player.GetHumans()
 
-    -- postUnmuteAll({}, false)
+    for _, ply in ipairs(players) do
+        setMuteState(ply, true)
+    end
 
+    postMuteAllRequest(players, function()
+        logInfo("UNMUTED ALL PLAYERS")
+    end)
+
+    if duration > 0 then
+        timer.Simple(muteAll())
+    end
 end
 
 --- DEAFEN ---

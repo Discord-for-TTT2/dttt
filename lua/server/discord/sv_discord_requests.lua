@@ -14,32 +14,33 @@ local function generateUrl(request)
     return bot_endpoint .. "/" .. request
 end
 
-function postMuteRequest(ply, mute_status, callback)
-    local discord_id = getMappedId(ply)
+function postMuteRequest(player_tbl, callback)
 
-    if discord_id == nil or mute_status == nil then
-        logError("Discord ID or Mute Status were nil")
-        return
+    local headers = generateDiscordHeaders()
+    local url = generateUrl("mute")
+    local body = {}
+
+    if type(player_tbl) == "table" then
+        for _, ply in ipairs(player_tbl) do
+            local id = getIdMappingByPlayer(ply)
+            local status = getMuteState(ply)
+
+            table.insert(body, {
+                ["id"] = tostring(id),
+                ["status"] = tostring(status)
+            })
+        end
+    else
+        local id = getIdMappingByPlayer(player_tbl)
+        local status = getMuteStatus(ply)
+
+        table.insert(body, {
+            ["id"] = tostring(id),
+            ["status"] = tostring(status)
+        })
     end
 
-    local headers = generateDiscordHeaders()
-    local body = {
-        {["id"]= discord_id, ["status"]=tostring(mute_status)}
-    }
-
-    local url = generateUrl("mute")
-
-    POSTRequest(url, body, headers, callback)
-end
-
-function postMuteAllRequest(mute_tbl, callback)
-    local headers = generateDiscordHeaders()
-
-    local body = mute_tbl
-
-    local url = generateUrl("mute")
-
-    POSTRequest(url, body, headers, callback)
+    POSTREquest(url, body, headers, callback)
 end
 
 function getIdRequest(ply, callback)

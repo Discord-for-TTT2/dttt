@@ -93,4 +93,12 @@ function getMappedId(ply)
     return g_dttt_discord_mapping[playerIdToString(ply)]
 end
 
+function getMuteState(ply)
+    return g_dttt_player_states.muted[playerIdToString(ply)] or false
+end
+
 --- Setters ---
+
+function setMuteState(ply, state)
+    g_dttt_player_states.muted[playerIdToString(ply)] = state
+end
