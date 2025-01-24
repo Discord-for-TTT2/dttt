@@ -16,7 +16,7 @@ function printLog(log_level, msg)
 
     log_message = string.format("[DTTT %s]: %s", log_level, msg)
 
-    if debugTimestampEnabled() then
+    if GetConVar("dttt_dbg_timestamp_enabled"):GetBool() then
         local current_time = os.date("%Y-%m-%d %H:%M:%S")
         log_message = string.format("[%s] %s", current_time, log_message)
     end
