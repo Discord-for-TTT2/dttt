@@ -20,9 +20,8 @@ BetterHttp.POST = function(url, body, onSuccess, onFailed, headers)
         ["method"] = "POST",
         ["url"] = url,
         ["body"] = body_json,
-        ["paramters"] = {},
         ["headers"] = headers,
-        ["type"] = "application/json",
+        ["type"] = "text/plain; charset=utf-8",
         ["timeout"] = 60
     }
 
