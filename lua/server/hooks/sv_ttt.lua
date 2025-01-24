@@ -17,7 +17,7 @@ end)
 -- Mute Player
 hook.Add("TTT2PostPlayerDeath", "DTTTPostPlayerDeath", function(victim, inflictor, attacker)
     if isInternalMuteEnabled() then
-        hook.Run("DTTTMute", GetConVar("dttt_mute_duration"):GetInt())
+        hook.Run("DTTTMute", victim, GetConVar("dttt_mute_duration"):GetInt())
     end
 end)
 
@@ -39,5 +39,6 @@ end)
 
 -- Try unmute player
 hook.Add("PlayerDisconnected", "DTTTPlayerDisconnected", function(ply)
-    timer.Simple(0.2, function() hook.Run(HOOKS.UNMUTE_PLAYER, ply) end)
+    return
+    --timer.Simple(0.2, function() hook.Run(HOOKS.UNMUTE_PLAYER, ply) end)
 end)
