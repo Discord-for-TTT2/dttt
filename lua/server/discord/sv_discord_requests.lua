@@ -19,13 +19,9 @@ function postMuteRequest(player_tbl, callback)
     local url = generateUrl("mute")
     local body = {}
 
-    logInfo("MUTE PLAYER TABLE")
-    logInfo(type(player_tbl))
-
     if type(player_tbl) == "table" then
         logInfo("PLAYER_TBL IS TABLE")
         for i, ply in ipairs(player_tbl) do
-            logInfo(ply:Nick())
             local id = getMappedId(ply)
             local status = getMuteState(ply)
 
@@ -33,12 +29,8 @@ function postMuteRequest(player_tbl, callback)
                 ["id"] = tostring(id),
                 ["status"] = tostring(status)
             })
-
-            print(#body)
-            PrintTable(body[i])
         end
     else
-        logInfo("SINGLE PLAYER")
         local id = getMappedId(player_tbl)
         local status = getMuteState(player_tbl)
 
@@ -47,10 +39,6 @@ function postMuteRequest(player_tbl, callback)
             ["status"] = tostring(status)
         })
     end
-
-    logInfo("################")
-    PrintTable(body)
-    logInfo("################")
 
     POSTRequest(url, body, headers, callback)
 end

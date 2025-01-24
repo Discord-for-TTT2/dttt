@@ -20,7 +20,11 @@ end
 function POSTRequest(url, body, headers, callback, retries)
     retries = retries or 3
 
-    http.Post(url, body,
+    logInfo("POST REQUEST: BODY JSON")
+    local bdy = util.TableToJSON(body, false)
+    logInfo(bdy)
+
+    http.Post(url, bdy,
         -- On Success
         function(res_body, res_size, res_headers, res_code)
             logInfo("POST Request to " .. url .. " returned code: " .. tostring(res_code))
