@@ -23,14 +23,14 @@ end
 --- Checkers ---
 
 function isInternalMuteEnabled()
-    local mute_logic_enabled = GetConVar("dttt_imute_logic_enabeld"):GetBool()
+    local mute_logic_enabled = GetConVar("dttt_imute_logic_enabled"):GetBool()
     local mute_enabled = GetConVar("dttt_imute_enabled"):GetBool()
 
     return mute_logic_enabled and mute_enabled
 end
 
 function isInternalUnmuteEnabled()
-    local mute_logic_enabled = GetConVar("dttt_imute_logic_enabeld"):GetBool()
+    local mute_logic_enabled = GetConVar("dttt_imute_logic_enabled"):GetBool()
     local unmute_enabled = GetConVar("dttt_iunmute_enabled"):GetBool()
 
     return mute_logic_enabled and unmute_enabled
