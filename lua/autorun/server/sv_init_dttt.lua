@@ -1,39 +1,39 @@
-include("shared/sh_globals.lua")
+--- Create Globals ---
+g_dttt_player_states = {
+    muted = {},
+    deafened = {}
+}
 
--- Create ConVars --
+g_dttt_discord_mapping = {}
 
--- Debugging
-CreateConVar(CON_VARS.DEBUG_ENABLED, "0", {FCVAR_ARCHIVE}, "Enables debug logging in the console")
-CreateConVar(CON_VARS.DEBUG_LOG_TIMESTAMP_ENABLED, "1", {FCVAR_ARCHIVE}, "Prints the timestamp when logging")
-CreateConVar(CON_VARS.DEBUG_LOG_LEVELS, "DEBUG|WARNING|ERROR", {FCVAR_ARCHIVE}, "The log levels that will be logged in the console")
+--- Create Con Vars ---
 
--- Discord
-CreateConVar(CON_VARS.BOT_ENDPOINT, "http://localhost:43507", {FCVAR_ARCHIVE}, "The Endpoint of the Discord Bot")
-CreateConVar(CON_VARS.BOT_API_KEY, "", {FCVAR_ARCHIVE}, "The Api Key of the Discord Bot")
-CreateConVar(CON_VARS.AUTO_MAP_ID, "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Enabled auto assignment of Discord IDs")
-
--- Base Logic
-CreateConVar(CON_VARS.ENABLE_INTERNAL_MUTE_LOGIC, "1", {FCVAR_ARCHIVE}, "Enables the complete mute logic")
+-- Debug
+CreateConVar("dttt_dbg_enabled", "0")
+CreateConVar("dttt_dbg_timestamp_enabled", "1")
+CreateConVar("dttt_dbg_log_levels", "WARNING|ERROR")
 
 -- Muting
-CreateConVar(CON_VARS.MUTE_DURATION, "5", {FCVAR_ARCHIVE}, "The duration a player will be muted")
-CreateConVar(CON_VARS.ENABLE_INTERNAL_MUTE, "1", {FCVAR_ARCHIVE}, "Enables muting")
-CreateConVar(CON_VARS.ENABLE_INTERNAL_UNMUTE, "1", {FCVAR_ARCHIVE}, "Enables unmuting")
+CreateConVar("dttt_imute_logic_enabled", "1")
+CreateConVar("dttt_imute_enabled", "1")
+CreateConVar("dttt_iunmute_enabled", "1")
 
--- Channel
+-- Durations
+CreateConVar("dttt_mute_duration", "5")
+CreateConVar("dttt_deafen_duration", "5")
 
-for _, value in pairs(NETWORK.SERVER_SIDE) do
-    util.AddNetworkString(value)
-end
+-- Bot
+CreateConVar("dttt_bot_endpoint", "http://localhost:43507")
+CreateConVar("dttt_bot_api_key", "")
 
-_G.dttt_id_mapping = {}
-_G.dttt_muted_players = {}
+-- Discord
+CreateConVar("dttt_auto_map_ids", "1")
+CreateConVar("dttt_cache_mapping", "1")
 
-include("server/hooks/sv_ttt_hooks.lua")
-include("server/commands/sv_dttt_commands.lua")
+--- Include needed files ---
 
-include("server/discord/sv_discord_id_cache.lua")
+-- Load TTT Hooks
+include("server/hooks/sv_ttt.lua")
+
+include("server/discord/sv_discord_caching.lua")
 loadIdCache()
-
-include("shared/sh_logger.lua")
-logInfo("DTTT LOADED")
