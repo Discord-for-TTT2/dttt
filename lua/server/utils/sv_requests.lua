@@ -1,18 +1,7 @@
 local BetterHttp = {}
 
-
---[[
-    onFailed - func
-    onSuccess - func
-    url - str
-    headers - tbl
-    body - str
-    type - str
-]]
 BetterHttp.POST = function(url, body, onSuccess, onFailed, headers)
-
-    local body_json = util.TableToJSON(body, true)
-    logInfo(body_json)
+    local body_json = util.TableToJSON(body, false)
 
     local http_tbl = {
         ["failed"] = onFailed,
