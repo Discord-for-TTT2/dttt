@@ -1,10 +1,12 @@
 --- Create Globals ---
+
 g_dttt_player_states = {
     muted = {},
     deafened = {}
 }
 
 g_dttt_discord_mapping = {}
+
 
 --- Create Con Vars ---
 
@@ -30,10 +32,19 @@ CreateConVar("dttt_bot_api_key", "")
 CreateConVar("dttt_auto_map_ids", "1")
 CreateConVar("dttt_cache_mapping", "1")
 
+
 --- Include needed files ---
+
+-- Load All Helpers
+include("sh_logger.lua")
+include("server/utils/sv_helper.lua")
+include("server/player_state.lua")
+include("server/id_mapping.lua")
 
 -- Load TTT Hooks
 include("server/hooks/sv_ttt.lua")
 
-include("server/discord/sv_discord_caching.lua")
-loadIdCache()
+-- Load Commands
+include("server/dttt_commands.lua")
+
+logInfo("DTTT Started")

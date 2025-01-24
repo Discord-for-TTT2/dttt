@@ -1,7 +1,5 @@
-include("shared/sh_globals.lua")
-
 function containsLogLevel(log_level)
-    local log_level_string = getDebugLogLevels()
+    local log_level_string = GetConVar("dttt_dbg_log_levels"):GetString()
 
     local log_levels = {}
     for match in (log_level_string .. '|'):gmatch("(.-)" .. '|') do
@@ -12,7 +10,7 @@ function containsLogLevel(log_level)
 end
 
 function printLog(log_level, msg)
-    if not containsLogLevel(log_level) or not debugEnabled() then
+    if not containsLogLevel(log_level) or not GetConVar("dttt_dbg_enabled"):GetBool() then
         return
     end
 
@@ -40,13 +38,4 @@ end
 
 function logError(msg)
     printLog("ERROR", msg)
-end
-
-function logTable(tbl, tbl_name)
-    if not debugEnabled() then
-        return
-    end
-
-    logDebug("Printing table: " .. tbl_name)
-    PrintTable(tbl)
 end

@@ -1,4 +1,14 @@
---- Converters ---
+--- CON VARS ---
+
+function shouldAutoMapId()
+    return GetConVar("dttt_auto_map_ids"):GetBool()
+end
+
+function shouldCacheIDs()
+    return GetConVar("dttt_cache_mapping"):GetBool()
+end
+
+--- CONVERTERS ---
 
 --[[
     Converts the players SteamID64 into a string
@@ -12,16 +22,18 @@ end
 
 --- Checkers ---
 
-function isInternalMuteLogicEnabled()
-    return GetConVar("dttt_imute_logic_enabled"):GetBool()
-end
-
 function isInternalMuteEnabled()
-    return GetConVar("dttt_imute_enabled"):GetBool()
+    local mute_logic_enabled = GetConVar("dttt_imute_logic_enabeld"):GetBool()
+    local mute_enabled = GetConVar("dttt_imute_enabled"):GetBool()
+
+    return mute_logic_enabled and mute_enabled
 end
 
 function isInternalUnmuteEnabled()
-    return GetConVar("dttt_iunmute_enabled"):GetBool()
+    local mute_logic_enabled = GetConVar("dttt_imute_logic_enabeld"):GetBool()
+    local unmute_enabled = GetConVar("dttt_iunmute_enabled"):GetBool()
+
+    return mute_logic_enabled and unmute_enabled
 end
 
 --[[

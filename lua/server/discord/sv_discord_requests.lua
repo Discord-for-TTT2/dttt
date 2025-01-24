@@ -1,5 +1,4 @@
 include("server/utils/sv_requests.lua")
-include("server/utils/sv_helper.lua")
 
 local function generateDiscordHeaders()
     local bot_api_key = GetConVar("dttt_bot_api_key"):GetString()

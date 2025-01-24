@@ -10,7 +10,6 @@
         ".git/*",
         ".glualint.json",
         "README.md",
-        "docs/*",
-        "old_lua/*"
+        "docs/*"
     ]
 }

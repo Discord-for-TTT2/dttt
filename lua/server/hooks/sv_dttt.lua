@@ -1,6 +1,3 @@
-include("server/utils/sv_mute.lua")
-include("server/utils/sv_deafen.lua")
-
 hook.Add("DTTTMute", "dttt_mute", function(ply, duration)
 -- mute player
     duration = duration or 0
