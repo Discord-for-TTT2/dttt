@@ -46,7 +46,7 @@ function POSTRequest(url, body, headers, callback, retries)
 end
 
 function GETRequest(url, path_param_tbl, headers, callback, retries)
-    retries = retries - 1
+    retries = retries or 3
 
     local path_param_str = tableToParams(path_param_tbl)
 
