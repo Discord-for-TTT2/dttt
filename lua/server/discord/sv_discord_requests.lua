@@ -48,7 +48,9 @@ function postMuteRequest(player_tbl, callback)
         })
     end
 
+    logInfo("################")
     PrintTable(body)
+    logInfo("################")
 
     POSTRequest(url, body, headers, callback)
 end
