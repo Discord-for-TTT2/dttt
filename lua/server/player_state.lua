@@ -2,6 +2,8 @@
 function mutePlayer(ply, duration)
     if ply:IsBot() then return end
 
+    logInfo("Trying to mute player " .. ply:Nick())
+
     setMuteState(ply, true)
     postMuteRequest(ply)
 
@@ -12,6 +14,8 @@ end
 
 function unmutePlayer(ply, duration)
     if ply:IsBot() then return end
+
+    logInfo("Trying to unmute player " .. ply:Nick())
 
     setMuteState(ply, false)
     postMuteRequest(ply)
@@ -24,13 +28,13 @@ end
 function muteAll(duration)
     local players = player.GetHumans()
 
+    logInfo("Trying to mute all players")
+
     for _, ply in ipairs(players) do
         setMuteState(ply, true)
     end
 
-    postMuteRequest(players, function()
-        logInfo("MUTED ALL PLAYERS")
-    end)
+    postMuteRequest(players)
 
     if duration > 0 then
         timer.Simple(unmuteAll())
@@ -40,13 +44,13 @@ end
 function unmuteAll(duration)
     local players = player.GetHumans()
 
+    logInfo("Trying to unmute all players")
+
     for _, ply in ipairs(players) do
         setMuteState(ply, true)
     end
 
-    postMuteRequest(players, function()
-        logInfo("UNMUTED ALL PLAYERS")
-    end)
+    postMuteRequest(players)
 
     if duration > 0 then
         timer.Simple(muteAll())
@@ -57,6 +61,8 @@ end
 
 function deafenPlayer(ply, duration)
     if ply:IsBot() then return end
+
+    logInfo("Trying to deafen player " .. ply:Nick())
 
     setDeafenState(ply, true)
     postDeafenRequest(ply)
@@ -69,6 +75,8 @@ end
 function undeafenPlayer(ply, duration)
     if ply:IsBot() then return end
 
+    logInfo("Trying to undeafen player " .. ply:Nick())
+
     setDeafenState(ply, false)
     postDeafenRequest(ply)
 
@@ -80,13 +88,14 @@ end
 function deafenAll(duration)
     local players = player.GetHumans()
 
+    logInfo("Trying to deafen all players")
+
+
     for _, ply in ipairs(players) do
         setDeafenState(ply, true)
     end
 
-    postDeafenRequest(players, function()
-        logInfo("UNDEAFENED ALL PLAYERS")
-    end)
+    postDeafenRequest(players)
 
     if duration > 0 then
         timer.Simple(undeafenAll())
@@ -96,13 +105,13 @@ end
 function undeafenAll(duration)
     local players = player.GetHumans()
 
+    logInfo("Trying to undeafen all players")
+
     for _, ply in ipairs(players) do
         setDeafenState(ply, false)
     end
 
-    postDeafenRequest(players, function()
-        logInfo("UNDEAFENED ALL PLAYERS")
-    end)
+    postDeafenRequest(players)
 
     if duration > 0 then
         timer.Simple(deafenAll())

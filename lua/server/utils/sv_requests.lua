@@ -35,7 +35,7 @@ function POSTRequest(url, body, headers, callback, retries)
 
         -- On Failure
         function(err)
-            logError("POST Request to " .. url .. " failed! Retrying" .. retries .. " more time(s)")
+            logError("POST Request to " .. url .. " failed! Retrying " .. retries .. " more time(s)")
             if retries > 0 then
                 POSTRequest(url, body, headers, callback, retries - 1)
             end

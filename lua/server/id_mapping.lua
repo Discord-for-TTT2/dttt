@@ -3,8 +3,9 @@ include("server/discord/sv_discord_requests.lua")
 function addDiscordId(ply, discord_id)
     local current_discord_id = getMappedId(ply)
 
-    if tostring(current_discord_id) == "nil" then
+    if current_discord_id == nil then
         g_dttt_discord_mapping[playerIdToString(ply)] = tostring(discord_id)
+        logDebug("Added player mapping for " .. ply:Nick() .. "; SteamID:" .. playerIdToString(ply) .. "; DiscordID:" .. tostring(discord_id))
         writeIdCache()
     else
         logDebug("Player " .. ply:Nick() .. " already exists with Discord ID " .. tostring(current_discord_id))
@@ -13,6 +14,7 @@ end
 
 function removeDiscordId(ply)
     addDiscordId(ply, nil)
+    logInfo("Removed discord id for player " .. ply:Nick())
 end
 
 function clearDiscordIds()
@@ -34,12 +36,10 @@ function autoMapId(ply)
         local discord_id = body.id
 
         if discord_id == nil then
-            logError("Returned discord id is not valid!")
+            logError("Returned discord id for player " .. ply:Nick() .. " is not valid!")
             return
         end
         addDiscordId(ply, discord_id)
-
-        logDebug("Set discord id for player " .. ply:Nick() .. " to " .. tostring(discord_id))
     end)
 end
 
@@ -70,7 +70,7 @@ function readIdCache()
     local json_str = file.Read(getFileName(), "DATA")
 
     if not json_str then
-        logError("Something went wrong while reading " .. getFileName())
+        logError("Something went wrong while reading cache " .. getFileName())
         return "{}"
     end
 
