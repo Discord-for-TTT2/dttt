@@ -54,11 +54,7 @@ end
 function POSTRequest(url, body, headers, callback, retries)
     retries = retries or 3
 
-    logInfo("POST REQUEST: BODY JSON")
-    local bdy = util.TableToJSON(body, false)
-    logInfo(bdy)
-
-    BetterHttp.POST(url, bdy,
+    BetterHttp.POST(url, body,
         -- On Success
         function(res_code, res_body, res_headers)
             logInfo("POST Request to " .. url .. " returned code: " .. tostring(res_code))
