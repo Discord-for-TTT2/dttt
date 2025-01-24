@@ -1,3 +1,5 @@
+print("DISCORD STARTING")
+
 --- Create Globals ---
 
 g_dttt_player_states = {
