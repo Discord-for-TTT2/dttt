@@ -32,6 +32,9 @@ end)
 -- Map Discord ID
 hook.Add("PlayerInitialSpawn", "DTTTPlayerInitialSpawn", function(ply ,transition)
     -- automap id
+    if GetConVar("dttt_auto_map_ids"):GetBool() then
+        autoMapId(ply)
+    end
 end)
 
 -- Try unmute player
