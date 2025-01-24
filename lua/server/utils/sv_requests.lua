@@ -23,6 +23,11 @@ function POSTRequest(url, body, headers, callback, retries)
     http.Post(url, body,
         -- On Success
         function(res_body, res_size, res_headers, res_code)
+            logInfo("POST Request to " .. url .. " returned code: " .. tostring(res_code))
+
+            if res_code < 200 or res_code >= 300 then
+                logWarning("Body: " .. res_body)
+            end
             if callback ~= nil then
                 callback(res_body, res_size, res_headers, res_code)
             end
@@ -30,6 +35,7 @@ function POSTRequest(url, body, headers, callback, retries)
 
         -- On Failure
         function(err)
+            logError("POST Request to " .. url .. " failed! Retrying" .. retries .. " more time(s)")
             if retries > 0 then
                 POSTRequest(url, body, headers, callback, retries - 1)
             end
@@ -51,6 +57,10 @@ function GETRequest(url, path_param_tbl, headers, callback, retries)
     http.Fetch(url,
         -- On Success
         function(res_body, res_size, res_headers, res_code)
+            logInfo("GET Request to " .. url .. " returned code: " .. tostring(res_code))
+            if res_code < 200 or res_code >= 300 then
+                logWarning("Body: " .. res_body)
+            end
             if callback ~= nil then
                 callback(res_body, res_size, res_headers, res_code)
             end
@@ -58,6 +68,7 @@ function GETRequest(url, path_param_tbl, headers, callback, retries)
 
         -- On Failure
         function(err)
+            logError("GET Request to " .. url .. " failed! Retrying" .. retries .. " more time(s)")
             if retries > 0 then
                 GETRequest(url, path_param_tbl, headers, callback, retries - 1)
             end
