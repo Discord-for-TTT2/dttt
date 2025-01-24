@@ -34,7 +34,7 @@ RegisterConVar("dttt_mute_duration", "5", {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 RegisterConVar("dttt_deafen_duration", "5", {FCVAR_ARCHIVE, FCVAR_NOTIFY})
 
 -- Bot
-RegisterConVar("dttt_bot_endpoint", "http://localhost:43507", {FCVAR_ARCHIVE})
+RegisterConVar("dttt_bot_endpoint", "http://localhost:37405", {FCVAR_ARCHIVE})
 RegisterConVar("dttt_bot_api_key", "", {FCVAR_ARCHIVE})
 
 -- Discord
