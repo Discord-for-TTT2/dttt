@@ -7,7 +7,7 @@ function mutePlayer(ply, duration)
     setMuteState(ply, true)
     postMuteRequest(ply)
 
-    if duration > 0 then
+    if duration ~= nil and duration > 0 then
         timer.Simple(duration, function() unmutePlayer(ply) end)
     end
 end
@@ -20,7 +20,7 @@ function unmutePlayer(ply, duration)
     setMuteState(ply, false)
     postMuteRequest(ply)
 
-    if duration > 0 then
+    if duration ~= nil and duration > 0 then
         timer.Simple(duration, function() mutePlayer(ply) end)
     end
 end
@@ -36,7 +36,7 @@ function muteAll(duration)
 
     postMuteRequest(players)
 
-    if duration > 0 then
+    if duration ~= nil and duration > 0 then
         timer.Simple(unmuteAll())
     end
 end
@@ -52,7 +52,7 @@ function unmuteAll(duration)
 
     postMuteRequest(players)
 
-    if duration > 0 then
+    if duration ~= nil and duration > 0 then
         timer.Simple(muteAll())
     end
 end
@@ -67,7 +67,7 @@ function deafenPlayer(ply, duration)
     setDeafenState(ply, true)
     postDeafenRequest(ply)
 
-    if duration > 0 then
+    if duration ~= nil and duration > 0 then
         timer.Simple(duration, function() undeafenPlayer(ply) end)
     end
 end
@@ -80,7 +80,7 @@ function undeafenPlayer(ply, duration)
     setDeafenState(ply, false)
     postDeafenRequest(ply)
 
-    if duration > 0 then
+    if duration ~= nil and duration > 0 then
         timer.Simple(duration, function() deafenPlayer(ply) end)
     end
 end
@@ -97,7 +97,7 @@ function deafenAll(duration)
 
     postDeafenRequest(players)
 
-    if duration > 0 then
+    if duration ~= nil and duration > 0 then
         timer.Simple(undeafenAll())
     end
 end
@@ -113,7 +113,7 @@ function undeafenAll(duration)
 
     postDeafenRequest(players)
 
-    if duration > 0 then
+    if duration ~= nil and duration > 0 then
         timer.Simple(deafenAll())
     end
 end
