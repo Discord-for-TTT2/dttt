@@ -29,8 +29,20 @@ end
 function muteAll(duration)
     local players = player.GetHumans()
 
-    -- postMuteAll({}, true)
+    local mute_tbl = {}
 
+    for _, ply in ipairs(players) do
+        setMuteState(ply, true)
+
+        if hasMappedId(ply) then
+            local player_map = {["id"]=getMappedId(ply), ["status"]=tostring("true")}
+            table.insert(mute_tbl, player_map)
+        end
+    end
+
+    postMuteAllRequest(mute_tbl, function()
+        logInfo("MUTED ALL PLAYERS")
+    end)
 end
 
 function unmuteAll(duration)
