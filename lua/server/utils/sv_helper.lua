@@ -59,7 +59,7 @@ end
     @param ply (Player) the player that 
 ]]
 function hasMappedId(ply)
-    return g_dttt_discord_mapping[playerIdToString(ply)] == nil
+    return g_dttt_discord_mapping[playerIdToString(ply)] ~= nil
 end
 
 function shouldAutoMapId()
@@ -85,14 +85,10 @@ function getRoundState()
 end
 
 function getMappedId(ply)
-    logInfo("TRYING TO GET MAPPED PLAYER")
-
     if not hasMappedId(ply) then
         logError("PLAYER NOT MAPPED")
         return nil
     end
-
-    logInfo("IS MAPPED, GETTING ID")
 
     return g_dttt_discord_mapping[playerIdToString(ply)]
 end
