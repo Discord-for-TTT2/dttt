@@ -16,3 +16,9 @@ addCommand("dttt_vars", function(ply, cmd, args, argStr)
         forceLog(convar:GetName() .. " : " .. convar:GetString())
     end
 end)
+
+addCommand("dttt_mappings", function(ply, cmd, args, argStr)
+    for key, value in pairs(g_dttt_discord_mapping) do
+        forceLog("SteamID:" .. tostring(key) .. " ; DiscordID:" .. tostring(value))
+    end
+end)
