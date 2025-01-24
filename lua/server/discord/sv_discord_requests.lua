@@ -25,7 +25,7 @@ function postMuteRequest(player_tbl, callback)
     if type(player_tbl) == "table" then
         logInfo("PLAYER_TBL IS TABLE")
         for i, ply in ipairs(player_tbl) do
-            logInfo(tostring(i))
+            logInfo(ply:Nick())
             local id = getMappedId(ply)
             local status = getMuteState(ply)
 
@@ -33,6 +33,9 @@ function postMuteRequest(player_tbl, callback)
                 ["id"] = tostring(id),
                 ["status"] = tostring(status)
             })
+
+            print(#body)
+            PrintTable(body[i])
         end
     else
         logInfo("SINGLE PLAYER")
