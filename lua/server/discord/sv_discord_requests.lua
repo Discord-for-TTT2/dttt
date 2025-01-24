@@ -43,6 +43,35 @@ function postMuteRequest(player_tbl, callback)
     POSTRequest(url, body, headers, callback)
 end
 
+function postDeafenRequest(player_tbl, callback)
+
+    local headers = generateDiscordHeaders()
+    local url = generateUrl("deafen")
+    local body = {}
+
+    if type(player_tbl) == "table" then
+        for _, ply in ipairs(player_tbl) do
+            local id = getMappedId(ply)
+            local status = getMuteState(ply)
+
+            table.insert(body, {
+                ["id"] = tostring(id),
+                ["status"] = tostring(status)
+            })
+        end
+    else
+        local id = getMappedId(player_tbl)
+        local status = getMuteState(player_tbl)
+
+        table.insert(body, {
+            ["id"] = tostring(id),
+            ["status"] = tostring(status)
+        })
+    end
+
+    POSTRequest(url, body, headers, callback)
+end
+
 function getIdRequest(ply, callback)
     local params = {
         name = ply:Name(),
