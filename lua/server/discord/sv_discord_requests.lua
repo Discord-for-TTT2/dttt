@@ -32,7 +32,7 @@ function postMuteRequest(player_tbl, callback)
         end
     else
         local id = getMappedId(player_tbl)
-        local status = getMuteStatus(ply)
+        local status = getMuteState(ply)
 
         table.insert(body, {
             ["id"] = tostring(id),
