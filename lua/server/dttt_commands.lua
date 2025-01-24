@@ -25,17 +25,21 @@ end)
 
 addCommand("dttt_player_states", function(ply, cmd, args, argStr)
 
+    print("")
+
     forceLog("Muted Players: ")
     for key, value in pairs(g_dttt_player_states.muted) do
         forceLog("SteamID:" .. key .. " ; State:" .. tostring(value))
     end
+
+    print("")
 
     forceLog("Deafened Players: ")
     for key, value in pairs(g_dttt_player_states.deafened) do
         forceLog("SteamID:" .. key .. " ; State:" .. tostring(value))
     end
 
-    forceLog("")
+    print("")
 end)
 
 addCommand("dttt_clear_mapping", function(ply, cmd, args, argStr)

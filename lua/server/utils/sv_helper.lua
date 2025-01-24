@@ -86,7 +86,7 @@ end
 
 function getMappedId(ply)
     if not hasMappedId(ply) then
-        logError("PLAYER NOT MAPPED")
+        logError("Unable to get Mapped ID, player " .. ply:Nick() .. " is not mapped")
         return nil
     end
 
