@@ -40,7 +40,7 @@ function postMuteRequest(player_tbl, callback)
         })
     end
 
-    POSTREquest(url, body, headers, callback)
+    POSTRequest(url, body, headers, callback)
 end
 
 function getIdRequest(ply, callback)
