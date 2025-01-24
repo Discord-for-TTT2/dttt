@@ -1,3 +1,5 @@
+include("server/discord/sv_discord_requests.lua")
+
 function addDiscordId(ply, discord_id)
     local current_discord_id = getMappedId(ply)
 
@@ -27,12 +29,13 @@ function autoMapId(ply)
         return
     end
 
-    getDiscordIdRequest(ply, function(res_body, res_size, res_headers, res_code)
+    getIdRequest(ply, function(res_body, res_size, res_headers, res_code)
         local body = util.JSONToTable(res_body)
         local discord_id = body.id
 
         if discord_id == nil then
             logError("Returned discord id is not valid!")
+            return
         end
         addDiscordId(ply, discord_id)
 
