@@ -11,7 +11,7 @@ local BetterHttp = {}
 ]]
 BetterHttp.POST = function(url, body, onSuccess, onFailed, headers)
 
-    local body_json = util.TableToJSON(body)
+    local body_json = util.TableToJSON(body, true)
     logInfo(body_json)
 
     local http_tbl = {
@@ -21,7 +21,7 @@ BetterHttp.POST = function(url, body, onSuccess, onFailed, headers)
         ["url"] = url,
         ["body"] = body_json,
         ["headers"] = headers,
-        ["type"] = "text/plain; charset=utf-8",
+        ["type"] = "application/json",
         ["timeout"] = 60
     }
 
