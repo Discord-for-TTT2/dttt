@@ -11,13 +11,13 @@ end
 
 function printLog(log_level, msg, bypass_checks)
     bypass_checks = bypass_checks or false
-    if not containsLogLevel(log_level) or not GetConVar("dttt_dbg_enabled"):GetBool() or not bypass_checks then
+    if (not containsLogLevel(log_level) or not GetConVar("dttt_dbg_enabled"):GetBool()) and not bypass_checks then
         return
     end
 
     log_message = string.format("[DTTT %s]: %s", log_level, msg)
 
-    if GetConVar("dttt_dbg_timestamp_enabled"):GetBool() or bypass_checks then
+    if GetConVar("dttt_dbg_timestamp_enabled"):GetBool() then
         local current_time = os.date("%Y-%m-%d %H:%M:%S")
         log_message = string.format("[%s] %s", current_time, log_message)
     end
