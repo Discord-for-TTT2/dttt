@@ -17,10 +17,6 @@ end
 function postMuteRequest(ply, mute_status, callback)
     local discord_id = getMappedId(ply)
 
-    logDebug("Trying to send post request to discord")
-    logDebug(tostring(discord_id))
-    logDebug(tostring(mute_status))
-
     if discord_id == nil or mute_status == nil then
         logError("Discord ID or Mute Status were nil")
         return
@@ -28,8 +24,7 @@ function postMuteRequest(ply, mute_status, callback)
 
     local headers = generateDiscordHeaders()
     local body = {
-        ["id"] = discord_id,
-        ["status"] = tostring(mute_status)
+        {["id"]= discord_id, ["status"]=tostring(mute_status)}
     }
 
     local url = generateUrl("mute")
@@ -37,7 +32,14 @@ function postMuteRequest(ply, mute_status, callback)
     POSTRequest(url, body, headers, callback)
 end
 
-function postMuteAllRequest(tbl, status, callback)
+function postMuteAllRequest(mute_tbl, callback)
+    local headers = generateDiscordHeaders()
+
+    local body = mute_tbl
+
+    local url = generateUrl("mute")
+
+    POSTRequest(url, body, headers, callback)
 end
 
 function getIdRequest(ply, callback)
