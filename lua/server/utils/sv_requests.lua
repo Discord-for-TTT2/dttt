@@ -1,3 +1,36 @@
+local BetterHttp = {}
+
+
+--[[
+    onFailed - func
+    onSuccess - func
+    url - str
+    headers - tbl
+    body - str
+    type - str
+]]
+BetterHttp.POST = function(url, body, onSuccess, onFailed, headers)
+
+    local body_json = util.TableToJSON(body)
+    logInfo(body_json)
+
+    local http_tbl = {
+        ["failed"] = onFailed,
+        ["success"] = onSuccess,
+        ["method"] = "POST",
+        ["url"] = url,
+        ["body"] = body_json,
+        ["paramters"] = {},
+        ["type"] = "application/json;",
+        ["timeout"] = 60
+    }
+
+    HTTP(http_tbl)
+end
+
+
+
+
 local function urlEncode(str)
     str = string.gsub(str, "([%%&=?+#<>\" ])", function(character)
         return string.format("%%%02X", string.byte(character))
@@ -17,6 +50,7 @@ local function tableToParams(tbl)
     return table.concat(params, "&")
 end
 
+
 function POSTRequest(url, body, headers, callback, retries)
     retries = retries or 3
 
@@ -24,16 +58,16 @@ function POSTRequest(url, body, headers, callback, retries)
     local bdy = util.TableToJSON(body, false)
     logInfo(bdy)
 
-    http.Post(url, bdy,
+    BetterHttp.POST(url, bdy,
         -- On Success
-        function(res_body, res_size, res_headers, res_code)
+        function(res_code, res_body, res_headers)
             logInfo("POST Request to " .. url .. " returned code: " .. tostring(res_code))
 
             if res_code < 200 or res_code >= 300 then
                 logWarning("Body: " .. res_body)
             end
             if callback ~= nil then
-                callback(res_body, res_size, res_headers, res_code)
+                callback(res_code, res_body, res_headers)
             end
         end,
 
