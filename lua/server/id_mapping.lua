@@ -53,6 +53,10 @@ local function getFileName()
 end
 
 function writeIdCache()
+    if not GetConVar("dttt_cache_mapping"):GetBool() then
+        logWarning("Caching is disabled, IDs wont be saved!")
+    end
+
     local json_str = util.TableToJSON(g_dttt_discord_mapping, true)
 
     file.Write(getFileName(), json_str)
