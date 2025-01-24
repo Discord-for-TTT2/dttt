@@ -1,7 +1,7 @@
 hook.Add("DTTTMute", "dttt_mute", function(ply, duration)
 -- mute player
     duration = duration or 0
-    mutePlayer(ply, dur)
+    mutePlayer(ply, duration)
 end)
 
 hook.Add("DTTTUnmute", "dttt_unmute", function(ply, duration)
