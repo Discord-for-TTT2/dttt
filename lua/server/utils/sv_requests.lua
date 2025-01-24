@@ -50,11 +50,13 @@ function GETRequest(url, path_param_tbl, headers, callback, retries)
 
     local path_param_str = tableToParams(path_param_tbl)
 
+    local real_url = url
+
     if path_param_str then
-        url = url .. "?" .. path_param_str
+        real_url = url .. "?" .. path_param_str
     end
 
-    http.Fetch(url,
+    http.Fetch(real_url,
         -- On Success
         function(res_body, res_size, res_headers, res_code)
             logInfo("GET Request to " .. url .. " returned code: " .. tostring(res_code))
@@ -68,7 +70,7 @@ function GETRequest(url, path_param_tbl, headers, callback, retries)
 
         -- On Failure
         function(err)
-            logError("GET Request to " .. url .. " failed! Retrying" .. retries .. " more time(s)")
+            logError("GET Request to " .. real_url .. " failed! Retrying " .. retries .. " more time(s)")
             if retries > 0 then
                 GETRequest(url, path_param_tbl, headers, callback, retries - 1)
             end
