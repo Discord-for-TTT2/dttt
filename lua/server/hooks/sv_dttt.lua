@@ -96,6 +96,25 @@ hook.Add("DTTTGetDiscordID", "dttt_get_discord_id", function(ply)
     return getMappedId(ply)
 end)
 
+
+--- LOGGING ---
+
+hook.Add("DTTTPlayerMuted", function(ply, state)
+    logInfo("Set mute state of Player:" .. ply:Nick() .. "; State:" .. tostring(state))
+end)
+
+hook.Add("DTTTPlayerDefened", function(ply, state)
+    logInfo("Set defened state of Player:" .. ply:Nick() .. "; State:" .. tostring(state))
+end)
+
+hook.Add("DTTTAllMuted", function(state)
+    logInfo("Set mute state for all Players ; State: " .. tostring(state))
+end)
+
+hook.Add("DTTTAllDeafened", function(state)
+    logInfo("Set deafen state for all Players ; State: " .. tostring(state))
+end)
+
 hook.Add("DTTTPlayerMoved", "dttt_player_moved", function()
 -- run when player got moved
 end)
