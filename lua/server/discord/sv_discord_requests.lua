@@ -20,7 +20,6 @@ function postMuteRequest(player_tbl, callback)
     local body = {}
 
     if type(player_tbl) == "table" then
-        logInfo("PLAYER_TBL IS TABLE")
         for i, ply in ipairs(player_tbl) do
             local id = getMappedId(ply)
             local status = getMuteState(ply)

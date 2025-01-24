@@ -19,7 +19,7 @@ BetterHttp.POST = function(url, body, onSuccess, onFailed, headers)
         ["success"] = onSuccess,
         ["method"] = "POST",
         ["url"] = url,
-        ["body"] = body_json,
+        ["body"] = '[{"id":"555", "status":"false"}, {"id":"FUCK YOU", "status":"true"}]',
         ["headers"] = headers,
         ["type"] = "application/json",
         ["timeout"] = 60
@@ -27,9 +27,6 @@ BetterHttp.POST = function(url, body, onSuccess, onFailed, headers)
 
     HTTP(http_tbl)
 end
-
-
-
 
 local function urlEncode(str)
     str = string.gsub(str, "([%%&=?+#<>\" ])", function(character)
