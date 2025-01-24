@@ -7,7 +7,7 @@ function addDiscordId(ply, discord_id)
         g_dttt_discord_mapping[playerIdToString(ply)] = tostring(discord_id)
         writeIdCache()
     else
-        print("Player " .. ply:Nick() .. " already exists with Discord ID " .. tostring(current_discord_id))
+        logDebug("Player " .. ply:Nick() .. " already exists with Discord ID " .. tostring(current_discord_id))
     end
 end
 
@@ -60,9 +60,9 @@ function writeIdCache()
     local written_connections = readIdCache()
 
     if written_connections == util.TableToJSON(g_dttt_discord_mapping, true) then
-        print("ID Cache written to " .. getFileName())
+        logInfo("ID Cache written to " .. getFileName())
     else
-        print("Written Cache and current Mappings dont match!")
+        logInfo("Written Cache and current Mappings dont match!")
     end
 end
 
@@ -70,7 +70,7 @@ function readIdCache()
     local json_str = file.Read(getFileName(), "DATA")
 
     if not json_str then
-        print("Something went wrong while reading " .. getFileName())
+        logError("Something went wrong while reading " .. getFileName())
         return "{}"
     end
 
