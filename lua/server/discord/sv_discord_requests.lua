@@ -15,7 +15,6 @@ local function generateUrl(request)
 end
 
 function postMuteRequest(player_tbl, callback)
-
     local headers = generateDiscordHeaders()
     local url = generateUrl("mute")
     local body = {}
@@ -39,6 +38,8 @@ function postMuteRequest(player_tbl, callback)
             ["status"] = tostring(status)
         })
     end
+
+    PrintTable(body)
 
     POSTRequest(url, body, headers, callback)
 end
@@ -82,4 +83,9 @@ function getIdRequest(ply, callback)
     local url = generateUrl("id")
 
     GETRequest(url, params, headers, callback)
+end
+
+function postSyncRequest()
+    local headers = generateDiscordHeaders()
+    local url = generateUrl("mute")
 end
