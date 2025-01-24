@@ -85,7 +85,7 @@ function getRoundState()
 end
 
 function getMappedId(ply)
-    if not hasMappedId() then
+    if not hasMappedId(ply) then
         return nil
     end
 
