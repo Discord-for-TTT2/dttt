@@ -19,6 +19,9 @@ function postMuteRequest(player_tbl, callback)
     local url = generateUrl("mute")
     local body = {}
 
+    logInfo("MUTE PLAYER TABLE")
+    logInfo(type(player_tbl))
+
     if type(player_tbl) == "table" then
         for _, ply in ipairs(player_tbl) do
             local id = getMappedId(ply)

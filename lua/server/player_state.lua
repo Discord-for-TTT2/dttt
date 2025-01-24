@@ -47,7 +47,7 @@ function unmuteAll(duration)
     logInfo("Trying to unmute all players")
 
     for _, ply in ipairs(players) do
-        setMuteState(ply, true)
+        setMuteState(ply, false)
     end
 
     postMuteRequest(players)
