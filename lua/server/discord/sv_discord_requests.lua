@@ -22,7 +22,7 @@ function postMuteRequest(player_tbl, callback)
 
     if type(player_tbl) == "table" then
         for _, ply in ipairs(player_tbl) do
-            local id = getIdMappingByPlayer(ply)
+            local id = getMappedId(ply)
             local status = getMuteState(ply)
 
             table.insert(body, {
@@ -31,7 +31,7 @@ function postMuteRequest(player_tbl, callback)
             })
         end
     else
-        local id = getIdMappingByPlayer(player_tbl)
+        local id = getMappedId(player_tbl)
         local status = getMuteStatus(ply)
 
         table.insert(body, {
