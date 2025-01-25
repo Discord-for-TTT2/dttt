@@ -19,6 +19,8 @@ function postMuteRequest(player_tbl, callback)
     local url = generateUrl("mute")
     local body = {}
 
+    logInfo("SENDING MUTE REQUEST")
+
     if type(player_tbl) == "table" then
         for i, ply in ipairs(player_tbl) do
             local id = getMappedId(ply)
@@ -38,6 +40,10 @@ function postMuteRequest(player_tbl, callback)
             ["status"] = status
         })
     end
+
+    logInfo("BODY TO SEND")
+    PrintTable(body)
+    logInfo("###################################")
 
     POSTRequest(url, body, headers, callback)
 end
