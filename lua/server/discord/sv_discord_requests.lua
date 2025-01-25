@@ -26,7 +26,7 @@ function postMuteRequest(player_tbl, callback)
 
             table.insert(body, {
                 ["id"] = tostring(id),
-                ["status"] = tostring(status)
+                ["status"] = status
             })
         end
     else
@@ -35,7 +35,7 @@ function postMuteRequest(player_tbl, callback)
 
         table.insert(body, {
             ["id"] = tostring(id),
-            ["status"] = tostring(status)
+            ["status"] = status
         })
     end
 
@@ -55,7 +55,7 @@ function postDeafenRequest(player_tbl, callback)
             if id ~= nil and status ~= nil then
                 table.insert(body, {
                     ["id"] = tostring(id),
-                    ["status"] = tostring(status)
+                    ["status"] = status
                 })
             end
         end
@@ -66,7 +66,7 @@ function postDeafenRequest(player_tbl, callback)
         if id ~= nil and status ~= nil then
             table.insert(body, {
                 ["id"] = tostring(id),
-                ["status"] = tostring(status)
+                ["status"] = status
             })
         end
     end
