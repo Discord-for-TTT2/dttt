@@ -53,19 +53,23 @@ function postDeafenRequest(player_tbl, callback)
             local id = getMappedId(ply)
             local status = getMuteState(ply)
 
-            table.insert(body, {
-                ["id"] = tostring(id),
-                ["status"] = tostring(status)
-            })
+            if id ~= nil and status ~= nil then
+                table.insert(body, {
+                    ["id"] = tostring(id),
+                    ["status"] = tostring(status)
+                })
+            end
         end
     else
         local id = getMappedId(player_tbl)
         local status = getMuteState(player_tbl)
 
-        table.insert(body, {
-            ["id"] = tostring(id),
-            ["status"] = tostring(status)
-        })
+        if id ~= nil and status ~= nil then
+            table.insert(body, {
+                ["id"] = tostring(id),
+                ["status"] = tostring(status)
+            })
+        end
     end
 
     POSTRequest(url, body, headers, callback)
