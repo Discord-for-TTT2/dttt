@@ -70,8 +70,6 @@ function GETRequest(url, path_param_tbl, headers, callback, retries)
 
     local path_param_str = tableToParams(path_param_tbl)
 
-    path_param_str = urlEncode(path_param_str)
-
     if path_param_str then
         real_url = url .. "?" .. path_param_str
     end
