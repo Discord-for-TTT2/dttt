@@ -23,8 +23,14 @@ end)
 
 -- Unmute Player
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
+    local can_use_chat = hook.Run("TTT2CanUseVoiceChat", ply, false)
+
     if isInternalUnmuteEnabled() and hook.Run("DTTTPreMuteLogic") == nil then
-        hook.Run("DTTTUnmute", ply)
+        if can_use_chat then
+            hook.Run("DTTTUnmute", ply)
+        else
+            hook.Run("DTTTMute", ply)
+        end
     end
 end)
 
