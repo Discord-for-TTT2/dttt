@@ -49,8 +49,17 @@ end)
 
 --- UNMUTE ALL ---
 
+hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_before", function(duration)
+    logInfo("PRE UNMUTE BEFORE")
+end)
+
 hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_all", function(duration)
+    logInfo("PRE UNMUTE")
     hook.Run("DTTTUnmuteAll", duration)
+end)
+
+hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_after", function(duration)
+    logInfo("PRE UNMUTE AFTER")
 end)
 
 hook.Add("DTTTUnmuteAll", "dttt_unmute_all", function(duration)
@@ -171,6 +180,8 @@ hook.Add("DTTTGetDiscordID", "dttt_get_discord_id", function(ply)
 -- get discord id mapping of player
     return getMappedId(ply)
 end)
+
+PrintTable(hook.GetTable())
 
 
 --- LOGGING ---
