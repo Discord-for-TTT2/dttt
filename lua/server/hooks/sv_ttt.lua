@@ -23,7 +23,7 @@ end)
 
 -- Unmute Player
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
-    local can_use_chat = hook.Run("TTT2AvoidGeneralChat", ply, "")
+    
 
     logInfo("CAN USE CHAT: " .. tostring(can_use_chat))
 
@@ -31,7 +31,12 @@ hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
         if can_use_chat == nil then
             hook.Run("DTTTUnmute", ply)
         else
-            hook.Run("DTTTMute", ply)
+            timer.Simple(0.2, function()
+                local can_use_chat = hook.Run("TTT2AvoidGeneralChat", ply, "")
+                if can_use_chat == false then
+                    hook.Run("DTTTMute", ply)
+                end
+            end)
         end
     end
 end)
