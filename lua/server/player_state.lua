@@ -37,12 +37,14 @@ function muteAll(duration)
     postMuteRequest(players)
 
     if duration ~= nil and duration > 0 then
-        timer.Simple(unmuteAll())
+        timer.Simple(duration, function() unmuteAll() end)
     end
 end
 
 function unmuteAll(duration)
     local players = player.GetHumans()
+
+    logInfo("Unmute duration:" .. tostring(duration))
 
     logInfo("Trying to unmute all players")
 

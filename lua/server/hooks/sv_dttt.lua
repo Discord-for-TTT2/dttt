@@ -179,8 +179,3 @@ hook.Add("DTTTGetDiscordID", "dttt_get_discord_id", function(ply)
 -- get discord id mapping of player
     return getMappedId(ply)
 end)
-
-PrintTable(hook.GetTable())
-
-
---- LOGGING ---
