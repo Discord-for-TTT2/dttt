@@ -33,6 +33,12 @@ function autoMapId(ply)
 
     getIdRequest(ply, function(res_body, res_size, res_headers, res_code)
         local body = util.JSONToTable(res_body)
+
+        if body == nil then
+            logError("Returned body for id is nil")
+            return
+        end
+
         local discord_id = body.id
 
         if discord_id == nil then
