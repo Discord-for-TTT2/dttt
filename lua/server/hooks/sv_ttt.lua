@@ -28,16 +28,15 @@ hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
     logInfo("CAN USE CHAT: " .. tostring(can_use_chat))
 
     if isInternalUnmuteEnabled() and hook.Run("DTTTPreMuteLogic") == nil then
-        if can_use_chat == nil then
-            hook.Run("DTTTUnmute", ply)
-        else
-            timer.Simple(0.2, function()
-                local can_use_chat = hook.Run("TTT2AvoidGeneralChat", ply, "")
-                if can_use_chat == false then
-                    hook.Run("DTTTMute", ply)
-                end
-            end)
-        end
+        timer.Simple(0.2, function()
+            local can_use_chat = hook.Run("TTT2AvoidGeneralChat", ply, "")
+
+            if can_use_chat == nil then
+                hook.Run("DTTTUnmute", ply)
+            else
+                hook.Run("DTTTMute", ply)
+            end
+        end)
     end
 end)
 
