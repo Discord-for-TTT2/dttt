@@ -5,6 +5,7 @@ hook.Add("TTT2PrePrepareRound", "DTTTPrePrepareRound", function(duration)
     if isInternalUnmuteEnabled() then
         hook.Run("DTTTUnmuteAll")
     end
+    hook.Run("DTTTPost")
 end)
 
 -- Unmute all

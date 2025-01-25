@@ -1,3 +1,22 @@
+hook.Add("DTTTPost", "dttt_post", function()
+    logInfo("POST")
+
+    hook.Run("DTTTNormal")
+end)
+
+hook.Add("DTTTNormal", "dttt_normal", function()
+    logInfo("NORMAL")
+
+    local pre_return = hook.Run("DTTTPre")
+
+    logInfo("PRE RETURNED " .. tostring(pre_return))
+end)
+
+hook.Add("DTTTPre", "dttt_pre", function()
+    return true
+end)
+
+
 hook.Add("DTTTMute", "dttt_mute", function(ply, duration)
 -- mute player
     duration = duration or 0
@@ -12,7 +31,7 @@ hook.Add("DTTTUnmute", "dttt_unmute", function(ply, duration)
     hook.Run("DTTTPlayerMuted", ply, false)
 end)
 
-hook.Add("DTTTMuteAll", "dttt_mute_all", function(state, duration)
+hook.Add("DTTTMuteAll", "dttt_mute_all", function(duration)
     -- mute all
     duration = duration or 0
     muteAll(duration)
