@@ -53,7 +53,7 @@ function unmuteAll(duration)
     postMuteRequest(players)
 
     if duration ~= nil and duration > 0 then
-        timer.Simple(muteAll(), duration)
+        timer.Simple(duration, function() muteAll() end)
     end
 end
 
