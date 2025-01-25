@@ -31,6 +31,11 @@ function autoMapId(ply)
         return
     end
 
+    if getMappedId(ply) ~= nil then
+        logDebug("Player " .. ply:Nick() .. " already exists with Discord ID " .. tostring(current_discord_id))
+        return
+    end
+
     getIdRequest(ply, function(res_body, res_size, res_headers, res_code)
         local body = util.JSONToTable(res_body)
 
