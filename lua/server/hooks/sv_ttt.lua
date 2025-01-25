@@ -6,7 +6,7 @@ hook.Add("TTT2PrePrepareRound", "DTTTPrePrepareRound", function(duration)
 
         local should_unmute = hook.Run("DTTTPreUnmuteAll", duration)
         logInfo(tostring(should_unmute))
-        if should_unmute == false then return end
+        if should_unmute ~= nil then return end
 
         hook.Run("DTTTUnmuteAll", duration)
     end
@@ -17,7 +17,7 @@ hook.Add("TTT2PreEndRound", "DTTTPreBeginRonud", function(result, duration)
     if isInternalUnmuteEnabled() then
         local should_unmute = hook.Run("DTTTPreUnmuteAll", duration)
         logInfo(tostring(should_unmute))
-        if should_unmute == false then return end
+        if should_unmute ~= nil then return end
 
         hook.Run("DTTTUnmuteAll", duration)
     end

@@ -18,8 +18,6 @@ end)
 
 hook.Add("DTTTPreUnmute", "dttt_pre_unmute", function(ply, duration)
     --hook.Run("DTTTUnmute", ply, duration)
-    logInfo("SERVER PRE UNMUTE")
-    return true
 end)
 
 hook.Add("DTTTUnmute", "dttt_unmute", function(ply, duration)
@@ -51,9 +49,7 @@ end)
 
 --- UNMUTE ALL ---
 
-hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_all", function(duration)
-    return true
-end)
+-- hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_all", function(duration) end)
 
 hook.Add("DTTTUnmuteAll", "dttt_unmute_all", function(duration)
     duration = duration or 0
