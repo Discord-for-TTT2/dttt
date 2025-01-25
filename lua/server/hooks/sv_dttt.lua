@@ -53,7 +53,7 @@ hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_before", function(duration)
     logInfo("PRE UNMUTE BEFORE")
 end)
 
-hook.Add("DTTTPreUnmuteAll", "dttt_0_pre_unmute_all", function(duration)
+hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_all", function(duration)
     logInfo("PRE UNMUTE")
     hook.Run("DTTTUnmuteAll", duration)
 end)
