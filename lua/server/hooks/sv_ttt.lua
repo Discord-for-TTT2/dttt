@@ -38,17 +38,16 @@ hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
     end
 end)
 
-
--- Map Discord ID
 hook.Add("PlayerInitialSpawn", "DTTTPlayerInitialSpawn", function(ply ,transition)
-    -- automap id
     if GetConVar("dttt_auto_map_ids"):GetBool() then
         autoMapId(ply)
     end
 end)
 
--- Try unmute player
 hook.Add("PlayerDisconnected", "DTTTPlayerDisconnected", function(ply)
-    logInfo("PLAYER DISCONNECTED")
-    --timer.Simple(0.2, function() hook.Run(HOOKS.UNMUTE_PLAYER, ply) end)
+    unmutePlayer(ply)
+    undeafenPlayer(ply)
+
+    g_dttt_player_states.muted[playerIdToString(ply)] = nil
+    g_dttt_player_states.deafened[playerIdToString(ply)] = nil
 end)
