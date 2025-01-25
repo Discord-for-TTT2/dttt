@@ -23,13 +23,11 @@ end)
 
 -- Unmute Player
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
-    
-
-    logInfo("CAN USE CHAT: " .. tostring(can_use_chat))
-
     if isInternalUnmuteEnabled() and hook.Run("DTTTPreMuteLogic") == nil then
         timer.Simple(0.2, function()
             local can_use_chat = hook.Run("TTT2AvoidGeneralChat", ply, "")
+
+            logInfo("CAN USE CHAT: " .. tostring(can_use_chat))
 
             if can_use_chat == nil then
                 hook.Run("DTTTUnmute", ply)
@@ -51,6 +49,6 @@ end)
 
 -- Try unmute player
 hook.Add("PlayerDisconnected", "DTTTPlayerDisconnected", function(ply)
-    return
+    logInfo("PLAYER DISCONNECTED")
     --timer.Simple(0.2, function() hook.Run(HOOKS.UNMUTE_PLAYER, ply) end)
 end)
