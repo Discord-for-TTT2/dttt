@@ -49,9 +49,24 @@ end)
 
 --- UNMUTE ALL ---
 
+function GM:DTTTPreUnmuteAll(duration)
+    hook.Run("DTTTUnmuteAll", duration)
+end
+
+function GM:DTTTUnmuteAll(duration)
+    duration = duration or 0
+    unmuteAll(duration)
+
+    hook.Run("DTTTPostUnmuteAll")
+end
+
+function GM:DTTTPostUnmuteAll(duration) end
+
+--[[
 hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_all", function(duration)
     hook.Run("DTTTUnmuteAll", duration)
 end)
+
 
 hook.Add("DTTTUnmuteAll", "dttt_unmute_all", function(duration)
     duration = duration or 0
@@ -62,6 +77,7 @@ end)
 
 hook.Add("DTTTPostUnmuteAll", "dttt_post_unmute_all", function()
 end)
+]]
 
 --- DEAFEN ---
 
