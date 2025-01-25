@@ -2,8 +2,6 @@
 function mutePlayer(ply, duration)
     if ply:IsBot() then return end
 
-    logInfo("CONENCTION STATE " .. tostring(ply:IsConnected()))
-
     logInfo("Trying to mute player " .. ply:Nick())
 
     setMuteState(ply, true)

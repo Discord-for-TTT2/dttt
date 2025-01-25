@@ -101,12 +101,42 @@ function getDeafenState(ply)
     return g_dttt_player_states.deafened[playerIdToString(ply)] or false
 end
 
+function containsPlayerMute(ply)
+    return g_dttt_player_states.muted[playerIdToString(ply)] ~= nil
+end
+
+function containsPlayerDeafen(ply)
+    return g_dttt_player_states.deafened[playerIdToString(ply)] ~= nil
+end
+
+function addPlayerStates(ply)
+    logInfo("Adding states for player " .. ply:Nick())
+    g_dttt_player_states.muted[playerIdToString(ply)] = false
+    g_dttt_player_states.deafened[playerIdToString(ply)] = false
+end
+
+function removePlayerStates(ply)
+    logInfo("Removing states for player " .. ply:Nick())
+
+    g_dttt_player_states.muted[playerIdToString(ply)] = nil
+    g_dttt_player_states.deafened[playerIdToString(ply)] = nil
+end
+
 --- Setters ---
 
 function setMuteState(ply, state)
+    if not containsPlayerMute(ply) then
+        logWarning("Player not in Player States: Mute, wont change")
+        return
+    end
     g_dttt_player_states.muted[playerIdToString(ply)] = state
 end
 
 function setDeafenState(ply, state)
+    if not containsPlayerDeafen(ply) then
+        logWarning("Player not in Player States: Deafened, wont change")
+        return
+    end
+
     g_dttt_player_states.deafened[playerIdToString(ply)] = state
 end
