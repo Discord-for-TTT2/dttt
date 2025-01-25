@@ -1,7 +1,5 @@
 --- MUTE ---
-hook.Add("DTTTPreMute", "dttt_pre_mute", function(ply, duration)
-    hook.Run("DTTTMute", ply, duration)
-end)
+-- hook.Add("DTTTPreMute", "dttt_pre_mute", function(ply, duration) end)
 
 hook.Add("DTTTMute", "dttt_mute", function(ply, duration)
     duration = duration or 0
@@ -63,9 +61,7 @@ end)
 
 --- DEAFEN ---
 
-hook.Add("DTTTPreDeafend", "dttt_pre_deafen", function(ply, duration)
-    hook.Run("DTTTDeafen", ply, duration)
-end)
+-- hook.Add("DTTTPreDeafend", "dttt_pre_deafen", function(ply, duration) end)
 
 hook.Add("DTTTDeafen", "dttt_deafen", function(ply, duration)
     duration = duration or 0
@@ -80,9 +76,7 @@ end)
 
 --- UNDEAFEN ---
 
-hook.Add("DTTTPreUndeafen", "dttt_pre_undeafen", function(ply, duration)
-    hook.Run("DTTTUndeafen", ply, duration)
-end)
+-- hook.Add("DTTTPreUndeafen", "dttt_pre_undeafen", function(ply, duration) end)
 
 hook.Add("DTTTUndeafen", "dttt_undeafen", function(ply, duration)
     duration = duration or 0
@@ -97,9 +91,7 @@ end)
 
 --- DEAFEN ALL ---
 
-hook.Add("DTTTPreDeafenAll", "dttt_pre_deafen_all", function(duration)
-    hook.Run("DTTTDeafenAll", duration)
-end)
+-- hook.Add("DTTTPreDeafenAll", "dttt_pre_deafen_all", function(duration) end)
 
 hook.Add("DTTTDeafenAll", "dttt_deafen_all", function(duration)
     duration = duration or 0
@@ -113,9 +105,7 @@ end)
 
 --- UNDEAFEN ALL ---
 
-hook.Add("DTTTPreUndeafenAll", "dttt_pre_undeafen_all", function(duration)
-    hook.Run("DTTTUndeafenAll", duration)
-end)
+-- hook.Add("DTTTPreUndeafenAll", "dttt_pre_undeafen_all", function(duration) end)
 
 hook.Add("DTTTUndeafenAll", "dttt_undeafen_all", function(duration)
 -- undeafen all
