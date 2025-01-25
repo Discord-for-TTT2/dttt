@@ -1,5 +1,13 @@
+function GM:DTTTPreMuteLogic() end
+
 --- MUTE ---
 function GM:DTTTPreMute(ply, duration)
+    local run_logic = hook.Run("DTTTPreMuteLogic")
+
+    if run_logic == true then
+        return
+    end
+
     hook.Run("DTTTMute", ply, duration)
 end
 
@@ -16,6 +24,12 @@ function GM:DTTTPostMute(ply, duration, mute_state) end
 --- UNMUTE ---
 
 function GM:DTTTPreUnmute(ply, duration)
+    local run_logic = hook.Run("DTTTPreMuteLogic")
+
+    if run_logic == true then
+        return
+    end
+
     hook.Run("DTTTUnmute", ply, duration)
 end
 
@@ -32,6 +46,12 @@ function GM:DTTTPostUnmute(ply, duration, mute_state) end
 --- MUTE ALL ---
 
 function GM:DTTTPreMuteAll(duration)
+    local run_logic = hook.Run("DTTTPreMuteLogic")
+
+    if run_logic == true then
+        return
+    end
+
     hook.Run("DTTTMuteAll", duration)
 end
 
@@ -47,6 +67,12 @@ function GM:DTTTPostMuteAll() end
 --- UNMUTE ALL ---
 
 function GM:DTTTPreUnmuteAll(duration)
+    local run_logic = hook.Run("DTTTPreMuteLogic")
+
+    if run_logic == true then
+        return
+    end
+
     hook.Run("DTTTUnmuteAll", duration)
 end
 
@@ -133,37 +159,28 @@ hook.Add("DTTTMoveAll", "dttt_move_all", function()
 end)
 ]]
 
-hook.Add("DTTTGetAllMuted", "dttt_get_muted", function()
--- return muted players
+function GM:DTTTGetAllMuted()
     return g_dttt_player_states.muted
-end)
+end
 
-hook.Add("DTTTGetAllDeafened", "dttt_get_deafened", function()
--- return deafened player
+function GM:DTTTGetAllDeafened()
     return g_dttt_player_states.deafened
-end)
+end
 
-hook.Add("DTTTGetDiscordIDs", "dttt_get_discord_ids", function()
--- get all discord id mappings
+function GM:DTTTGetDiscordIDs()
     return g_dttt_discord_mapping
-end)
+end
 
-hook.Add("DTTTGetMute", "dttt_get_mute_state", function(ply)
--- get mute state of player
+function GM:DTTTGetMute(ply)
     return getMuteState(ply)
-end)
+end
 
-hook.Add("DTTTGetDeafened", "dttt_get_deafened_state", function(ply)
--- get deafen state of player
+function GM:DTTTGetDeafened(ply)
     return getDeafenState(ply)
-end)
+end
 
-hook.Add("DTTTGetDiscordID", "dttt_get_discord_id", function(ply)
--- get discord id mapping of player
+function GM:DTTTGetDiscordID(ply)
     return getMappedId(ply)
-end)
-
-PrintTable(hook.GetTable())
-
+end
 
 --- LOGGING ---
