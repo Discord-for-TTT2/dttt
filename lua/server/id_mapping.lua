@@ -1,15 +1,9 @@
 include("server/discord/sv_discord_requests.lua")
 
 function addDiscordId(ply, discord_id)
-    local current_discord_id = getMappedId(ply)
-
-    if current_discord_id == nil then
-        g_dttt_discord_mapping[playerIdToString(ply)] = tostring(discord_id)
-        logDebug("Added player mapping for " .. ply:Nick() .. "; SteamID:" .. playerIdToString(ply) .. "; DiscordID:" .. tostring(discord_id))
-        writeIdCache()
-    else
-        logDebug("Player " .. ply:Nick() .. " already exists with Discord ID " .. tostring(current_discord_id))
-    end
+    g_dttt_discord_mapping[playerIdToString(ply)] = tostring(discord_id)
+    logDebug("Added player mapping for " .. ply:Nick() .. "; SteamID:" .. playerIdToString(ply) .. "; DiscordID:" .. tostring(discord_id))
+    writeIdCache()
 end
 
 function removeDiscordId(ply)

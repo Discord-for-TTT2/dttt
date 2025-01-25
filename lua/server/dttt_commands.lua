@@ -69,3 +69,28 @@ end)
 addCommand("dttt_undeafen_all", function(ply, cmd, args, argStr)
     hook.Run("DTTTUndeafenAll")
 end)
+
+addCommand("dttt_steam_ids", function(ply, cmd, args, argStr)
+    local players = player.GetHumans()
+
+    logForce("Steam IDs for players:")
+    for _, ply in ipairs(players) do
+        logForce(ply:Nick() .. ":" .. playerIdToString(ply))
+    end
+end)
+
+addCommand("dttt_add_discord_id", function(ply, cmd, args, argStr)
+    local player_name = string.lower(args[0])
+    local player_id = args[1]
+
+    local players = player.GetHumans()
+
+    for _, ply in ipairs(players) do
+        local ply_name = string.lower(ply:Nick())
+
+        if ply_name == player_name then
+            addDiscordId(ply, player_id)
+            return
+        end
+    end
+end)
