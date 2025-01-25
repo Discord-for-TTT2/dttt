@@ -80,8 +80,8 @@ addCommand("dttt_steam_ids", function(ply, cmd, args, argStr)
 end)
 
 addCommand("dttt_add_discord_id", function(ply, cmd, args, argStr)
-    local player_name = string.lower(args[0])
-    local player_id = args[1]
+    local player_name = string.lower(args[1])
+    local player_id = args[2]
 
     local players = player.GetHumans()
 
