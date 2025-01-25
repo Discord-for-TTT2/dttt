@@ -3,14 +3,14 @@ include("server/hooks/sv_dttt.lua")
 -- Unmute all
 hook.Add("TTT2PrePrepareRound", "DTTTPrePrepareRound", function(duration)
     if isInternalUnmuteEnabled() then
-        hook.Run("DTTTUnmuteAll", duration)
+        hook.Run("DTTTUnmuteAll")
     end
 end)
 
 -- Unmute all
 hook.Add("TTT2PreEndRound", "DTTTPreBeginRonud", function(result, duration)
     if isInternalUnmuteEnabled() then
-        hook.Run("DTTTUnmuteAll", duration)
+        hook.Run("DTTTUnmuteAll")
     end
 end)
 
@@ -24,7 +24,7 @@ end)
 -- Unmute Player
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
     if isInternalUnmuteEnabled() then
-        hook.Run("DTTTUnmute", ply, duration)
+        hook.Run("DTTTUnmute", ply)
     end
 end)
 
