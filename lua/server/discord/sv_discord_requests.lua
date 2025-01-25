@@ -43,7 +43,6 @@ function postMuteRequest(player_tbl, callback)
 end
 
 function postDeafenRequest(player_tbl, callback)
-
     local headers = generateDiscordHeaders()
     local url = generateUrl("deafen")
     local body = {}
@@ -71,6 +70,8 @@ function postDeafenRequest(player_tbl, callback)
             })
         end
     end
+
+    PrintTable(body)
 
     POSTRequest(url, body, headers, callback)
 end
