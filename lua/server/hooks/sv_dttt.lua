@@ -67,7 +67,12 @@ function GM:DTTTPostMuteAll() end
 --- UNMUTE ALL ---
 
 function GM:DTTTPreUnmuteAll(duration)
+    logInfo("UNMUTE ALL")
+
     local run_logic = hook.Run("DTTTPreMuteLogic")
+
+    logInfo(tostring(run_logic))
+    logInfo(tostring(run_logic==true))
 
     if run_logic == true then
         return
