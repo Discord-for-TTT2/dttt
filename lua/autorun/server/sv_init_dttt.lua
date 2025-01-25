@@ -43,16 +43,13 @@ RegisterConVar("dttt_cache_mapping", "1", {FCVAR_ARCHIVE}, "If disabled dttt won
 --- Include needed files ---
 
 -- Load All Helpers
+include("sh_logger.lua")
+include("server/utils/sv_helper.lua")
+include("server/player_state.lua")
+include("server/id_mapping.lua")
 
-
-hook.Add("Initialize", "DTTTInitialize", function()
-    -- Load TTT Hooks
-    include("sh_logger.lua")
-    include("server/utils/sv_helper.lua")
-    include("server/player_state.lua")
-    include("server/id_mapping.lua")
-    include("server/hooks/sv_ttt.lua")
-end)
+-- Load TTT Hooks
+include("server/hooks/sv_ttt.lua")
 
 -- Load Commands
 include("server/dttt_commands.lua")
