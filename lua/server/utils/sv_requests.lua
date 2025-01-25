@@ -18,7 +18,7 @@ BetterHttp.POST = function(url, body, onSuccess, onFailed, headers)
 end
 
 local function urlEncode(str)
-    str = string.gsub(str, "([%%&=?+#<>\" ])", function(character)
+    str = string.gsub(str, "([%%&=?+#<>\" /])", function(character)
         return string.format("%%%02X", string.byte(character))
     end)
     return str
@@ -40,7 +40,9 @@ end
 function POSTRequest(url, body, headers, callback, retries)
     retries = retries or 3
 
-    BetterHttp.POST(url, body,
+    local new_url = urlEncode(url)
+
+    BetterHttp.POST(new_url, body,
         -- On Success
         function(res_code, res_body, res_headers)
             logInfo("POST Request to " .. url .. " returned code: " .. tostring(res_code))
@@ -55,7 +57,7 @@ function POSTRequest(url, body, headers, callback, retries)
 
         -- On Failure
         function(err)
-            logError("POST Request to " .. url .. " failed! Retrying " .. retries .. " more time(s)")
+            logError("POST Request to " .. new_url .. " failed! Retrying " .. retries .. " more time(s)")
             if retries > 0 then
                 POSTRequest(url, body, headers, callback, retries - 1)
             end
@@ -76,7 +78,9 @@ function GETRequest(url, path_param_tbl, headers, callback, retries)
         real_url = url .. "?" .. path_param_str
     end
 
-    http.Fetch(real_url,
+    local new_url = urlEncode(real_url)
+
+    http.Fetch(new_url,
         -- On Success
         function(res_body, res_size, res_headers, res_code)
             logInfo("GET Request to " .. url .. " returned code: " .. tostring(res_code))
@@ -90,7 +94,7 @@ function GETRequest(url, path_param_tbl, headers, callback, retries)
 
         -- On Failure
         function(err)
-            logError("GET Request to " .. real_url .. " failed! Retrying " .. retries .. " more time(s)")
+            logError("GET Request to " .. new_url .. " failed! Retrying " .. retries .. " more time(s)")
             if retries > 0 then
                 GETRequest(url, path_param_tbl, headers, callback, retries - 1)
             end
