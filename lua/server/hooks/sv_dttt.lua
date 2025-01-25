@@ -1,82 +1,133 @@
-hook.Add("DTTTPost", "dttt_post", function()
-    logInfo("POST")
-
-    hook.Run("DTTTNormal")
+--- MUTE ---
+hook.Add("DTTTPreMute", "dttt_pre_mute", function(ply, duration)
+    hook.Run("DTTTMute", ply, duration)
 end)
-
-hook.Add("DTTTNormal", "dttt_normal", function()
-    logInfo("NORMAL")
-
-    local pre_return = hook.Run("DTTTPre")
-
-    logInfo("PRE RETURNED " .. tostring(pre_return))
-end)
-
-hook.Add("DTTTPre", "dttt_pre", function()
-    logInfo("PRE1")
-    return true
-end)
-
-hook.Add("DTTTPre", "dttt_pre_2", function()
-    logInfo("PRE2")
-    return false
-end)
-
 
 hook.Add("DTTTMute", "dttt_mute", function(ply, duration)
--- mute player
     duration = duration or 0
     mutePlayer(ply, duration)
-    hook.Run("DTTTPlayerMuted", ply, true)
+
+    local mute_state = hook.Run("DTTTGetMute", ply)
+    hook.Run("DTTTPostMute", ply, duration, mute_state)
+end)
+
+hook.Add("DTTTPostMute", "dttt_post_mute", function(ply, duration, mute_state)
+end)
+
+--- UNMUTE ---
+
+hook.Add("DTTTPreUnmute", "dttt_pre_unmute", function(ply, duration)
+    hook.Run("DTTTUnmute", ply, duration)
 end)
 
 hook.Add("DTTTUnmute", "dttt_unmute", function(ply, duration)
--- unmute player
     duration = duration or 0
     unmutePlayer(ply, duration)
-    hook.Run("DTTTPlayerMuted", ply, false)
+
+    local mute_state = hook.Run("DTTTGetMute", ply)
+    hook.Run("DTTTPostUnmute", ply, duration, mute_state)
+end)
+
+hook.Add("DTTTPostUnmute", "dttt_post_unmute", function(ply, duration, mute_state)
+end)
+
+--- MUTE ALL ---
+
+hook.Add("DTTTPreMuteAll", "dttt_pre_mute_all", function(duration)
+    hook.Run("DTTTMuteAll", duration)
 end)
 
 hook.Add("DTTTMuteAll", "dttt_mute_all", function(duration)
-    -- mute all
     duration = duration or 0
     muteAll(duration)
-    hook.Run("DTTTAllMuted", true)
+
+    hook.Run("DTTTPostMuteAll")
+end)
+
+hook.Add("DTTTPostMuteAll", "dttt_post_mute_all", function()
+end)
+
+--- UNMUTE ALL ---
+
+hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_all", function(duration)
+    hook.Run("DTTTUnmuteAll", duration)
 end)
 
 hook.Add("DTTTUnmuteAll", "dttt_unmute_all", function(duration)
--- unmute all
     duration = duration or 0
     unmuteAll(duration)
-    hook.Run("DTTTAllMuted", false)
+
+    hook.Run("DTTTPostUnmuteAll")
+end)
+
+hook.Add("DTTTPostUnmuteAll", "dttt_post_unmute_all", function()
+end)
+
+--- DEAFEN ---
+
+hook.Add("DTTTPreDeafend", "dttt_pre_deafen", function(ply, duration)
+    hook.Run("DTTTDeafen", ply, duration)
 end)
 
 hook.Add("DTTTDeafen", "dttt_deafen", function(ply, duration)
--- deafen player
     duration = duration or 0
     deafenPlayer(ply, duration)
-    hook.Run("DTTTPlayerDefened", ply, true)
+
+    local deafen_state = hook.Run("DTTTGetDeafened")
+    hook.Run("DTTTPostDeafen", ply, duration, deafen_state)
+end)
+
+hook.Add("DTTTPostDeafen", "dttt_post_deafen", function(ply, duration, deafen_state)
+end)
+
+--- UNDEAFEN ---
+
+hook.Add("DTTTPreUndeafen", "dttt_pre_undeafen", function(ply, duration)
+    hook.Run("DTTTUndeafen", ply, duration)
 end)
 
 hook.Add("DTTTUndeafen", "dttt_undeafen", function(ply, duration)
--- undeafen player
     duration = duration or 0
     undeafenPlayer(ply, duration)
-    hook.Run("DTTTPlayerDefened", ply, false)
+
+    local deafen_state = hook.Run("DTTTGetDeafened")
+    hook.Run("DTTTPostUndeafen", ply, duration, deafen_state)
+end)
+
+hook.Add("DTTTPostUndeafen", "dttt_post_undeafen", function(ply, duration, deafen_state)
+end)
+
+--- DEAFEN ALL ---
+
+hook.Add("DTTTPreDeafenAll", "dttt_pre_deafen_all", function(duration)
+    hook.Run("DTTTDeafenAll", duration)
 end)
 
 hook.Add("DTTTDeafenAll", "dttt_deafen_all", function(duration)
--- deafen all
     duration = duration or 0
     deafenAll(duration)
-    hook.Run("DTTTAllDeafened", true)
+
+    hook.Run("DTTTPostDeafenAll")
+end)
+
+hook.Add("DTTTPostDeafenAll", "dttt_post_deafen_all", function(duration)
+end)
+
+--- UNDEAFEN ALL ---
+
+hook.Add("DTTTPreUndeafenAll", "dttt_pre_undeafen_all", function(duration)
+    hook.Run("DTTTUndeafenAll", duration)
 end)
 
 hook.Add("DTTTUndeafenAll", "dttt_undeafen_all", function(duration)
 -- undeafen all
     duration = duration or 0
     undeafenAll(duration)
-    hook.Run("DTTTAllDeafened", false)
+
+    hook.Run("DTTTPostUndeafenAll")
+end)
+
+hook.Add("DTTTPostUndeafenAll", "dttt_post_undeafen_all", function(duration)
 end)
 
 --[[
@@ -91,12 +142,12 @@ hook.Add("DTTTMoveAll", "dttt_move_all", function()
 end)
 ]]
 
-hook.Add("DTTTGetMuted", "dttt_get_muted", function()
+hook.Add("DTTTGetAllMuted", "dttt_get_muted", function()
 -- return muted players
     return g_dttt_player_states.muted
 end)
 
-hook.Add("DTTTGetDeafened", "dttt_get_deafened", function()
+hook.Add("DTTTGetAllDeafened", "dttt_get_deafened", function()
 -- return deafened player
     return g_dttt_player_states.deafened
 end)
@@ -106,12 +157,12 @@ hook.Add("DTTTGetDiscordIDs", "dttt_get_discord_ids", function()
     return g_dttt_discord_mapping
 end)
 
-hook.Add("DTTTGetMuteState", "dttt_get_mute_state", function(ply)
+hook.Add("DTTTGetMute", "dttt_get_mute_state", function(ply)
 -- get mute state of player
     return getMuteState(ply)
 end)
 
-hook.Add("DTTTGetDeafenedState", "dttt_get_deafened_state", function(ply)
+hook.Add("DTTTGetDeafened", "dttt_get_deafened_state", function(ply)
 -- get deafen state of player
     return getDeafenState(ply)
 end)
@@ -123,23 +174,3 @@ end)
 
 
 --- LOGGING ---
-
-hook.Add("DTTTPlayerMuted", function(ply, state)
-    logInfo("Set mute state of Player:" .. ply:Nick() .. "; State:" .. tostring(state))
-end)
-
-hook.Add("DTTTPlayerDefened", function(ply, state)
-    logInfo("Set defened state of Player:" .. ply:Nick() .. "; State:" .. tostring(state))
-end)
-
-hook.Add("DTTTAllMuted", function(state)
-    logInfo("Set mute state for all Players ; State: " .. tostring(state))
-end)
-
-hook.Add("DTTTAllDeafened", function(state)
-    logInfo("Set deafen state for all Players ; State: " .. tostring(state))
-end)
-
-hook.Add("DTTTPlayerMoved", "dttt_player_moved", function()
--- run when player got moved
-end)
