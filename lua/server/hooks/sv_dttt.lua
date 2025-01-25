@@ -13,7 +13,13 @@ hook.Add("DTTTNormal", "dttt_normal", function()
 end)
 
 hook.Add("DTTTPre", "dttt_pre", function()
+    logInfo("PRE1")
     return true
+end)
+
+hook.Add("DTTTPre", "dttt_pre_2", function()
+    logInfo("PRE2")
+    return false
 end)
 
 
