@@ -1,51 +1,48 @@
 --- MUTE ---
-hook.Add("DTTTPreMute", "dttt_pre_mute", function(ply, duration)
+function GM:DTTTPreMute(ply, duration)
     hook.Run("DTTTMute", ply, duration)
-end)
+end
 
-hook.Add("DTTTMute", "dttt_mute", function(ply, duration)
+function GM:DTTTMute(ply, duration)
     duration = duration or 0
     mutePlayer(ply, duration)
 
     local mute_state = hook.Run("DTTTGetMute", ply)
     hook.Run("DTTTPostMute", ply, duration, mute_state)
-end)
+end
 
-hook.Add("DTTTPostMute", "dttt_post_mute", function(ply, duration, mute_state)
-end)
+function GM:DTTTPostMute(ply, duration, mute_state) end
 
 --- UNMUTE ---
 
-hook.Add("DTTTPreUnmute", "dttt_pre_unmute", function(ply, duration)
+function GM:DTTTPreUnmute(ply, duration)
     hook.Run("DTTTUnmute", ply, duration)
-end)
+end
 
-hook.Add("DTTTUnmute", "dttt_unmute", function(ply, duration)
+function GM:DTTTUnmute(ply, duration)
     duration = duration or 0
     unmutePlayer(ply, duration)
 
     local mute_state = hook.Run("DTTTGetMute", ply)
     hook.Run("DTTTPostUnmute", ply, duration, mute_state)
-end)
+end
 
-hook.Add("DTTTPostUnmute", "dttt_post_unmute", function(ply, duration, mute_state)
-end)
+function GM:DTTTPostUnmute(ply, duration, mute_state) end
 
 --- MUTE ALL ---
 
-hook.Add("DTTTPreMuteAll", "dttt_pre_mute_all", function(duration)
+function GM:DTTTPreMuteAll(duration)
     hook.Run("DTTTMuteAll", duration)
-end)
+end
 
-hook.Add("DTTTMuteAll", "dttt_mute_all", function(duration)
+function GM:DTTTMuteAll(duration)
     duration = duration or 0
     muteAll(duration)
 
     hook.Run("DTTTPostMuteAll")
-end)
+end
 
-hook.Add("DTTTPostMuteAll", "dttt_post_mute_all", function()
-end)
+function GM:DTTTPostMuteAll() end
 
 --- UNMUTE ALL ---
 
@@ -62,89 +59,67 @@ end
 
 function GM:DTTTPostUnmuteAll(duration) end
 
---[[
-hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_all", function(duration)
-    hook.Run("DTTTUnmuteAll", duration)
-end)
-
-
-hook.Add("DTTTUnmuteAll", "dttt_unmute_all", function(duration)
-    duration = duration or 0
-    unmuteAll(duration)
-
-    hook.Run("DTTTPostUnmuteAll")
-end)
-
-hook.Add("DTTTPostUnmuteAll", "dttt_post_unmute_all", function()
-end)
-]]
-
 --- DEAFEN ---
 
-hook.Add("DTTTPreDeafend", "dttt_pre_deafen", function(ply, duration)
+function GM:DTTTPreDeafen(ply, duration)
     hook.Run("DTTTDeafen", ply, duration)
-end)
+end
 
-hook.Add("DTTTDeafen", "dttt_deafen", function(ply, duration)
+function GM:DTTTDeafen(ply, duration)
     duration = duration or 0
     deafenPlayer(ply, duration)
 
     local deafen_state = hook.Run("DTTTGetDeafened")
     hook.Run("DTTTPostDeafen", ply, duration, deafen_state)
-end)
+end
 
-hook.Add("DTTTPostDeafen", "dttt_post_deafen", function(ply, duration, deafen_state)
-end)
+function GM:DTTTPostDeafen(ply, duration, deafen_state) end
 
 --- UNDEAFEN ---
 
-hook.Add("DTTTPreUndeafen", "dttt_pre_undeafen", function(ply, duration)
+function GM:DTTTPreUndeafen(ply, duration)
     hook.Run("DTTTUndeafen", ply, duration)
-end)
+end
 
-hook.Add("DTTTUndeafen", "dttt_undeafen", function(ply, duration)
+function GM:DTTTUndeafen(ply, duration)
     duration = duration or 0
     undeafenPlayer(ply, duration)
 
     local deafen_state = hook.Run("DTTTGetDeafened")
     hook.Run("DTTTPostUndeafen", ply, duration, deafen_state)
-end)
+end
 
-hook.Add("DTTTPostUndeafen", "dttt_post_undeafen", function(ply, duration, deafen_state)
-end)
+function GM:DTTTPostUndeafen(ply, duration, deafen_state) end
 
 --- DEAFEN ALL ---
 
-hook.Add("DTTTPreDeafenAll", "dttt_pre_deafen_all", function(duration)
+function GM:DTTTPreDeafenAll(duration)
     hook.Run("DTTTDeafenAll", duration)
-end)
+end
 
-hook.Add("DTTTDeafenAll", "dttt_deafen_all", function(duration)
+function GM:DTTTDeafenAll(duration)
     duration = duration or 0
     deafenAll(duration)
 
     hook.Run("DTTTPostDeafenAll")
-end)
+end
 
-hook.Add("DTTTPostDeafenAll", "dttt_post_deafen_all", function(duration)
-end)
+function GM:DTTTPostDeafenAll(duration) end
 
 --- UNDEAFEN ALL ---
 
-hook.Add("DTTTPreUndeafenAll", "dttt_pre_undeafen_all", function(duration)
+function GM:DTTTPreUndeafenAll(duration)
     hook.Run("DTTTUndeafenAll", duration)
-end)
+end
 
-hook.Add("DTTTUndeafenAll", "dttt_undeafen_all", function(duration)
--- undeafen all
+function GM:DTTTUndeafenAll(duration)
     duration = duration or 0
     undeafenAll(duration)
 
     hook.Run("DTTTPostUndeafenAll")
-end)
+end
 
-hook.Add("DTTTPostUndeafenAll", "dttt_post_undeafen_all", function(duration)
-end)
+function GM:DTTTPostUndeafenAll(duration) end
 
 --[[
 hook.Add("DTTTMoveToChannel", "dttt_move_to_channel", function(ply)
