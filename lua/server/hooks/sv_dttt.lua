@@ -2,23 +2,29 @@
 -- hook.Add("DTTTPreMute", "dttt_pre_mute", function(ply, duration) end)
 
 hook.Add("DTTTMute", "dttt_mute", function(ply, duration)
+    if hook.Run("DTTTPreMute", ply, duration) ~= nil or hook.Run("DTTTPreMuteLogic") ~= nil then
+        return
+    end
+
     duration = duration or 0
     mutePlayer(ply, duration)
 
     local mute_state = hook.Run("DTTTGetMute", ply)
+
     hook.Run("DTTTPostMute", ply, duration, mute_state)
 end)
 
-hook.Add("DTTTPostMute", "dttt_post_mute", function(ply, duration, mute_state)
-end)
+--hook.Add("DTTTPostMute", "dttt_post_mute", function(ply, duration, mute_state)end)
 
 --- UNMUTE ---
 
-hook.Add("DTTTPreUnmute", "dttt_pre_unmute", function(ply, duration)
-    --hook.Run("DTTTUnmute", ply, duration)
-end)
+--hook.Add("DTTTPreUnmute", "dttt_pre_unmute", function(ply, duration) end)
 
 hook.Add("DTTTUnmute", "dttt_unmute", function(ply, duration)
+    if hook.Run("DTTTPreUnmute", ply, duration) ~= nil or hook.Run("DTTTPreMuteLogic") ~= nil then
+        return
+    end
+
     duration = duration or 0
     unmutePlayer(ply, duration)
 
@@ -26,44 +32,51 @@ hook.Add("DTTTUnmute", "dttt_unmute", function(ply, duration)
     hook.Run("DTTTPostUnmute", ply, duration, mute_state)
 end)
 
-hook.Add("DTTTPostUnmute", "dttt_post_unmute", function(ply, duration, mute_state)
-end)
+--hook.Add("DTTTPostUnmute", "dttt_post_unmute", function(ply, duration, mute_state) end)
 
 --- MUTE ALL ---
 
-hook.Add("DTTTPreMuteAll", "dttt_pre_mute_all", function(duration)
-    hook.Run("DTTTMuteAll", duration)
-end)
+-- hook.Add("DTTTPreMuteAll", "dttt_pre_mute_all", function(duration) end)
 
 hook.Add("DTTTMuteAll", "dttt_mute_all", function(duration)
+    if hook.Run("DTTTPreMuteAll", duration) ~= nil or hook.Run("DTTTPreMuteLogic") ~= nil then
+        return
+    end
+
     duration = duration or 0
     muteAll(duration)
 
     hook.Run("DTTTPostMuteAll")
 end)
 
-hook.Add("DTTTPostMuteAll", "dttt_post_mute_all", function()
-end)
+--hook.Add("DTTTPostMuteAll", "dttt_post_mute_all", function() end)
 
 --- UNMUTE ALL ---
 
 -- hook.Add("DTTTPreUnmuteAll", "dttt_pre_unmute_all", function(duration) end)
 
 hook.Add("DTTTUnmuteAll", "dttt_unmute_all", function(duration)
+    if hook.Run("DTTTPreUnmuteAll", ply, duration) ~= nil or hook.Run("DTTTPreMuteLogic") ~= nil then
+        return
+    end
+
     duration = duration or 0
     unmuteAll(duration)
 
     hook.Run("DTTTPostUnmuteAll")
 end)
 
-hook.Add("DTTTPostUnmuteAll", "dttt_post_unmute_all", function()
-end)
+--hook.Add("DTTTPostUnmuteAll", "dttt_post_unmute_all", function() end)
 
 --- DEAFEN ---
 
 -- hook.Add("DTTTPreDeafend", "dttt_pre_deafen", function(ply, duration) end)
 
 hook.Add("DTTTDeafen", "dttt_deafen", function(ply, duration)
+    if hook.Run("DTTTPreDeafen", ply, duration) ~= nil or hook.Run("DTTTPreDeafenLogic") ~= nil then
+        return
+    end
+
     duration = duration or 0
     deafenPlayer(ply, duration)
 
@@ -71,14 +84,17 @@ hook.Add("DTTTDeafen", "dttt_deafen", function(ply, duration)
     hook.Run("DTTTPostDeafen", ply, duration, deafen_state)
 end)
 
-hook.Add("DTTTPostDeafen", "dttt_post_deafen", function(ply, duration, deafen_state)
-end)
+--hook.Add("DTTTPostDeafen", "dttt_post_deafen", function(ply, duration, deafen_state) end)
 
 --- UNDEAFEN ---
 
 -- hook.Add("DTTTPreUndeafen", "dttt_pre_undeafen", function(ply, duration) end)
 
 hook.Add("DTTTUndeafen", "dttt_undeafen", function(ply, duration)
+    if hook.Run("DTTTPreUndeafen", ply, duration) ~= nil or hook.Run("DTTTPreDeafenLogic") ~= nil then
+        return
+    end
+
     duration = duration or 0
     undeafenPlayer(ply, duration)
 
@@ -86,37 +102,41 @@ hook.Add("DTTTUndeafen", "dttt_undeafen", function(ply, duration)
     hook.Run("DTTTPostUndeafen", ply, duration, deafen_state)
 end)
 
-hook.Add("DTTTPostUndeafen", "dttt_post_undeafen", function(ply, duration, deafen_state)
-end)
+--hook.Add("DTTTPostUndeafen", "dttt_post_undeafen", function(ply, duration, deafen_state) end)
 
 --- DEAFEN ALL ---
 
 -- hook.Add("DTTTPreDeafenAll", "dttt_pre_deafen_all", function(duration) end)
 
 hook.Add("DTTTDeafenAll", "dttt_deafen_all", function(duration)
+    if hook.Run("DTTTPreDeafenAll", duration) ~= nil or hook.Run("DTTTPreDeafenLogic") ~= nil then
+        return
+    end
+
     duration = duration or 0
     deafenAll(duration)
 
     hook.Run("DTTTPostDeafenAll")
 end)
 
-hook.Add("DTTTPostDeafenAll", "dttt_post_deafen_all", function(duration)
-end)
+--hook.Add("DTTTPostDeafenAll", "dttt_post_deafen_all", function(duration) end)
 
 --- UNDEAFEN ALL ---
 
 -- hook.Add("DTTTPreUndeafenAll", "dttt_pre_undeafen_all", function(duration) end)
 
 hook.Add("DTTTUndeafenAll", "dttt_undeafen_all", function(duration)
--- undeafen all
+    if hook.Run("DTTTPreUndeafenAll", ply, duration) ~= nil or hook.Run("DTTTPreDeafenLogic") ~= nil then
+        return
+    end
+
     duration = duration or 0
     undeafenAll(duration)
 
     hook.Run("DTTTPostUndeafenAll")
 end)
 
-hook.Add("DTTTPostUndeafenAll", "dttt_post_undeafen_all", function(duration)
-end)
+--hook.Add("DTTTPostUndeafenAll", "dttt_post_undeafen_all", function(duration) end)
 
 --[[
 hook.Add("DTTTMoveToChannel", "dttt_move_to_channel", function(ply)

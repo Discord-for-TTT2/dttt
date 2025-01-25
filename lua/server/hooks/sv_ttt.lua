@@ -3,10 +3,6 @@ include("server/hooks/sv_dttt.lua")
 -- Unmute all
 hook.Add("TTT2PrePrepareRound", "DTTTPrePrepareRound", function(duration)
     if isInternalUnmuteEnabled() then
-
-        local run_code = hook.Run("DTTTPreUnmuteAll", duration)
-        if run_code ~= nil then return end
-
         hook.Run("DTTTUnmuteAll", duration)
     end
 end)
@@ -14,9 +10,6 @@ end)
 -- Unmute all
 hook.Add("TTT2PreEndRound", "DTTTPreBeginRonud", function(result, duration)
     if isInternalUnmuteEnabled() then
-        local run_code = hook.Run("DTTTPreUnmuteAll", duration)
-        if run_code ~= nil then return end
-
         hook.Run("DTTTUnmuteAll", duration)
     end
 end)
@@ -24,9 +17,6 @@ end)
 -- Mute Player
 hook.Add("TTT2PostPlayerDeath", "DTTTPostPlayerDeath", function(victim, inflictor, attacker)
     if isInternalMuteEnabled() then
-        local run_code = hook.Run("DTTTPreMute", duration)
-        if run_code ~= nil then return end
-
         hook.Run("DTTTPreMute", victim, GetConVar("dttt_mute_duration"):GetInt())
     end
 end)
@@ -34,9 +24,6 @@ end)
 -- Unmute Player
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
     if isInternalUnmuteEnabled() then
-        local run_code = hook.Run("DTTTPreUnmute", duration)
-        if run_code ~= nil then return end
-
         hook.Run("DTTTUnmute", ply, duration)
     end
 end)
