@@ -61,6 +61,8 @@ end
 -- Caching --
 
 function DiscordMapper.writeCache()
+    if not GetConVar("dttt_cache_mapping"):GetBool() then return end 
+
     local json = util.TableToJSON(DiscordMapper.player_mapping, true)
 
     file.Write(DiscordMapper.getFileName(), json)
