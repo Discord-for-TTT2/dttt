@@ -1,15 +1,6 @@
---- Create Globals ---
-
-g_dttt_player_states = {
-    muted = {},
-    deafened = {}
-}
-
 g_dttt_discord_mapping = {}
 
 g_convars = {}
-
---- Create Con Vars ---
 
 local function RegisterConVar(name, value, flags, description)
     local convar = CreateConVar(name, value, flags, description)
@@ -39,19 +30,12 @@ RegisterConVar("dttt_bot_api_key", "", {FCVAR_ARCHIVE}, "The api key for the bot
 RegisterConVar("dttt_auto_map_ids", "1", {FCVAR_ARCHIVE}, "If disabled dttt wont try to automatically get the discord ids for players")
 RegisterConVar("dttt_cache_mapping", "1", {FCVAR_ARCHIVE}, "If disabled dttt wont cache the discord ids, this means the ids need to get added again after a restart")
 
+include("terrortown/dttt/sv_logger.lua")
+include("terrortown/dttt/sv_helper.lua")
 
---- Include needed files ---
+g_player_state_manager = include("terrortown/dttt/sv_player_state.lua")
+g_discord_mapper = include("terrortown/dttt/sv_discord_mapper.lua")
+g_discord_requests = include("terrortown/dttt/sv_requests.lua")
 
--- Load All Helpers
-include("sh_logger.lua")
-include("server/utils/sv_helper.lua")
-include("server/player_state.lua")
-include("server/id_mapping.lua")
-
--- Load TTT Hooks
-include("server/hooks/sv_ttt.lua")
-
--- Load Commands
-include("server/dttt_commands.lua")
-
-logInfo("DTTT Started")
+include("terrortown/dttt/sv_hooks.lua")
+include("terrortown/dttt/sv_commands.lua")

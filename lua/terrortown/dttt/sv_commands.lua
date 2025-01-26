@@ -18,39 +18,36 @@ addCommand("dttt_vars", function(ply, cmd, args, argStr)
 end)
 
 addCommand("dttt_mappings", function(ply, cmd, args, argStr)
-    for key, value in pairs(g_dttt_discord_mapping) do
-        forceLog("SteamID:" .. tostring(key) .. " ; DiscordID:" .. tostring(value))
+    for key, value in pairs(g_discord_mapper.getAllMappings()) do
+        forceLog(key .. ":" .. value)
     end
 end)
 
 addCommand("dttt_player_states", function(ply, cmd, args, argStr)
-
     print("")
 
-    forceLog("Muted Players: ")
-    for key, value in pairs(g_dttt_player_states.muted) do
-        forceLog("SteamID:" .. key .. " ; State:" .. tostring(value))
+    forceLog("MUTED STATES")
+    for key, value in pairs(g_player_state_manager.getAllMuted()) do
+        forceLog(key .. ":" .. tostring(value))
     end
 
     print("")
 
-    forceLog("Deafened Players: ")
-    for key, value in pairs(g_dttt_player_states.deafened) do
-        forceLog("SteamID:" .. key .. " ; State:" .. tostring(value))
+    forceLog("DEAFENED STATES")
+    for key, value in pairs(g_player_state_manager.getAllDeafened()) do
+        forceLog(key .. ":" .. tostring(value))
     end
 
     print("")
 end)
 
 addCommand("dttt_clear_mapping", function(ply, cmd, args, argStr)
-    clearDiscordIds()
+    g_discord_mapper.clearMapping()
 end)
 
 addCommand("dttt_run_automapper", function(ply, cmd, args, argStr)
-    local players = player.GetHumans()
-
-    for _, ply in ipairs(players) do
-        autoMapId(ply)
+    for _, ply in ipairs(player.GetHumans()) do
+        g_discord_mapper.autoMap(ply)
     end
 end)
 
@@ -70,28 +67,16 @@ addCommand("dttt_undeafen_all", function(ply, cmd, args, argStr)
     hook.Run("DTTTUndeafenAll")
 end)
 
-addCommand("dttt_steam_ids", function(ply, cmd, args, argStr)
-    local players = player.GetHumans()
-
-    forceLog("Steam IDs for players:")
-    for _, ply in ipairs(players) do
-        forceLog(ply:Nick() .. ":" .. playerIdToString(ply))
-    end
-end)
-
 addCommand("dttt_add_discord_id", function(ply, cmd, args, argStr)
     local player_name = string.lower(args[1])
-    local player_id = args[2]
+    local discord_id = args[2]
 
-    local players = player.GetHumans()
-
-    forceLog("Manually adding discord ID")
-    for _, ply in ipairs(players) do
-        local ply_name = string.lower(ply:Nick())
+    for _, ply in ipairs(player.GetHumans()) do
+        local ply_name = ply:Nick()
+        ply_name = string.lower(ply_name)
 
         if ply_name == player_name then
-            addDiscordId(ply, player_id)
-            return
+            g_discord_mapper.addMapping(ply, discord_id)
         end
     end
 end)
