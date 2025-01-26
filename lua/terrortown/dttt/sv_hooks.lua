@@ -44,7 +44,6 @@ function GM:DTTTPreMuteAll(duration)
 end
 
 function GM:DTTTMuteAll(duration)
-    print("DTTT MUTE ALL")
     g_player_state_manager.muteAll(duration)
 
     hook.Run("DTTTPostMuteAll", duration, g_player_state_manager.getAllMuted())
@@ -60,9 +59,8 @@ function GM:DTTTPreUnmuteAll(duration)
     hook.Run("DTTTUnmuteAll", duration)
 end
 
-function GM:DTTTUnmuteAll(duration) 
+function GM:DTTTUnmuteAll(duration)
     g_player_state_manager.unmuteAll(duration)
-    g_discord_requests.mute(player.GetHumans())
 
     hook.Run("DTTTPostUnmuteAll", duration, g_player_state_manager.getAllMuted())
 end
@@ -73,11 +71,17 @@ function GM:DTTTPostUnmuteAll(duration, player_states) end
 ---
 ---
 
-function GM:DTTTPreDeafen(ply, duration) 
+function GM:DTTTPreDeafen(ply, duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+
+    hook.Run("DTTTDeafen", ply, duration)
 end
 
-function GM:DTTTDeafen(ply, duration) end
+function GM:DTTTDeafen(ply, duration)
+    g_player_state_manager.deafen(ply, duration)
+
+    hook.Run("DTTTPostDeafen", ply, duration, hook.Run("DTTTGetDeafened"))
+end
 
 function GM:DTTTPostDeafen(ply, duration, state) end
 
@@ -87,17 +91,27 @@ function GM:DTTTPreUndeafen(ply, duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
 end
 
-function GM:DTTTUndeafen(ply, duration) end
+function GM:DTTTUndeafen(ply, duration)
+    g_player_state_manager.undeafen(ply, duration)
+
+    hook.Run("DTTTPostUndeafen", ply, duration, hook.Run("DTTTGetDeafened"))
+end
 
 function GM:DTTTPostUndeafen(ply, duration, state) end
 
 ---
 
-function GM:DTTTPreDeafenAll(duration) 
+function GM:DTTTPreDeafenAll(duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+
+    hook.Run("DTTTDeafenAll", duration)
 end
 
-function GM:DTTTDeafenAll(duration) end
+function GM:DTTTDeafenAll(duration)
+    g_player_state_manager.deafenAll(duration)
+
+    hook.Run("DTTTPostDeafenAll", duration, hook.Run("DTTTGetAllDeafened"))
+end
 
 function GM:DTTTPostDeafenAll(duration, player_states) end
 
@@ -105,9 +119,15 @@ function GM:DTTTPostDeafenAll(duration, player_states) end
 
 function GM:DTTTPreUndeafenAll(duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+
+    hook.Run("DTTTUndeafenAll", duration)
 end
 
-function GM:DTTTUndeafenAll(duration) end
+function GM:DTTTUndeafenAll(duration)
+    g_player_state_manager.undeafenAll(duration)
+
+    hook.Run("DTTTPostUndeafenAll", duration, hook.Run("DTTTGetAllDeafened"))
+end
 
 function GM:DTTTPostUndeafenAll(duration, player_states) end
 
@@ -121,17 +141,29 @@ function GM:DTTTPostUndeafenAll(duration, player_states) end
 ---
 ---
 
-function GM:DTTTGetAllMuted() end
+function GM:DTTTGetAllMuted()
+    return g_player_state_manager.getAllMuted()
+end
 
-function GM:DTTTGetAllDeafened() end
+function GM:DTTTGetAllDeafened()
+    return g_player_state_manager.getAllDeafened()
+end
 
-function GM:DTTTGetDiscordIDs() end
+function GM:DTTTGetDiscordIDs()
+    return g_discord_mapper.getAllMappings()
+end
 
-function GM:DTTTGetMuted(ply) end
+function GM:DTTTGetMuted(ply)
+    return g_player_state_manager.getMuted(ply)
+end
 
-function GM:DTTTGetDeafened(ply) end
+function GM:DTTTGetDeafened(ply)
+    return g_player_state_manager.getDeafened(ply)
+end
 
-function GM:DTTTGetID(ply) end
+function GM:DTTTGetID(ply)
+    g_discord_mapper.getMapping(ply)
+end
 
 ---
 ---

@@ -112,6 +112,33 @@ function DiscordRequests.mute(plys, callback)
     Request.post(url, json_body, {}, headers, callback, nil, "application/json")
 end
 
+function DiscordRequests.deafen(plys, callback)
+    local headers = DiscordRequests.generateHeaders()
+    local url = DiscordRequests.generateUrl("deafen")
+
+    local body = {}
+
+    if type(plys) ~= "table" then
+        plys = {plys}
+    end
+
+    for i, ply in ipairs(plys) do
+        local id = g_discord_mapper.getMapping(ply)
+        local status = g_player_state_manager.getDeafened(ply)
+
+        if id ~= nil and status ~= nil then
+            table.insert(body, {
+                ["id"] = id,
+                ["status"] = status
+            })
+        end
+    end
+
+    local json_body = util.TableToJSON(body)
+
+    Request.post(url, json_body, {}, headers, callback, nil, "application/json")
+end
+
 function DiscordRequests.getDiscordId(ply, callback)
     local headers = DiscordRequests.generateHeaders()
     local url = DiscordRequests.generateUrl("id")

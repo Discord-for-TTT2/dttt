@@ -98,8 +98,7 @@ function PlayerStateManager.deafen(ply, duration)
     if not isPlayerValid(ply) and not PlayerStateManager.containsDeafened(ply) then return end
 
     PlayerStateManager.setDeafenedState(ply, true)
-
-    -- Send request
+    g_discord_requests.deafen(ply)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
@@ -111,7 +110,7 @@ function PlayerStateManager.undeafen(ply, duration)
     if not isPlayerValid(ply) and not PlayerStateManager.containsDeafened(ply) then return end
 
     PlayerStateManager.setDeafenedState(ply, false)
-    -- Send request
+    g_discord_requests.deafen(ply)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
@@ -122,7 +121,7 @@ end
 function PlayerStateManager.deafenAll(duration)
     PlayerStateManager.setAllDeafened(true)
 
-    -- Send request
+    g_discord_requests.deafen(player.GetHumans())
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
@@ -132,8 +131,7 @@ end
 
 function PlayerStateManager.undeafenAll(duration)
     PlayerStateManager.setAllDeafened(false)
-
-    -- Send request
+    g_discord_requests.deafen(player.GetHumans())
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
