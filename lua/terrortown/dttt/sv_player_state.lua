@@ -1,6 +1,8 @@
 local PlayerStateManager = {
     muted = {},
-    deafened = {}
+    deafened = {},
+    active_mute_timers = {},
+    active_deafen_timers = {}
 }
 
 local function isPlayerValid(ply)
@@ -47,30 +49,37 @@ function PlayerStateManager.mute(ply, duration)
 
     logInfo("Trying to mute player " .. ply:Nick())
 
+    if not PlayerStateManager.isMuteStateDifferent(ply, true) then
+        return
+    end
+
     PlayerStateManager.setMutedState(ply, true)
     g_discord_requests.mute(ply)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
-        timer.Simple(duration, function() PlayerStateManager.unmute(ply) end)
+        PlayerStateManager.setupMuteTimer(ply, duration, PlayerStateManager.unmute)
     end
 end
 
 function PlayerStateManager.unmute(ply, duration)
     if not isPlayerValid(ply) or not PlayerStateManager.containsMuted(ply) then return end
 
+    if not PlayerStateManager.isMuteStateDifferent(ply, false) then
+        return
+    end
+
     PlayerStateManager.setMutedState(ply, false)
     g_discord_requests.mute(ply)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
-        timer.Simple(duration, function() PlayerStateManager.mute(ply) end)
+        PlayerStateManager.setupMuteTimer(ply, duration, PlayerStateManager.mute)
     end
 end
 
 function PlayerStateManager.muteAll(duration)
     PlayerStateManager.setAllMuted(true)
-
     g_discord_requests.mute(player.GetHumans())
 
     duration = convertDuration(duration)
@@ -81,7 +90,6 @@ end
 
 function PlayerStateManager.unmuteAll(duration)
     PlayerStateManager.setAllMuted(false)
-
     g_discord_requests.mute(player.GetHumans())
 
     duration = convertDuration(duration)
@@ -97,24 +105,32 @@ end
 function PlayerStateManager.deafen(ply, duration)
     if not isPlayerValid(ply) and not PlayerStateManager.containsDeafened(ply) then return end
 
+    if not PlayerStateManager.isDeafenStateDifferent(ply, false) then
+        return
+    end
+
     PlayerStateManager.setDeafenedState(ply, true)
     g_discord_requests.deafen(ply)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
-        timer.Simple(duration, function() PlayerStateManager.undeafen(ply) end)
+        PlayerStateManager.setupDeafenTimer(ply, duration, PlayerStateManager.undeafen)
     end
 end
 
 function PlayerStateManager.undeafen(ply, duration)
     if not isPlayerValid(ply) and not PlayerStateManager.containsDeafened(ply) then return end
 
+    if not PlayerStateManager.isDeafenStateDifferent(ply, false) then
+        return
+    end
+
     PlayerStateManager.setDeafenedState(ply, false)
     g_discord_requests.deafen(ply)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
-        timer.Simple(duration, function() PlayerStateManager.deafen(ply) end)
+        PlayerStateManager.setupDeafenTimer(ply, duration, PlayerStateManager.deafen)
     end
 end
 
@@ -194,6 +210,28 @@ end
 
 function PlayerStateManager.containsDeafened(ply)
     return PlayerStateManager.deafened[getSteamId(ply)] ~= nil
+end
+
+function PlayerStateManager.isMuteStateDifferent(ply, state)
+    return PlayerStateManager.muted[getSteamId(ply)] ~= state
+end
+
+function PlayerStateManager.isDeafenedStateDifferent(ply, state)
+    return PlayerStateManager.deafened[getSteamId(ply)] ~= state
+end
+
+---
+---
+---
+
+function PlayerStateManager.setupMuteTimer(ply, duration, callback)
+    timer.Stop("MuteTimer_" .. getSteamId(ply))
+    timer.Create("MuteTimer" .. getSteamId(ply), duration, 1, function() callback(ply) end)
+end
+
+function PlayerStateManager.setupDeafenTimer(ply, duration, callback)
+    timer.Stop("DeafenTimer_" .. getSteamId(ply))
+    timer.Create("DeafenTimer" .. getSteamId(ply), duration, 1, function() callback(ply) end)
 end
 
 return PlayerStateManager

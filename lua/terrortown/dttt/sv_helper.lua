@@ -9,3 +9,7 @@ function getRoundState()
 
     return nil
 end
+
+function isDTTTEnabled()
+    return GetConVar("dttt_enabled"):GetBool()
+end

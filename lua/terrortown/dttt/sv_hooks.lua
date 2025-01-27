@@ -215,3 +215,8 @@ end)
 hook.Add("PlayerDisconnected", "DTTTPlayerDisconnected", function(ply)
     g_player_state_manager.deinitPlayer(ply)
 end)
+
+hook.Add("TTT2LoadNextMap", "DTTTLoadNextMap", function(next_map, rounds_left, time_left)
+    if hook.Run("DTTTPreInternalLogic") ~= nil then return end
+    hook.Run("DTTTPreUnmuteAll")
+end)
