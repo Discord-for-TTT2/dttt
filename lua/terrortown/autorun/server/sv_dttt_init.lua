@@ -1,3 +1,8 @@
+include("dttt/extensions/player.lua")
+
+include("dttt/libraries/discord.lua")
+include("dttt/libraries/logger.lua")
+
 g_convars = {}
 
 local function RegisterConVar(name, value, flags, description)
@@ -31,14 +36,39 @@ RegisterConVar("dttt_auto_map_ids", "1", {FCVAR_ARCHIVE}, "If disabled dttt wont
 RegisterConVar("dttt_cache_mapping", "1", {FCVAR_ARCHIVE}, "If disabled dttt wont cache the discord ids, this means the ids need to get added again after a restart")
 
 
+-- Setup Default Discord Settings
+discord.SetApiKey(GetConVar("dttt_bot_api_key"):GetString())
+discord.SetEndpoint(GetConVar("dttt_bot_endpoint"):GetString())
 
-include("terrortown/dttt_sv/sv_logger.lua")
-include("terrortown/dttt_sv/sv_helper.lua")
+discord.LoadMapping()
 
-g_player_state_manager = include("terrortown/dttt_sv/sv_player_state.lua")
-g_discord_mapper = include("terrortown/dttt_sv/sv_discord_mapper.lua")
-g_discord_requests = include("terrortown/dttt_sv/sv_requests.lua")
+-- Setup Default Logger Settings
+dttt_logger.SetEnabled(GetConVar("dttt_dbg_enabled"):GetBool())
+dttt_logger.SetLogLevels(GetConVar("dttt_dbg_log_levels"):GetString())
+dttt_logger.SetLogTimestamp(GetConVar("dttt_dbg_timestamp_enabled"):GetBool())
 
-include("terrortown/dttt_sv/sv_hooks.lua")
-include("terrortown/dttt_sv/sv_commands.lua")
-include("terrortown/dttt_sv/sv_net.lua")
+resource.AddFile("materials/vgui/ttt/vskin/helpscreen/dttt")
+
+hook.Add("TTT2PostPlayerDeath", "DTTTTest1", function(victim, inflictor, attacker)
+    print("PLAYER DIED")
+    victim:SetMute(true)
+
+    print(victim:SteamID64String())
+    print(tostring(victim:GetMute()))
+
+    discord.GetDiscordId(victim, function(code, body, headers)
+        print(tostring(code))
+        print(tostring(body))
+    end)
+end)
+
+--include("terrortown/dttt_sv/sv_logger.lua")
+--include("terrortown/dttt_sv/sv_helper.lua")
+
+--g_player_state_manager = include("terrortown/dttt_sv/sv_player_state.lua")
+--g_discord_mapper = include("terrortown/dttt_sv/sv_discord_mapper.lua")
+--g_discord_requests = include("terrortown/dttt_sv/sv_requests.lua")
+
+--include("terrortown/dttt_sv/sv_hooks.lua")
+--include("terrortown/dttt_sv/sv_commands.lua")
+--include("terrortown/dttt_sv/sv_net.lua")
