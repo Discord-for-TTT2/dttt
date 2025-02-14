@@ -28,6 +28,13 @@ function DiscordMapper.addMapping(ply, discord_id)
     DiscordMapper.writeCache()
 end
 
+function DiscordMapper.addMappingById(steam_id, discord_id)
+    if steam_id == nil or discord_id == nil then return end
+
+    DiscordMapper.player_mapping[steam_id] = discord_id
+    DiscordMapper.writeCache()
+end
+
 function DiscordMapper.removeMapping(ply)
     if not isPlayerValid(ply) then return end
 
@@ -40,12 +47,12 @@ function DiscordMapper.clearMapping()
     DiscordMapper.writeCache()
 end
 
-function DiscordMapper.autoMap(ply)
+function DiscordMapper.autoMap(ply, force)
     if not isPlayerValid(ply) or GetConVar("dttt_auto_map_ids"):GetBool() == false then return end
 
     logInfo("Running automapper for player " .. ply:Nick())
 
-    if DiscordMapper.containsMapping(ply) then return end
+    if DiscordMapper.containsMapping(ply) and not force then return end
 
     g_discord_requests.getDiscordId(ply, function(res_code, res_body, res_headers)
         local body = util.JSONToTable(res_body)

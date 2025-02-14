@@ -1,8 +1,6 @@
 local PlayerStateManager = {
     muted = {},
-    deafened = {},
-    active_mute_timers = {},
-    active_deafen_timers = {}
+    deafened = {}
 }
 
 local function isPlayerValid(ply)
@@ -58,7 +56,7 @@ function PlayerStateManager.mute(ply, duration)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
-        PlayerStateManager.setupMuteTimer(ply, duration, PlayerStateManager.unmute)
+        timer.Simple(duration, function() PlayerStateManager.unmute(ply) end)
     end
 end
 
@@ -74,7 +72,7 @@ function PlayerStateManager.unmute(ply, duration)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
-        PlayerStateManager.setupMuteTimer(ply, duration, PlayerStateManager.mute)
+        timer.Simple(duration, function() PlayerStateManager.mute(ply) end)
     end
 end
 
@@ -114,7 +112,7 @@ function PlayerStateManager.deafen(ply, duration)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
-        PlayerStateManager.setupDeafenTimer(ply, duration, PlayerStateManager.undeafen)
+        timer.Simple(duration, function() PlayerStateManager.undeafen(ply) end)
     end
 end
 
@@ -130,7 +128,7 @@ function PlayerStateManager.undeafen(ply, duration)
 
     duration = convertDuration(duration)
     if checkDuration(duration) then
-        PlayerStateManager.setupDeafenTimer(ply, duration, PlayerStateManager.deafen)
+        timer.Simple(duration, function() PlayerStateManager.deafen(ply) end)
     end
 end
 
@@ -178,6 +176,12 @@ end
 
 -- Mute
 function PlayerStateManager.setMutedState(ply, state)
+    if state == true then
+        STATUS:AddStatus(ply, "dttt_muted")
+    else
+        STATUS:RemoveStatus(ply, "dttt_muted")
+    end
+
     PlayerStateManager.muted[getSteamId(ply)] = state
 end
 
@@ -185,6 +189,12 @@ function PlayerStateManager.setAllMuted(state)
     for _, ply in ipairs(player.GetHumans()) do
         if PlayerStateManager.containsMuted(ply) then
             PlayerStateManager.muted[getSteamId(ply)] = state
+
+            if state == true then
+                STATUS:AddStatus(ply, "dttt_muted")
+            else
+                STATUS:RemoveStatus(ply, "dttt_muted")
+            end
         end
     end
 end
@@ -218,20 +228,6 @@ end
 
 function PlayerStateManager.isDeafenedStateDifferent(ply, state)
     return PlayerStateManager.deafened[getSteamId(ply)] ~= state
-end
-
----
----
----
-
-function PlayerStateManager.setupMuteTimer(ply, duration, callback)
-    timer.Stop("MuteTimer_" .. getSteamId(ply))
-    timer.Create("MuteTimer" .. getSteamId(ply), duration, 1, function() callback(ply) end)
-end
-
-function PlayerStateManager.setupDeafenTimer(ply, duration, callback)
-    timer.Stop("DeafenTimer_" .. getSteamId(ply))
-    timer.Create("DeafenTimer" .. getSteamId(ply), duration, 1, function() callback(ply) end)
 end
 
 return PlayerStateManager
