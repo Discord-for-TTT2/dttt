@@ -28,7 +28,7 @@ end
 function dttt_logger.PrintLog(log_level, msg, bypass_checks)
     bypass_checks = bypass_checks or false
 
-    if (not containsLogLevel(log_level) or not dttt_logger.enabled) and not bypass_checks then
+    if (not dttt_logger.ContainsLogLevel(log_level) or not dttt_logger.enabled) and not bypass_checks then
         return
     end
 
@@ -43,21 +43,21 @@ function dttt_logger.PrintLog(log_level, msg, bypass_checks)
 end
 
 function dttt_logger.Info(msg)
-    printLog("INFO", msg)
+    dttt_logger.PrintLog("INFO", msg)
 end
 
 function dttt_logger.Warning(msg)
-    printLog("WARNING", msg)
+    dttt_logger.PrintLog("WARNING", msg)
 end
 
 function dttt_logger.Debug(msg)
-    printLog("DEBUG", msg)
+    dttt_logger.PrintLog("DEBUG", msg)
 end
 
 function dttt_logger.Error(msg)
-    printLog("ERROR", msg)
+    dttt_logger.PrintLog("ERROR", msg)
 end
 
 function dttt_logger.Force(msg)
-    printLog("FORCE", msg, true)
+    dttt_logger.PrintLog("FORCE", msg, true)
 end

@@ -4,6 +4,8 @@ discord.endpoint = discord.endpoint or ""
 discord.api_key = discord.api_key or ""
 discord.mappings = discord.mappings or {}
 discord.mapping_save_path = discord.mapping_save_path or "discord_mapping_cache"
+discord.auto_map_enabled = discord.auto_map_enabled or true
+discord.cache_enabled = discord.cache_enabled or true
 
 local function GetRequest(url, params, headers, on_success, on_failure, retries, timeout)
     retries = retries or 3
@@ -85,11 +87,23 @@ function discord.SetApiKey(api_key)
     discord.api_key = api_key
 end
 
+function discord.SetAutomapEnabled(automap_enabled)
+    discord.auto_map_enabled = automap_enabled
+end
+
+function discord.SetCacheEnabled(cache_enabled)
+    discord.cache_enabled = cache_enabled
+end
+
 function discord.GetMapping(ply)
     return {
         steam_id = ply:SteamID64String(),
         discord_id = discord.mappings[ply:SteamID64String()]
     }
+end
+
+function discord.GetMappings()
+    return discord.mappings
 end
 
 -- REQUESTS
@@ -107,7 +121,7 @@ end
 
 function discord.Mute(plys, callback)
     local headers = GenerateDiscordHeaders()
-    local url = GenerateDiscordUrl("mute")
+    local url = GenerateURL("mute")
 
     local body = {}
 
@@ -118,7 +132,7 @@ function discord.Mute(plys, callback)
     for i, ply in ipairs(plys) do
         local mapping = discord.GetMapping(ply)
         local id = mapping.discord_id
-        local status = ply:GetMute()
+        local status = ply:GetMuted()
 
         if id ~= nil and status ~= nil then
             table.insert(body, {
@@ -133,9 +147,9 @@ function discord.Mute(plys, callback)
     PostRequest(url, json_body, headers, callback, nil, "application/json")
 end
 
-function discord.Deafen(ply, callback)
+function discord.Deafen(plys, callback)
     local headers = GenerateDiscordHeaders()
-    local url = GenerateDiscordUrl("deafen")
+    local url = GenerateURL("deafen")
 
     local body = {}
 
@@ -146,7 +160,7 @@ function discord.Deafen(ply, callback)
     for i, ply in ipairs(plys) do
         local mapping = discord.GetMapping(ply)
         local id = mapping.discord_id
-        local status = ply:GetDeafen()
+        local status = ply:GetDeafened()
 
         if id ~= nil and status ~= nil then
             table.insert(body, {
@@ -199,6 +213,8 @@ function discord.UnmapById(steam_id)
 end
 
 function discord.SaveMapping()
+    if not discord.cache_enabled then return end
+
     local json = util.TableToJSON(discord.mappings, true)
     file.Write(discord.mapping_save_path .. ".json", json)
 end
@@ -215,7 +231,7 @@ function discord.ClearMapping()
 end
 
 function discord.AutoMap(ply, force)
-    if discord.ContainsMapping(ply) and not force then return end
+    if not discord.auto_map_enabled and discord.ContainsMapping(ply) and not force then return end
 
     discord.GetDiscordId(ply, function(code, body, headers)
         local body = util.JSONToTable(body)
