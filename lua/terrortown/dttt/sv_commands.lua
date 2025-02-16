@@ -19,7 +19,7 @@ end)
 
 addCommand("dttt_mappings", function(ply, cmd, args, argStr)
     for key, value in pairs(discord.GetMappings()) do
-        forceLog(key .. ":" .. value)
+        dttt_logger.Force(key .. ":" .. value)
     end
 end)
 

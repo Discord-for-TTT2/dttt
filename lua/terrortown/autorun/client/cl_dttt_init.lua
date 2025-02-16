@@ -1,81 +1,46 @@
+include("dttt/extensions/cvars.lua")
+include("dttt/extensions/player.lua")
+
 g_convars = {}
 
--- Getters
-
-function getServerCVar(name, callback)
-    cvars.ServerConVarGetValue(name, callback)
-end
-
-function getIntCVar(cvar_name)
-    cvars.ServerConVarGetValue(cvar_name, function(exists, value, default)
-        if not exists then g_convars[cvar_name] = nil end
-
-        g_convars[cvar_name] = {
-            ["value"] = tonumber(value),
-            ["default"] = tonumber(default)
-        }
-    end)
-end
-
-function getBoolCVar(cvar_name)
-    cvars.ServerConVarGetValue(cvar_name, function(exists, value, default)
-        if not exists then g_convars[cvar_name] = nil end
-
-        g_convars[cvar_name] = {
-            ["value"] = (value == "true" or value == "1"),
-            ["default"] = (default == "true" or default == "1")
-        }
-    end)
-end
-
-function getStringCVar(cvar_name)
-    cvars.ServerConVarGetValue(cvar_name, function(exists, value, default)
-        if not exists then g_convars[cvar_name] = nil end
-
-        g_convars[cvar_name] = {
-            ["value"] = value,
-            ["default"] = default
-        }
-    end)
-end
-
--- Setters
-
-function setServerCVar(name, value)
-    cvars.ChangeServerConVar(name, value)
-end
-
-function setBoolCVar(name, value)
-    if value == true or value == "1" then
-        value = "1"
-    else
-        value = "0"
-    end
-
-    setServerCVar(name, value)
+local function add_convar(cvar, value, default)
+    g_convars[cvar] = {["value"] = value, ["default"] = default}
 end
 
 -- Misc
 
-function getCVars()
-    getBoolCVar("dttt_dbg_enabled")
-    getBoolCVar("dttt_dbg_timestamp_enabled")
-    getStringCVar("dttt_dbg_log_levels")
+function GetConVars()
+    cvars.ServerConVarGetBool("dttt_dbg_enabled", add_convar)
+    cvars.ServerConVarGetBool("dttt_dbg_timestamp_enabled", add_convar)
+    cvars.ServerConVarGetString("dttt_dbg_log_levels", add_convar)
 
-    getBoolCVar("dttt_enabled")
+    cvars.ServerConVarGetBool("dttt_enabled", add_convar)
 
-    getBoolCVar("dttt_mute_enabled")
-    getBoolCVar("dttt_unmute_enabled")
-    getIntCVar("dttt_mute_duration")
+    cvars.ServerConVarGetBool("dttt_mute_enabled", add_convar)
+    cvars.ServerConVarGetBool("dttt_unmute_enabled", add_convar)
+    cvars.ServerConVarGetInt("dttt_mute_duration", add_convar)
 
-    getBoolCVar("dttt_deafen_enabled")
-    getBoolCVar("dttt_undeafen_enabled")
+    cvars.ServerConVarGetBool("dttt_deafen_enabled", add_convar)
+    cvars.ServerConVarGetBool("dttt_undeafen_enabled", add_convar)
 
-    getBoolCVar("dttt_auto_map_ids")
-    getBoolCVar("dttt_cache_mapping")
+    cvars.ServerConVarGetBool("dttt_auto_map_ids", add_convar)
+    cvars.ServerConVarGetBool("dttt_cache_mapping", add_convar)
 
-    getStringCVar("dttt_bot_endpoint")
-    getStringCVar("dttt_bot_api_key")
+    cvars.ServerConVarGetString("dttt_bot_endpoint", add_convar)
+    cvars.ServerConVarGetString("dttt_bot_api_key", add_convar)
 end
 
-getCVars()
+function ChangeConVar(cvar, value)
+    local convar = g_convars[cvar]
+
+    if convar then
+        convar.value = value
+    end
+end
+
+function ChangeBoolConVar(cvar, value)
+    local converted = (value == "true" or value == "1")
+    ChangeConVar(cvar, converted)
+end
+
+GetConVars()

@@ -1,6 +1,6 @@
 CLGAMEMODEMENU.base = "base_gamemodemenu"
 
-CLGAMEMODEMENU.icon = Material("materials/vgui/ttt/vskin/helpscreen/dttt")
+CLGAMEMODEMENU.icon = Material("vgui/ttt/vskin/helpscreen/logo")
 CLGAMEMODEMENU.title =  "dttt"
 CLGAMEMODEMENU.description = "dttt_desc"
 

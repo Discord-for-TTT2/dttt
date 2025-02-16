@@ -31,12 +31,7 @@ L["dttt_config_bot_api"] = "Api Key"
 
 --- MAPPING MENU ---
 L["dttt_mapping_title"] = "Mappings"
-L["dttt_mapping_form"] = "Config Mapping"
+L["dttt_mapping_config_form"] = "Config Mapping"
+L["dttt_mapping_form"] = "Player Mappings"
 L["dttt_mapping_automap"] = "Enable Automapping"
 L["dttt_mapping_cache"] = "Enable Mapping Cache"
-
-L["dttt_player_form"] = "Player Mappings"
-
-L["dttt_btn_autorun"] = "Automapper"
-L["dttt_btn_autorun_label"] = "Run Automapper for Player"
-

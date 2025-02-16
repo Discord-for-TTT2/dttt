@@ -1,9 +1,9 @@
 STATUS:RegisterStatus("dttt_muted", {
-    hud = Material("vgui/ttt/mute.png"),
+    hud = Material("vgui/ttt/muted"),
     type = "bad"
 })
 
 STATUS:RegisterStatus("dttt_deafened", {
-    hud = Material("vgui/ttt/deafen.png"),
+    hud = Material("vgui/ttt/deafened"),
     type = "bad"
 })

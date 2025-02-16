@@ -231,6 +231,8 @@ function discord.ClearMapping()
 end
 
 function discord.AutoMap(ply, force)
+    if ply:IsBot() then return end
+
     if not discord.auto_map_enabled and discord.ContainsMapping(ply) and not force then return end
 
     discord.GetDiscordId(ply, function(code, body, headers)

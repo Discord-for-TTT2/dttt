@@ -4,6 +4,9 @@ include("dttt/libraries/discord.lua")
 include("dttt/libraries/logger.lua")
 include("dttt/libraries/dttt.lua")
 
+AddCSLuaFile("dttt/extensions/cvars.lua")
+AddCSLuaFile("dttt/extensions/player.lua")
+
 g_convars = {}
 
 local function RegisterConVar(name, value, flags, description)
@@ -60,6 +63,10 @@ cvars.AddChangeCallback("dttt_unmute_enabled", function(name, old, new)
     dttt.SetUnmuteEnabled(GetConVar(name):GetBool())
 end)
 
+cvars.AddChangeCallback("dttt_mute_duration", function(name, old, new)
+    dttt.SetMuteDuration(GetConVar(name):GetInt())
+end)
+
 cvars.AddChangeCallback("dttt_deafen_enabled", function(name, old, new)
     dttt.SetDeafenEnabled(GetConVar(name):GetBool())
 end)
@@ -105,15 +112,13 @@ dttt_logger.SetEnabled(GetConVar("dttt_dbg_enabled"):GetBool())
 dttt_logger.SetLogLevels(GetConVar("dttt_dbg_log_levels"):GetString())
 dttt_logger.SetLogTimestamp(GetConVar("dttt_dbg_timestamp_enabled"):GetBool())
 
--- resource.AddFile("materials/vgui/ttt/vskin/helpscreen/dttt")
 
---include("terrortown/dttt_sv/sv_logger.lua")
 include("terrortown/dttt/sv_helper.lua")
-
---g_player_state_manager = include("terrortown/dttt_sv/sv_player_state.lua")
---g_discord_mapper = include("terrortown/dttt_sv/sv_discord_mapper.lua")
---g_discord_requests = include("terrortown/dttt_sv/sv_requests.lua")
-
 include("terrortown/dttt/sv_hooks.lua")
 include("terrortown/dttt/sv_commands.lua")
---include("terrortown/dttt_sv/sv_net.lua")
+include("terrortown/dttt/sv_net.lua")
+
+
+resource.AddFile("materials/vgui/ttt/vskin/helpscreen/logo.vmt")
+resource.AddFile("materials/vgui/ttt/muted.vmt")
+resource.AddFile("materials/vgui/ttt/deafened.vmt")

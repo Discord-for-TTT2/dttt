@@ -8,13 +8,21 @@ dttt.undeafen_enabled = dttt.undeafen_enabled or true
 
 dttt.mute_duration = dttt.mute_duration or 5
 
-local function ConvertDuration(duration)
-    duration = duration or 0
-    return
+local function ConvertDuration(duration, default)
+    duration = duration or default
+    return duration
 end
 
 local function CheckDuration(duration)
     return duration ~= nil and duration > 0
+end
+
+local function SetSidebarStatus(id, ply, should_apply)
+    if should_apply then
+        STATUS:AddStatus(ply, id)
+    else
+        STATUS:RemoveStatus(ply, id)
+    end
 end
 
 function dttt.MuteEnabled()
@@ -66,10 +74,12 @@ function dttt.Mute(ply, duration)
     if not state_different then return end
 
     discord.Mute(ply)
-    duration = ConvertDuration(duration)
+    duration = ConvertDuration(duration, dttt.mute_duration)
+
+    SetSidebarStatus("dttt_muted", ply, ply:GetMuted())
 
     if CheckDuration(duration) then
-        timer.Simple(duration, function() dttt.Unmute(ply) end)
+        timer.Simple(duration, function() dttt.Unmute(ply, 0) end)
     end
 end
 
@@ -80,10 +90,12 @@ function dttt.Unmute(ply, duration)
     if not state_different then return end
 
     discord.Mute(ply)
-    duration = ConvertDuration(duration)
+    duration = ConvertDuration(duration, dttt.mute_duration)
+
+    SetSidebarStatus("dttt_muted", ply, ply:GetMuted())
 
     if CheckDuration(duration) then
-        timer.Simple(duration, function() dttt.Mute(ply) end)
+        timer.Simple(duration, function() dttt.Mute(ply, 0) end)
     end
 end
 
@@ -94,14 +106,14 @@ function dttt.MuteAll(duration)
 
     for _, ply in ipairs(players) do
         ply:SetMuted(true)
-
-        -- TODO: ADD/REMOVE STATUS
+        SetSidebarStatus("dttt_muted", ply, ply:GetMuted())
     end
-    discord.Mute(players)
 
-    duration = ConvertDuration(duration)
+    discord.Mute(players)
+    duration = ConvertDuration(duration, dttt.mute_duration)
+
     if CheckDuration(duration) then
-        timer.Simple(duration, function() dttt.UnmuteAll() end)
+        timer.Simple(duration, function() dttt.UnmuteAll(0) end)
     end
 end
 
@@ -112,14 +124,14 @@ function dttt.UnmuteAll(duration)
 
     for _, ply in ipairs(players) do
         ply:SetMuted(false)
-
-        -- TODO: ADD/REMOVE STATUS
+        SetSidebarStatus("dttt_muted", ply, ply:GetMuted())
     end
-    discord.Mute(players)
 
-    duration = ConvertDuration(duration)
+    discord.Mute(players)
+    duration = ConvertDuration(duration, dttt.mute_duration)
+
     if CheckDuration(duration) then
-        timer.Simple(duration, function() dttt.MuteAll() end)
+        timer.Simple(duration, function() dttt.MuteAll(0) end)
     end
 end
 
@@ -130,10 +142,12 @@ function dttt.Deafen(ply, duration)
     if not state_different then return end
 
     discord.deafen(ply)
-    duration = ConvertDuration(duration)
+    duration = ConvertDuration(duration, 0)
+
+    SetSidebarStatus("dttt_deafened", ply, ply:GetDeafened())
 
     if CheckDuration(duration) then
-        timer.Simple(duration, function() dttt.Undeafen(ply) end)
+        timer.Simple(duration, function() dttt.Undeafen(ply, 0) end)
     end
 end
 
@@ -144,10 +158,12 @@ function dttt.Undeafen(ply, duration)
     if not state_different then return end
 
     discord.Deafen(ply)
-    duration = ConvertDuration(duration)
+    duration = ConvertDuration(duration, 0)
+
+    SetSidebarStatus("dttt_deafened", ply, ply:GetDeafened())
 
     if CheckDuration(duration) then
-        timer.Simple(duration, function() dttt.Deafen(ply) end)
+        timer.Simple(duration, function() dttt.Deafen(ply, 0) end)
     end
 end
 
@@ -158,14 +174,14 @@ function dttt.DeafenAll(duration)
 
     for _, ply in ipairs(players) do
         ply:SetDeafened(true)
-
-        -- TODO: ADD/REMOVE STATUS
+        SetSidebarStatus("dttt_deafened", ply, ply:GetDeafened())
     end
-    discord.Deafen(players)
 
-    duration = ConvertDuration(duration)
+    discord.Deafen(players)
+    duration = ConvertDuration(duration, 0)
+
     if CheckDuration(duration) then
-        timer.Simple(duration, function() dttt.UndeafenAll() end)
+        timer.Simple(duration, function() dttt.UndeafenAll(0) end)
     end
 end
 
@@ -176,14 +192,14 @@ function dttt.UndeafenAll(duration)
 
     for _, ply in ipairs(players) do
         ply:SetDeafened(false)
-
-        -- TODO: ADD/REMOVE STATUS
+        SetSidebarStatus("dttt_deafened", ply, ply:GetDeafened())
     end
-    discord.Deafen(players)
 
-    duration = ConvertDuration(duration)
+    discord.Deafen(players)
+    duration = ConvertDuration(duration, 0)
+
     if CheckDuration(duration) then
-        timer.Simple(duration, function() dttt.DeafenAll() end)
+        timer.Simple(duration, function() dttt.DeafenAll(0) end)
     end
 end
 

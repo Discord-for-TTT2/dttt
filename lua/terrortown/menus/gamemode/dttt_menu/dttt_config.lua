@@ -7,7 +7,7 @@ function CLGAMEMODESUBMENU:Initialize()
 end
 
 function CLGAMEMODESUBMENU:Populate(parent)
-    getCVars()
+    GetConVars()
 
     local debug_form = vgui.CreateTTT2Form(parent, "dttt_config_debug_form")
 
@@ -16,8 +16,8 @@ function CLGAMEMODESUBMENU:Populate(parent)
         initial = g_convars["dttt_dbg_enabled"].value,
         default = g_convars["dttt_dbg_enabled"].default,
         OnChange = function(obj, value)
-            setBoolCVar("dttt_dbg_enabled", value)
-            getBoolCVar("dttt_dbg_enabled")
+            cvars.ChangeBoolServerConVar("dttt_dbg_enabled", value)
+            ChangeBoolConVar("dttt_dbg_enabled", value)
         end
     })
 
@@ -26,8 +26,8 @@ function CLGAMEMODESUBMENU:Populate(parent)
         initial = g_convars["dttt_dbg_timestamp_enabled"].value,
         default = g_convars["dttt_dbg_timestamp_enabled"].default,
         OnChange = function(obj, value)
-            setBoolCVar("dttt_dbg_timestamp_enabled", value)
-            getBoolCVar("dttt_dbg_timestamp_enabled")
+            cvars.ChangeBoolServerConVar("dttt_dbg_timestamp_enabled", value)
+            ChangeBoolConVar("dttt_dbg_timestamp_enabled", value)
         end
     })
 
@@ -36,8 +36,8 @@ function CLGAMEMODESUBMENU:Populate(parent)
         initial = g_convars["dttt_dbg_log_levels"].value,
         default = g_convars["dttt_dbg_log_levels"].default,
         OnChange = function(obj, value)
-            setServerCVar("dttt_dbg_log_levels", value)
-            getStringCVar("dttt_dbg_log_levels")
+            cvars.ChangeServerConVar("dttt_dbg_log_levels", value)
+            ChangeConVar("dttt_dbg_log_levels", value)
         end
     })
 
@@ -48,64 +48,60 @@ function CLGAMEMODESUBMENU:Populate(parent)
         initial = g_convars["dttt_enabled"].value,
         default = g_convars["dttt_enabled"].default,
         OnChange = function(obj, value)
-            setBoolCVar("dttt_enabled", value)
-            getBoolCVar("dttt_enabled")
+            cvars.ChangeBoolServerConVar("dttt_enabled", value)
+            ChangeBoolConVar("dttt_enabled", value)
         end
     })
 
-    local mute_form = vgui.CreateTTT2Form(logic_form, "dttt_config_mute_form")
-
-    mute_form:MakeCheckBox({
+    logic_form:MakeCheckBox({
         label = "dttt_config_mute_enabled",
         initial = g_convars["dttt_mute_enabled"].value,
         default = g_convars["dttt_mute_enabled"].default,
         OnChange = function(obj, value)
-            setBoolCVar("dttt_mute_enabled", value)
-            getBoolCVar("dttt_mute_enabled")
+            cvars.ChangeBoolServerConVar("dttt_mute_enabled", value)
+            ChangeBoolConVar("dttt_mute_enabled", value)
         end
     })
 
-    mute_form:MakeCheckBox({
+    logic_form:MakeCheckBox({
         label = "dttt_config_unmute_enabled",
         initial = g_convars["dttt_unmute_enabled"].value,
         default = g_convars["dttt_unmute_enabled"].default,
         OnChange = function(obj, value)
-            setBoolCVar("dttt_unmute_enabled", value)
-            getBoolCVar("dttt_unmute_enabled")
+            cvars.ChangeBoolServerConVar("dttt_unmute_enabled", value)
+            ChangeBoolConVar("dttt_unmute_enabled", value)
         end
     })
 
-    mute_form:MakeSlider({
+    logic_form:MakeSlider({
         label = "dttt_config_mute_duration",
         initial = g_convars["dttt_mute_duration"].value,
         default = g_convars["dttt_mute_duration"].default,
         min = 0,
         max = 300,
         OnChange = function(obj, value)
-            setServerCVar("dttt_mute_duration", value)
-            getIntCVar("dttt_mute_duration")
+            cvars.ChangeServerConVar("dttt_mute_duration", value)
+            ChangeConVar("dttt_mute_duration", value)
         end
     })
 
-    local deafen_form = vgui.CreateTTT2Form(logic_form, "dttt_config_deafen_form")
-
-    deafen_form:MakeCheckBox({
+    logic_form:MakeCheckBox({
         label = "dttt_config_deafen_enabled",
         initial = g_convars["dttt_deafen_enabled"].value,
         default = g_convars["dttt_deafen_enabled"].default,
         OnChange = function(obj, value)
-            setBoolCVar("dttt_deafen_enabled", value)
-            getBoolCVar("dttt_deafen_enabled")
+            cvars.ChangeBoolServerConVar("dttt_deafen_enabled", value)
+            ChangeBoolConVar("dttt_deafen_enabled", value)
         end
     })
 
-    deafen_form:MakeCheckBox({
+    logic_form:MakeCheckBox({
         label = "dttt_config_undeafen_enabled",
         initial = g_convars["dttt_undeafen_enabled"].value,
         default = g_convars["dttt_undeafen_enabled"].default,
         OnChange = function(obj, value)
-            setBoolCVar("dttt_undeafen_enabled", value)
-            getBoolCVar("dttt_undeafen_enabled")
+            cvars.ChangeBoolServerConVar("dttt_undeafen_enabled", value)
+            ChangeBoolConVar("dttt_undeafen_enabled", value)
         end
     })
 
@@ -120,8 +116,8 @@ function CLGAMEMODESUBMENU:Populate(parent)
         initial = g_convars["dttt_bot_endpoint"].value,
         default = g_convars["dttt_bot_endpoint"].default,
         OnChange = function(obj, value)
-            setServerCVar("dttt_bot_endpoint", value)
-            getStringCVar("dttt_bot_endpoint")
+            cvars.ChangeServerConVar("dttt_bot_endpoint", value)
+            ChangeConVar("dttt_bot_endpoint", value)
         end
     })
 
@@ -130,9 +126,8 @@ function CLGAMEMODESUBMENU:Populate(parent)
         initial = g_convars["dttt_bot_api_key"].value,
         default = g_convars["dttt_bot_api_key"].default,
         OnChange = function(obj, value)
-            setServerCVar("dttt_bot_api_key", value)
-            getStringCVar("dttt_bot_api_key")
+            cvars.ChangeServerConVar("dttt_bot_api_key", value)
+            ChangeConVar("dttt_bot_api_key", value)
         end
     })
-
 end

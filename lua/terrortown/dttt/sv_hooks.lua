@@ -183,6 +183,8 @@ hook.Add("TTT2PostPlayerDeath", "DTTTPostPlayerDeath", function(victim, inflicto
 
     if getRoundState() ~= 3 then return end
 
+    if victim:GetMuted() == nil and victim:GetDeafened() == nil then return end
+
     hook.Run("DTTTPreMute", victim, GetConVar("dttt_mute_duration"):GetInt())
 end)
 
