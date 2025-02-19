@@ -1,0 +1,11 @@
+function getRoundState()
+    if gmod.GetGamemode().Name == "TTT2" or gmod.GetGamemode().Name == "TTT2 (Advanced Update)" then
+        return GetRoundState()
+    end
+
+    return nil
+end
+
+function isDTTTEnabled()
+    return GetConVar("dttt_enabled"):GetBool()
+end
