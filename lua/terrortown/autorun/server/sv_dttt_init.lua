@@ -120,5 +120,9 @@ include("terrortown/dttt/sv_net.lua")
 
 
 resource.AddFile("materials/vgui/ttt/vskin/helpscreen/logo.vmt")
-resource.AddFile("materials/vgui/ttt/muted.vmt")
-resource.AddFile("materials/vgui/ttt/deafened.vmt")
+
+resource.AddFile("materials/vgui/ttt/muted.png")
+resource.AddFile("materials/vgui/ttt/deafened.png")
+
+resource.AddFile("materials/vgui/ttt/vskin/events/muted.png")
+resource.AddFile("materials/vgui/ttt/vskin/events/deafened.png")

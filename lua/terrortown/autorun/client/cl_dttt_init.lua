@@ -1,7 +1,7 @@
 include("dttt/extensions/cvars.lua")
 include("dttt/extensions/player.lua")
 
-g_convars = {}
+g_convars = {initialized = false}
 
 local function add_convar(cvar, value, default)
     g_convars[cvar] = {["value"] = value, ["default"] = default}
@@ -28,6 +28,8 @@ function GetConVars()
 
     cvars.ServerConVarGetString("dttt_bot_endpoint", add_convar)
     cvars.ServerConVarGetString("dttt_bot_api_key", add_convar)
+
+    g_convars.initialized = true
 end
 
 function ChangeConVar(cvar, value)
@@ -43,4 +45,10 @@ function ChangeBoolConVar(cvar, value)
     ChangeConVar(cvar, converted)
 end
 
-GetConVars()
+hook.Add("TTT2PlayerReady", "DTTTPlayerReady", function(ply)
+    local local_ply = LocalPlayer()
+
+    if IsValid(local_ply) and local_ply:IsAdmin() then
+        GetConVars()
+    end
+end)

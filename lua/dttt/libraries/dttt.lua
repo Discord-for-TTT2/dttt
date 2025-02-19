@@ -68,7 +68,7 @@ end
 
 -- Logic
 function dttt.Mute(ply, duration)
-    if not dttt.MuteEnabled() then return end
+    if not dttt.MuteEnabled() or ply:IsBot() then return end
 
     local state_different = ply:SetMuted(true)
     if not state_different then return end
@@ -77,6 +77,7 @@ function dttt.Mute(ply, duration)
     duration = ConvertDuration(duration, dttt.mute_duration)
 
     SetSidebarStatus("dttt_muted", ply, ply:GetMuted())
+    events.Trigger(EVENT_MUTED, ply)
 
     if CheckDuration(duration) then
         timer.Simple(duration, function() dttt.Unmute(ply, 0) end)
@@ -84,7 +85,7 @@ function dttt.Mute(ply, duration)
 end
 
 function dttt.Unmute(ply, duration)
-    if not dttt.UnmuteEnabled() then return end
+    if not dttt.UnmuteEnabled() or ply:IsBot() then return end
 
     local state_different = ply:SetMuted(false)
     if not state_different then return end
@@ -93,6 +94,7 @@ function dttt.Unmute(ply, duration)
     duration = ConvertDuration(duration, dttt.mute_duration)
 
     SetSidebarStatus("dttt_muted", ply, ply:GetMuted())
+    events.Trigger(EVENT_UNMUTED, ply)
 
     if CheckDuration(duration) then
         timer.Simple(duration, function() dttt.Mute(ply, 0) end)
@@ -111,6 +113,7 @@ function dttt.MuteAll(duration)
 
     discord.Mute(players)
     duration = ConvertDuration(duration, dttt.mute_duration)
+    events.Trigger(EVENT_ALL_MUTED)
 
     if CheckDuration(duration) then
         timer.Simple(duration, function() dttt.UnmuteAll(0) end)
@@ -129,6 +132,7 @@ function dttt.UnmuteAll(duration)
 
     discord.Mute(players)
     duration = ConvertDuration(duration, dttt.mute_duration)
+    events.Trigger(EVENT_ALL_UNMUTED)
 
     if CheckDuration(duration) then
         timer.Simple(duration, function() dttt.MuteAll(0) end)
@@ -136,7 +140,7 @@ function dttt.UnmuteAll(duration)
 end
 
 function dttt.Deafen(ply, duration)
-    if not dttt.DeafenEnabled() then return end
+    if not dttt.DeafenEnabled() or ply:IsBot() then return end
 
     local state_different = ply:SetDeafened(true)
     if not state_different then return end
@@ -145,6 +149,7 @@ function dttt.Deafen(ply, duration)
     duration = ConvertDuration(duration, 0)
 
     SetSidebarStatus("dttt_deafened", ply, ply:GetDeafened())
+    events.Trigger(EVENT_DEAFENED, ply)
 
     if CheckDuration(duration) then
         timer.Simple(duration, function() dttt.Undeafen(ply, 0) end)
@@ -152,13 +157,14 @@ function dttt.Deafen(ply, duration)
 end
 
 function dttt.Undeafen(ply, duration)
-    if not dttt.UndeafenEnabled() then return end
+    if not dttt.UndeafenEnabled() or ply:IsBot() then return end
 
     local state_different = ply:SetDeafened(false)
     if not state_different then return end
 
     discord.Deafen(ply)
     duration = ConvertDuration(duration, 0)
+    events.Trigger(EVENT_UNDEAFENED, ply)
 
     SetSidebarStatus("dttt_deafened", ply, ply:GetDeafened())
 
@@ -179,6 +185,7 @@ function dttt.DeafenAll(duration)
 
     discord.Deafen(players)
     duration = ConvertDuration(duration, 0)
+    events.Trigger(EVENT_ALL_DEAFENED)
 
     if CheckDuration(duration) then
         timer.Simple(duration, function() dttt.UndeafenAll(0) end)
@@ -197,6 +204,7 @@ function dttt.UndeafenAll(duration)
 
     discord.Deafen(players)
     duration = ConvertDuration(duration, 0)
+    events.Trigger(EVENT_ALL_UNDEAFENED)
 
     if CheckDuration(duration) then
         timer.Simple(duration, function() dttt.DeafenAll(0) end)

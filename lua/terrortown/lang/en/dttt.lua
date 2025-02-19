@@ -35,3 +35,22 @@ L["dttt_mapping_config_form"] = "Config Mapping"
 L["dttt_mapping_form"] = "Player Mappings"
 L["dttt_mapping_automap"] = "Enable Automapping"
 L["dttt_mapping_cache"] = "Enable Mapping Cache"
+
+--- EVENTS ---
+L["title_event_muted"] = "A Player got Muted"
+L["title_event_unmuted"] = "A Player got Unmuted"
+
+L["title_event_deafened"] = "A Player got Deafened"
+L["title_event_undeafened"] = "A Player got Undeafened"
+
+L["title_event_all_muted"] = "All Players got Muted"
+L["title_event_all_unmuted"] = "All Players got Unmuted"
+
+L["title_event_all_deafened"] = "All Players got Deafened"
+L["title_event_all_undeafened"] = "All Players got Undeafened"
+
+L["desc_event_muted"] = "{nick} got Muted"
+L["desc_event_unmuted"] = "{nick} got Unmuted"
+
+L["desc_event_deafened"] = "{nick} got Deafened"
+L["desc_event_undeafened"] = "{nick} got Undeafened"

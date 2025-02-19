@@ -9,6 +9,8 @@ end
 function CLGAMEMODESUBMENU:Populate(parent)
     GetConVars()
 
+    if g_convars.initialized == false then return end
+
     local debug_form = vgui.CreateTTT2Form(parent, "dttt_config_debug_form")
 
     debug_form:MakeCheckBox({
