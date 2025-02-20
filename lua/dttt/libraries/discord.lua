@@ -260,6 +260,7 @@ function discord.AutoMap(ply, force)
 
     discord.GetDiscordId(ply, function(code, body, headers)
         local body = util.JSONToTable(body)
+        body = body or ""
 
         local log = "Automapper GET Request returned body: "
 
@@ -267,7 +268,7 @@ function discord.AutoMap(ply, force)
             dttt_logger.Debug(log)
             printTable(body)
         else
-            dttt_logger.Debug(log .. body or "")
+            dttt_logger.Debug(log .. body)
         end
 
         if not body and not body.id then return end
