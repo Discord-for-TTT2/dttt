@@ -8,8 +8,6 @@ local function IsStateDifferent(old_state, new_state)
 end
 
 function plymeta:SetMuted(state)
-    state = state
-
     local is_state_different = IsStateDifferent(self.discord_mute, state)
 
     self.discord_mute = state
@@ -17,8 +15,6 @@ function plymeta:SetMuted(state)
 end
 
 function plymeta:SetDeafened(state)
-    state = state
-
     local is_state_different = IsStateDifferent(self.discord_deafen, state)
 
     self.discord_deafen = state
