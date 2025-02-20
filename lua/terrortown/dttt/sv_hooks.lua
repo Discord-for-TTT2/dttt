@@ -1,3 +1,5 @@
+local skip_chat_validation = false
+
 function GM:DTTTPreMuteLogic() end
 function GM:DTTTPreDeafenLogic() end
 
@@ -6,15 +8,10 @@ function GM:DTTTPreVoiceSync() end
 
 function GM:DTTTPreLogic() end
 
-
-local function CheckPlayer(ply)
-    return not ply:IsBot() and ply:IsActive()
-end
 ---
 
 function GM:DTTTPreMute(ply, duration)
     if hook.Run("DTTTPreMuteLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
-    if not CheckPlayer(ply) then return end
 
     hook.Run("DTTTMute", ply, duration)
 end
@@ -31,7 +28,6 @@ function GM:DTTTPostMute(ply, duration) end
 
 function GM:DTTTPreUnmute(ply, duration)
     if hook.Run("DTTTPreMuteLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
-    if not CheckPlayer(ply) then return end
 
     hook.Run("DTTTUnmute", ply, duration)
 end
@@ -82,7 +78,6 @@ function GM:DTTTPostUnmuteAll(duration) end
 
 function GM:DTTTPreDeafen(ply, duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
-    if not CheckPlayer(ply) then return end
 
     hook.Run("DTTTDeafen", ply, duration)
 end
@@ -99,7 +94,6 @@ function GM:DTTTPostDeafen(ply, duration) end
 
 function GM:DTTTPreUndeafen(ply, duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
-    if not CheckPlayer(ply) then return end
 
     hook.Run("DTTTUndeafen", ply, duration)
 end
@@ -168,8 +162,12 @@ end
 
 local function muteWithChat(ply)
     timer.Simple(0.2, function()
+        skip_chat_validation = true
+
         local can_use_text_chat = hook.Run("TTT2AvoidGeneralChat", ply, "")
         local can_use_voice_chat = hook.Run("TTT2CanUseVoiceChat", ply, false)
+
+        skip_chat_validation = false
 
         if (can_use_text_chat == false or can_use_voice_chat == false) and getRoundState() == 3 then
             hook.Run("DTTTPreMute", ply)
@@ -204,8 +202,6 @@ end)
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
     if hook.Run("DTTTPreInternalLogic") ~= nil then return end
 
-    --if ply:IsSpec() then bla end
-
     muteWithChat(ply)
 end)
 
@@ -226,7 +222,7 @@ end)
 ---
 
 hook.Add("TTT2AvoidGeneralChat", "DTTTAvoidGeneralChat", function(ply, message)
-    if hook.Run("DTTTPreChatSync") ~= nil then return end
+    if skip_chat_validation or hook.Run("DTTTPreChatSync") ~= nil then return end
 
     if ply:GetMuted() then return false end
 end)
@@ -250,7 +246,7 @@ hook.Add("TTT2PlayerRadioCommand", "DTTTPlayerRadioCommand", function(ply, msgNa
 end)
 
 hook.Add("TTT2CanUseVoiceChat", "DTTTCanUseVoiceChat", function(listener, isTeam)
-    if hook.Run("DTTTPreVoiceSync") ~= nil then return end
+    if skip_chat_validation or hook.Run("DTTTPreVoiceSync") ~= nil then return end
 
     if listener:GetMuted() then return false end
 end)
