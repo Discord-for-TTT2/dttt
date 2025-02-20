@@ -61,7 +61,13 @@ function CLGAMEMODESUBMENU:Populate(parent)
         local player_map = {}
 
         for _, ply in ipairs(players) do
-            player_map[ply:SteamID64String()] = ply:Nick()
+            local steam_id = ply:SteamID64String()
+
+            player_map[steam_id] = ply:Nick()
+
+            if mapping[steam_id] == nil then
+                mapping[steam_id] = ""
+            end
         end
 
         for steam_id, discord_id in pairs(mapping) do
