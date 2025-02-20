@@ -244,23 +244,23 @@ end)
 hook.Add("TTT2CanSeeChat", "DTTTCanSeeChat", function(reader, sender, isTeam)
     if hook.Run("DTTTPreChatSync") ~= nil then return end
 
-    if ply:GetDeafened() then return false end
+    if reader:GetDeafened() then return false end
 end)
 
 hook.Add("TTT2PlayerRadioCommand", "DTTTPlayerRadioCommand", function(ply, msgName, msgTarget)
     if hook.Run("DTTTPreChatSync") ~= nil then return end
 
-    if ply:GetDeafened() then return true end
+    if ply:GetMuted() then return true end
 end)
 
 hook.Add("TTT2CanUseVoiceChat", "DTTTCanUseVoiceChat", function(listener, isTeam)
     if hook.Run("DTTTPreVoiceSync") ~= nil then return end
 
-    if ply:GetMuted() then return false end
+    if listener:GetMuted() then return false end
 end)
 
 hook.Add("TTT2CanHearVoiceChat", "DTTTCanHearVoiceChat", function(listener, speaker, isTeam)
     if hook.Run("DTTTPreVoiceSync") ~= nil then return end
 
-    if ply:GetDeafened() then return false end
+    if listener:GetDeafened() then return false end
 end)
