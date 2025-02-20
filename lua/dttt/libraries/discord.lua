@@ -209,7 +209,7 @@ function discord.MapById(steam_id, discord_id)
     if steam_id == nil or discord_id == nil then return end
 
     if string.Trim(discord_id) == "" then
-        discord.Unmap(ply)
+        discord.UnmapById(steam_id)
     end
 
     dttt_logger.Debug("Mapping player " .. steam_id .. " to " .. discord_id)
