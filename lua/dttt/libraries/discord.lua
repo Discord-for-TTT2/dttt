@@ -195,7 +195,9 @@ end
 function discord.Map(ply, discord_id)
     if discord_id == nil then return end
 
-    if string.Trim(discord_id) == "" then return end
+    if string.Trim(discord_id) == "" then
+        discord.Unmap(ply)
+    end
 
     dttt_logger.Debug("Mapping player " .. ply:Nick() .. " to " .. discord_id)
 
@@ -206,7 +208,9 @@ end
 function discord.MapById(steam_id, discord_id)
     if steam_id == nil or discord_id == nil then return end
 
-    if string.Trim(discord_id) == "" then return end
+    if string.Trim(discord_id) == "" then
+        discord.Unmap(ply)
+    end
 
     dttt_logger.Debug("Mapping player " .. steam_id .. " to " .. discord_id)
 
