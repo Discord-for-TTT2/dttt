@@ -10,7 +10,10 @@ L["dttt_config_title"] = "Config"
 L["dttt_config_debug_form"] = "Debugging"
 L["dttt_config_debug_enabled"] = "Debug Enabled"
 L["dttt_config_debug_timestamp_enabled"] = "Debug Timestamp Enabled"
-L["dttt_config_debug_levels"] = "Log Levels"
+L["dttt_config_debug_info"] = "Enable Info Log"
+L["dttt_config_debug_warning"] = "Enable Warning Log"
+L["dttt_config_debug_debug"] = "Enable Debug Log"
+L["dttt_config_debug_error"] = "Enable Error Log"
 
 
 -- Logic --

@@ -18,9 +18,9 @@ local function GetRequest(url, params, headers, on_success, on_failure, retries,
         ["headers"] = headers,
         ["timeout"] = timeout,
         ["failed"] = function(err)
+            dttt_logger.Info("GET Request to " .. url .. " failed with err: " .. tostring(err))
             if on_failure ~= nil then
                 on_failure(err)
-                dttt_logger.Info("GET Request to " .. url .. " failed with err: " .. tostring(err))
             end
 
             if retries > 0 then
@@ -50,9 +50,9 @@ local function PostRequest(url, body, headers, on_success, on_failure, content_t
         ["timeout"] = timeout,
         ["type"] = content_type,
         ["failed"] = function(err)
+            dttt_logger.Info("POST Request to " .. url .. " failed with err: " .. tostring(err))
             if on_failure ~= nil then
                 on_failure(err)
-                dttt_logger.Info("POST Request to " .. url .. " failed with err: " .. tostring(err))
             end
 
             if retries > 0 then
