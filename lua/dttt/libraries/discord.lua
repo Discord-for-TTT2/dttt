@@ -20,6 +20,7 @@ local function GetRequest(url, params, headers, on_success, on_failure, retries,
         ["failed"] = function(err)
             if on_failure ~= nil then
                 on_failure(err)
+                dttt_logger.Info("GET Request to " .. url .. " failed with err: " .. tostring(err))
             end
 
             if retries > 0 then
@@ -51,6 +52,7 @@ local function PostRequest(url, body, headers, on_success, on_failure, content_t
         ["failed"] = function(err)
             if on_failure ~= nil then
                 on_failure(err)
+                dttt_logger.Info("POST Request to " .. url .. " failed with err: " .. tostring(err))
             end
 
             if retries > 0 then
@@ -249,10 +251,22 @@ function discord.AutoMap(ply, force)
 
     dttt_logger.Info("Automapping player " .. ply:Nick())
 
-    if not discord.auto_map_enabled and discord.ContainsMapping(ply) and not force then return end
+    if not force then
+        if not discord.auto_map_enabled then return end
+        if discord.ContainsMapping(ply) then return end
+    end
 
     discord.GetDiscordId(ply, function(code, body, headers)
         local body = util.JSONToTable(body)
+
+        local log = "Automapper GET Request returned body: "
+
+        if type(body) == "table" then
+            dttt_logger.Debug(log)
+            printTable(body)
+        else
+            dttt_logger.Debug(log .. body)
+        end
 
         if not body and not body.id then return end
 
