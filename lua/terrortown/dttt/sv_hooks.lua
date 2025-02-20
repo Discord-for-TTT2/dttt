@@ -1,5 +1,3 @@
-local skip_chat_validation = false
-
 function GM:DTTTPreMuteLogic() end
 function GM:DTTTPreDeafenLogic() end
 
@@ -162,12 +160,16 @@ end
 
 local function muteWithChat(ply)
     timer.Simple(0.2, function()
-        skip_chat_validation = true
+
+        -- Used to bypass AvoidGeneralChat and CanUseVoiceChat always returning false because of custom Hook implementations
+
+        local ply_mute_state = ply:GetMuted()
+        ply:SetMuted(false)
 
         local can_use_text_chat = hook.Run("TTT2AvoidGeneralChat", ply, "")
         local can_use_voice_chat = hook.Run("TTT2CanUseVoiceChat", ply, false)
 
-        skip_chat_validation = false
+        ply:SetMuted(ply_mute_state)
 
         if (can_use_text_chat == false or can_use_voice_chat == false) and getRoundState() == 3 then
             hook.Run("DTTTPreMute", ply)
@@ -222,7 +224,7 @@ end)
 ---
 
 hook.Add("TTT2AvoidGeneralChat", "DTTTAvoidGeneralChat", function(ply, message)
-    if skip_chat_validation or hook.Run("DTTTPreChatSync") ~= nil then return end
+    if hook.Run("DTTTPreChatSync") ~= nil then return end
 
     if ply:GetMuted() then return false end
 end)
@@ -246,7 +248,7 @@ hook.Add("TTT2PlayerRadioCommand", "DTTTPlayerRadioCommand", function(ply, msgNa
 end)
 
 hook.Add("TTT2CanUseVoiceChat", "DTTTCanUseVoiceChat", function(listener, isTeam)
-    if skip_chat_validation or hook.Run("DTTTPreVoiceSync") ~= nil then return end
+    if hook.Run("DTTTPreVoiceSync") ~= nil then return end
 
     if listener:GetMuted() then return false end
 end)
