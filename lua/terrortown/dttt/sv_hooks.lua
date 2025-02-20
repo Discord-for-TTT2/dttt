@@ -20,8 +20,10 @@ function GM:DTTTPreMute(ply, duration)
 end
 
 function GM:DTTTMute(ply, duration)
-    function GM:DTTTMute(ply, duration)
-        dttt.Mute(ply, duration)
+    dttt.Mute(ply, duration)
+
+    hook.Run("DTTTPostMute", ply, duration)
+end
 
 function GM:DTTTPostMute(ply, duration) end
 
