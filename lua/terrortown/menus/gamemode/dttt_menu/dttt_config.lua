@@ -33,13 +33,45 @@ function CLGAMEMODESUBMENU:Populate(parent)
         end
     })
 
-    debug_form:MakeTextEntry({
-        label = "dttt_config_debug_levels",
-        initial = g_convars["dttt_dbg_log_levels"].value,
-        default = g_convars["dttt_dbg_log_levels"].default,
+    local log_level_form = vgui.CreateTTT2Form(debug_form, "dttt_config_log_level_form")
+
+    log_level_form:MakeCheckBox({
+        label = "dttt_config_debug_info",
+        initial = g_convars["dttt_dbg_log_info"].value,
+        default = g_convars["dttt_dbg_log_info"].default,
         OnChange = function(obj, value)
-            cvars.ChangeServerConVar("dttt_dbg_log_levels", value)
-            ChangeConVar("dttt_dbg_log_levels", value)
+            cvars.ChangeBoolServerConVar("dttt_dbg_log_info", value)
+            ChangeBoolConVar("dttt_dbg_log_info", value)
+        end
+    })
+
+    log_level_form:MakeCheckBox({
+        label = "dttt_config_debug_warning",
+        initial = g_convars["dttt_dbg_log_warning"].value,
+        default = g_convars["dttt_dbg_log_warning"].default,
+        OnChange = function(obj, value)
+            cvars.ChangeBoolServerConVar("dttt_dbg_log_warning", value)
+            ChangeBoolConVar("dttt_dbg_log_warning", value)
+        end
+    })
+
+    log_level_form:MakeCheckBox({
+        label = "dttt_config_debug_debug",
+        initial = g_convars["dttt_dbg_log_debug"].value,
+        default = g_convars["dttt_dbg_log_debug"].default,
+        OnChange = function(obj, value)
+            cvars.ChangeBoolServerConVar("dttt_dbg_log_debug", value)
+            ChangeBoolConVar("dttt_dbg_log_debug", value)
+        end
+    })
+
+    log_level_form:MakeCheckBox({
+        label = "dttt_config_debug_error",
+        initial = g_convars["dttt_dbg_log_error"].value,
+        default = g_convars["dttt_dbg_log_error"].default,
+        OnChange = function(obj, value)
+            cvars.ChangeBoolServerConVar("dttt_dbg_log_error", value)
+            ChangeBoolConVar("dttt_dbg_log_error", value)
         end
     })
 

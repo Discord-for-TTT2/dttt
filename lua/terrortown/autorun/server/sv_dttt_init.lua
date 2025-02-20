@@ -18,8 +18,13 @@ end
 -- Debug
 RegisterConVar("dttt_dbg_enabled", "0", {FCVAR_ARCHIVE}, "Enabled DTTT Logging to the Console")
 RegisterConVar("dttt_dbg_timestamp_enabled", "1", {FCVAR_ARCHIVE}, "If enabled adds a timestamp to log messages")
-RegisterConVar("dttt_dbg_log_levels", "WARNING|ERROR", {FCVAR_ARCHIVE}, "Sets the log message levels. Available: INFO,DEBUG,WARNING,ERROR")
 
+RegisterConVar("dttt_dbg_log_info", "0", {FCVAR_ARCHIVE}, "")
+RegisterConVar("dttt_dbg_log_warning", "0", {FCVAR_ARCHIVE}, "")
+RegisterConVar("dttt_dbg_log_debug", "1", {FCVAR_ARCHIVE}, "")
+RegisterConVar("dttt_dbg_log_error", "1", {FCVAR_ARCHIVE}, "")
+
+-- General Logic
 RegisterConVar("dttt_enabled", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED, FCVAR_SERVER_CAN_EXECUTE}, "Enabled or disables DTTT")
 
 -- Muting
@@ -45,6 +50,22 @@ end)
 
 cvars.AddChangeCallback("dttt_dbg_timestamp_enabled", function(name, old, new)
     dttt_logger.SetLogTimestamp(GetConVar(name):GetBool())
+end)
+
+cvars.AddChangeCallback("dttt_dbg_log_info", function(name, old, new)
+    dttt_logger.log_info = GetConVar(name):GetBool()
+end)
+
+cvars.AddChangeCallback("dttt_dbg_log_warning", function(name, old, new)
+    dttt_logger.log_warning = GetConVar(name):GetBool()
+end)
+
+cvars.AddChangeCallback("dttt_dbg_log_debug", function(name, old, new)
+    dttt_logger.log_debug = GetConVar(name):GetBool()
+end)
+
+cvars.AddChangeCallback("dttt_dbg_log_error", function(name, old, new)
+    dttt_logger.log_error = GetConVar(name):GetBool()
 end)
 
 cvars.AddChangeCallback("dttt_dbg_log_levels", function(name, old, new)
@@ -109,9 +130,11 @@ discord.LoadMapping()
 
 -- Setup Default Logger Settings
 dttt_logger.SetEnabled(GetConVar("dttt_dbg_enabled"):GetBool())
-dttt_logger.SetLogLevels(GetConVar("dttt_dbg_log_levels"):GetString())
 dttt_logger.SetLogTimestamp(GetConVar("dttt_dbg_timestamp_enabled"):GetBool())
-
+dttt_logger.log_info = GetConVar("dttt_dbg_log_info"):GetBool()
+dttt_logger.log_warning = GetConVar("dttt_dbg_log_warning"):GetBool()
+dttt_logger.log_debug = GetConVar("dttt_dbg_log_debug"):GetBool()
+dttt_logger.log_error = GetConVar("dttt_dbg_log_error"):GetBool()
 
 include("terrortown/dttt/sv_helper.lua")
 include("terrortown/dttt/sv_hooks.lua")

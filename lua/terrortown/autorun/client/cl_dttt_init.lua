@@ -12,7 +12,11 @@ end
 function GetConVars()
     cvars.ServerConVarGetBool("dttt_dbg_enabled", add_convar)
     cvars.ServerConVarGetBool("dttt_dbg_timestamp_enabled", add_convar)
-    cvars.ServerConVarGetString("dttt_dbg_log_levels", add_convar)
+
+    cvars.ServerConVarGetBool("dttt_dbg_log_info", add_convar)
+    cvars.ServerConVarGetBool("dttt_dbg_log_warning", add_convar)
+    cvars.ServerConVarGetBool("dttt_dbg_log_debug", add_convar)
+    cvars.ServerConVarGetBool("dttt_dbg_log_error", add_convar)
 
     cvars.ServerConVarGetBool("dttt_enabled", add_convar)
 
