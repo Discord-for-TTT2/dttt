@@ -61,7 +61,7 @@ local function PostRequest(url, body, headers, on_success, on_failure, content_t
             end
         end,
         ["success"] = function(response_code, response_body, response_headers)
-            dttt_logger.Debug("POST Request to " .. url .. " returned: " .. tostirng(response_code) .. "-" .. response_body)
+            dttt_logger.Debug("POST Request to " .. url .. " returned: " .. tostring(response_code) .. "-" .. response_body)
             if on_success ~= nil then
                 on_success(response_code, response_body, response_headers)
             end
