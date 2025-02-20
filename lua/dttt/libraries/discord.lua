@@ -204,7 +204,7 @@ end
 function discord.MapById(steam_id, discord_id)
     if steam_id == nil or discord_id == nil then return end
 
-    dttt_logger.Debug("Mapping player " .. ply:Nick() .. " to " .. discord_id)
+    dttt_logger.Debug("Mapping player " .. steam_id .. " to " .. discord_id)
 
     discord.mappings[steam_id] = discord_id
     discord.SaveMapping()
@@ -218,7 +218,7 @@ function discord.Unmap(ply)
 end
 
 function discord.UnmapById(steam_id)
-    dttt_logger.Debug("Unmapping player " .. ply:Nick())
+    dttt_logger.Debug("Unmapping player " .. steam_id)
 
     discord.mappings[steam_id] = nil
     discord.SaveMapping()
