@@ -1,6 +1,9 @@
 function GM:DTTTPreMuteLogic() end
 function GM:DTTTPreDeafenLogic() end
 
+function GM:DTTTPreChatSync() end
+function GM:DTTTPreVoiceSync() end
+
 function GM:DTTTPreLogic() end
 
 
@@ -17,10 +20,8 @@ function GM:DTTTPreMute(ply, duration)
 end
 
 function GM:DTTTMute(ply, duration)
-    dttt.Mute(ply, duration)
-
-    hook.Run("DTTTPostMute", ply, duration)
-end
+    function GM:DTTTMute(ply, duration)
+        dttt.Mute(ply, duration)
 
 function GM:DTTTPostMute(ply, duration) end
 
@@ -204,6 +205,9 @@ end)
 
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
     if hook.Run("DTTTPreInternalLogic") ~= nil then return end
+
+    --if ply:IsSpec() then bla end
+
     muteWithChat(ply)
 end)
 
@@ -217,4 +221,44 @@ end)
 hook.Add("PlayerDisconnected", "DTTTPlayerDisconnected", function(ply)
     ply:SetMuted(nil)
     ply:SetDeafened(nil)
+end)
+
+---
+--- Voice/Text Sync
+---
+
+hook.Add("TTT2AvoidGeneralChat", "DTTTAvoidGeneralChat", function(ply, message)
+    if hook.Run("DTTTPreChatSync") ~= nil then return end
+
+    if ply:GetMuted() then return false end
+end)
+
+hook.Add("TTT2AvoidTeamChat", "DTTTAvoidTeamChat", function(ply, team, message)
+    if hook.Run("DTTTPreChatSync") ~= nil then return end
+
+    if ply:GetMuted() then return false end
+end)
+
+hook.Add("TTT2CanSeeChat", "DTTTCanSeeChat", function(reader, sender, isTeam)
+    if hook.Run("DTTTPreChatSync") ~= nil then return end
+
+    if ply:GetDeafened() then return false end
+end)
+
+hook.Add("TTT2PlayerRadioCommand", "DTTTPlayerRadioCommand", function(ply, msgName, msgTarget)
+    if hook.Run("DTTTPreChatSync") ~= nil then return end
+
+    if ply:GetDeafened() then return true end
+end)
+
+hook.Add("TTT2CanUseVoiceChat", "DTTTCanUseVoiceChat", function(listener, isTeam)
+    if hook.Run("DTTTPreVoiceSync") ~= nil then return end
+
+    if ply:GetMuted() then return false end
+end)
+
+hook.Add("TTT2CanHearVoiceChat", "DTTTCanHearVoiceChat", function(listener, speaker, isTeam)
+    if hook.Run("DTTTPreVoiceSync") ~= nil then return end
+
+    if ply:GetDeafened() then return false end
 end)
