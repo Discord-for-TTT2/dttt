@@ -26,7 +26,7 @@ addReceiver("dttt_sv_map_player", function(len, ply)
 
     if not map_ply then return end
 
-    discord.AutoMap(map_ply)
+    discord.AutoMap(map_ply, true)
 end)
 
 addReceiver("dttt_sv_set_mapping", function(len, ply)

@@ -40,7 +40,7 @@ end)
 
 addCommand("dttt_run_automapper", function(ply, cmd, args, argStr)
     for _, ply in ipairs(player.GetHumans()) do
-        discord.AutoMap(ply)
+        discord.AutoMap(ply, true)
     end
 end)
 
