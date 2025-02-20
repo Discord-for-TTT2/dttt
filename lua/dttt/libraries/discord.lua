@@ -266,7 +266,7 @@ function discord.AutoMap(ply, force)
 
         if type(body) == "table" then
             dttt_logger.Debug(log)
-            printTable(body)
+            PrintTable(body)
         else
             dttt_logger.Debug(log .. body)
         end
