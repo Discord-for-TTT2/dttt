@@ -267,7 +267,7 @@ function discord.AutoMap(ply, force)
             dttt_logger.Debug(log)
             printTable(body)
         else
-            dttt_logger.Debug(log .. body)
+            dttt_logger.Debug(log .. body or "")
         end
 
         if not body and not body.id then return end
