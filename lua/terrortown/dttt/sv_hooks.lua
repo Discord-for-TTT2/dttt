@@ -3,10 +3,15 @@ function GM:DTTTPreDeafenLogic() end
 
 function GM:DTTTPreLogic() end
 
+
+local function CheckPlayer()
+    return not ply:IsBot() and ply:IsActive()
+end 
 ---
 
 function GM:DTTTPreMute(ply, duration)
     if hook.Run("DTTTPreMuteLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+    if not CheckPlayer() then return end
 
     hook.Run("DTTTMute", ply, duration)
 end
@@ -23,6 +28,7 @@ function GM:DTTTPostMute(ply, duration) end
 
 function GM:DTTTPreUnmute(ply, duration)
     if hook.Run("DTTTPreMuteLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+    if not CheckPlayer() then return end
 
     hook.Run("DTTTUnmute", ply, duration)
 end
@@ -39,6 +45,7 @@ function GM:DTTTPostUnmute(ply, duration) end
 
 function GM:DTTTPreMuteAll(duration)
     if hook.Run("DTTTPreMuteLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+    if not CheckPlayer() then return end
 
     hook.Run("DTTTMuteAll", duration)
 end
@@ -55,6 +62,7 @@ function GM:DTTTPostMuteAll(duration) end
 
 function GM:DTTTPreUnmuteAll(duration)
     if hook.Run("DTTTPreMuteLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+    if not CheckPlayer() then return end
 
     hook.Run("DTTTUnmuteAll", duration)
 end
@@ -73,6 +81,7 @@ function GM:DTTTPostUnmuteAll(duration) end
 
 function GM:DTTTPreDeafen(ply, duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+    if not CheckPlayer() then return end
 
     hook.Run("DTTTDeafen", ply, duration)
 end
@@ -87,8 +96,11 @@ function GM:DTTTPostDeafen(ply, duration) end
 
 ---
 
-function GM:DTTTPreUndeafen(ply, duration) 
+function GM:DTTTPreUndeafen(ply, duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+    if not CheckPlayer() then return end
+
+    hook.Run("DTTTUndeafen", ply, duration)
 end
 
 function GM:DTTTUndeafen(ply, duration)
@@ -103,6 +115,7 @@ function GM:DTTTPostUndeafen(ply, duration) end
 
 function GM:DTTTPreDeafenAll(duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+    if not CheckPlayer() then return end
 
     hook.Run("DTTTDeafenAll", duration)
 end
@@ -119,6 +132,7 @@ function GM:DTTTPostDeafenAll(duration) end
 
 function GM:DTTTPreUndeafenAll(duration)
     if hook.Run("DTTTPreDeafenLogic") ~= nil or hook.Run("DTTTPreLogic") ~= nil then return end
+    if not CheckPlayer() then return end
 
     hook.Run("DTTTUndeafenAll", duration)
 end
