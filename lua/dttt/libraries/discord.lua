@@ -191,6 +191,8 @@ end
 function discord.Map(ply, discord_id)
     if discord_id == nil then return end
 
+    dttt_logger.Debug("Mapping player " .. ply:Nick() .. " to " .. discord_id)
+
     discord.mappings[ply:SteamID64String()] = discord_id
     discord.SaveMapping()
 end
@@ -198,16 +200,22 @@ end
 function discord.MapById(steam_id, discord_id)
     if steam_id == nil or discord_id == nil then return end
 
+    dttt_logger.Debug("Mapping player " .. ply:Nick() .. " to " .. discord_id)
+
     discord.mappings[steam_id] = discord_id
     discord.SaveMapping()
 end
 
 function discord.Unmap(ply)
+    dttt_logger.Debug("Unmapping player " .. ply:Nick())
+
     discord.mappings[ply:SteamID64String()] = nil
     discord.SaveMapping()
 end
 
 function discord.UnmapById(steam_id)
+    dttt_logger.Debug("Unmapping player " .. ply:Nick())
+
     discord.mappings[steam_id] = nil
     discord.SaveMapping()
 end
@@ -215,23 +223,31 @@ end
 function discord.SaveMapping()
     if not discord.cache_enabled then return end
 
+    dttt_logger.Info("Saving discord Mappings")
+
     local json = util.TableToJSON(discord.mappings, true)
     file.Write(discord.mapping_save_path .. ".json", json)
 end
 
 function discord.LoadMapping()
+    dttt_logger.Info("Loading discord Mappings")
+
     local json_string = file.Read(discord.mapping_save_path .. ".json", "DATA") or "{}"
 
     discord.mappings = util.JSONToTable(json_string, false, true)
 end
 
 function discord.ClearMapping()
+    dttt_logger.Info("Clearing Discord Mappings")
+
     discord.mappings = {}
     discord.SaveMapping()
 end
 
 function discord.AutoMap(ply, force)
     if ply:IsBot() then return end
+
+    dttt_logger.Info("Automapping player " .. ply:Nick())
 
     if not discord.auto_map_enabled and discord.ContainsMapping(ply) and not force then return end
 

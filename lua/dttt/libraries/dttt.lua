@@ -70,6 +70,8 @@ end
 function dttt.Mute(ply, duration)
     if not dttt.MuteEnabled() or ply:IsBot() then return end
 
+    dttt_logger.Info("Muting player " .. ply:Nick())
+
     local state_different = ply:SetMuted(true)
     if not state_different then return end
 
@@ -87,6 +89,8 @@ end
 function dttt.Unmute(ply, duration)
     if not dttt.UnmuteEnabled() or ply:IsBot() then return end
 
+    dttt_logger.Info("Unmuting player " .. ply:Nick())
+
     local state_different = ply:SetMuted(false)
     if not state_different then return end
 
@@ -103,6 +107,8 @@ end
 
 function dttt.MuteAll(duration)
     if not dttt.MuteEnabled() then return end
+
+    dttt_logger.Info("Muting all players")
 
     local players = player.GetHumans()
 
@@ -123,6 +129,8 @@ end
 function dttt.UnmuteAll(duration)
     if not dttt.UnmuteEnabled() then return end
 
+    dttt_logger.Info("Unmuting all players")
+
     local players = player.GetHumans()
 
     for _, ply in ipairs(players) do
@@ -141,6 +149,7 @@ end
 
 function dttt.Deafen(ply, duration)
     if not dttt.DeafenEnabled() or ply:IsBot() then return end
+    dttt_logger.Info("Deafen player " .. ply:Nick())
 
     local state_different = ply:SetDeafened(true)
     if not state_different then return end
@@ -158,6 +167,7 @@ end
 
 function dttt.Undeafen(ply, duration)
     if not dttt.UndeafenEnabled() or ply:IsBot() then return end
+    dttt_logger.Info("Undeafen player " .. ply:Nick())
 
     local state_different = ply:SetDeafened(false)
     if not state_different then return end
@@ -175,6 +185,7 @@ end
 
 function dttt.DeafenAll(duration)
     if not dttt.DeafenEnabled() then return end
+    dttt_logger.Info("Deafen all players")
 
     local players = player.GetHumans()
 
@@ -194,6 +205,7 @@ end
 
 function dttt.UndeafenAll(duration)
     if not dttt.UndeafenEnabled() then return end
+    dttt_logger.Info("Undeafen all players")
 
     local players = player.GetHumans()
 
