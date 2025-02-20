@@ -202,7 +202,7 @@ hook.Add("TTT2PostPlayerDeath", "DTTTPostPlayerDeath", function(victim, inflicto
 end)
 
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
-    if hook.Run("DTTTPreInternalLogic") ~= nil then return end
+    if not ply:IsActive() or hook.Run("DTTTPreInternalLogic") ~= nil then return end
 
     muteWithChat(ply)
 end)
