@@ -1,14 +1,10 @@
 local base = "pure_skin_element"
 DEFINE_BASECLASS(base)
-
 HUDELEMENT.Base = base
-
 if CLIENT then
     local icon = Material("vgui/ttt/vskin/hudelements/deafened.png")
-
     local padding = 4
     local icon_size = 64
-
     local const_defaults = {
         basepos = { x = 0, y = 0 },
         size = { w = 64, h = 64 },
@@ -16,16 +12,15 @@ if CLIENT then
     }
 
     function HUDELEMENT:PreInitialize()
-		BaseClass.PreInitialize(self)
+        BaseClass.PreInitialize(self)
 
-		local hud = huds.GetStored("pure_skin")
-		if hud then
-			hud:ForceElement(self.id)
-		end
+        local hud = huds.GetStored("pure_skin")
 
-		-- set as fallback default, other skins have to be set to true!
-		self.disabledUnlessForced = false
-	end
+        if hud then hud:ForceElement(self.id) end
+
+        -- set as fallback default, other skins have to be set to true!
+        self.disabledUnlessForced = false
+    end
 
     function HUDELEMENT:Initialize()
         self.scale = 1
@@ -38,7 +33,6 @@ if CLIENT then
 
     function HUDELEMENT:PerformLayout()
         self.scale = self:GetHUDScale()
-
         self.basecolor = self:GetHUDBasecolor()
         self.padding = math.Round(padding * self.scale, 0)
         self.icon_size = math.Round(icon_size * self.scale, 0)
@@ -47,8 +41,10 @@ if CLIENT then
     end
 
     function HUDELEMENT:GetDefaults()
-        const_defaults["basepos"] =
-            { x = 72 + 10 * self.scale, y = 10 * self.scale }
+        const_defaults["basepos"] = {
+            x = 72 + 10 * self.scale,
+            y = 10 * self.scale
+        }
         return const_defaults
     end
 
@@ -66,8 +62,6 @@ if CLIENT then
     end
 
     function HUDELEMENT:Draw()
-        local ply = LocalPlayer()
-
         local pos = self:GetPos()
         local size = self:GetSize()
         local x, y = pos.x, pos.y
@@ -77,7 +71,6 @@ if CLIENT then
         self:DrawLines(x, y, w, h, self.basecolor.a)
 
         local draw_size = self.icon_size - self.padding * 2
-
         draw.FilteredShadowedTexture(x + self.padding, y + self.padding, draw_size, draw_size, icon, 255, self.basecolor, self.scale)
     end
 end
