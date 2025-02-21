@@ -11,6 +11,7 @@ function plymeta:SetMuted(state)
     local is_state_different = IsStateDifferent(self.discord_mute, state)
 
     self.discord_mute = state
+    self:SetNWBool("discord_mute", state)
     return is_state_different
 end
 
@@ -18,6 +19,7 @@ function plymeta:SetDeafened(state)
     local is_state_different = IsStateDifferent(self.discord_deafen, state)
 
     self.discord_deafen = state
+    self:SetNWBool("discord_deafen", state)
     return is_state_different
 end
 
