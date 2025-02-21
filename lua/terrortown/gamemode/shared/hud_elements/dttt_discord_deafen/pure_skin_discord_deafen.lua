@@ -58,7 +58,7 @@ if CLIENT then
         if not IsValid(ply) then return false end
         if ply:IsBot(ply) then return false end
 
-        return ply:GetNWBool("discord_deafen", false)
+        return ply:GetNWBool("discord_deafen", false) or HUDEditor.IsEditing
     end
 
     function HUDELEMENT:Draw()
