@@ -136,7 +136,7 @@ function discord.Mute(plys, callback)
     for i, ply in ipairs(plys) do
         local mapping = discord.GetMapping(ply)
         local id = mapping.discord_id
-        local status = ply:GetMuted()
+        local status = ply:IsMuted()
 
         if id ~= nil and status ~= nil then
             table.insert(body, {
@@ -164,7 +164,7 @@ function discord.Deafen(plys, callback)
     for i, ply in ipairs(plys) do
         local mapping = discord.GetMapping(ply)
         local id = mapping.discord_id
-        local status = ply:GetDeafened()
+        local status = ply:IsDeafened()
 
         if id ~= nil and status ~= nil then
             table.insert(body, {
