@@ -10,13 +10,13 @@ function GM:DTTTPreMute(ply, duration)
     if hook.Run("DTTTPreLogic") ~= nil then return end
     if hook.Run("DTTTPreMuteLogic") ~= nil then return end
 
-    hook.Run("DTTTMute", ply, duration)
+    hook.Run("DTTTMute", ply, duration, true)
 end
 
 -- Used to actually run mute logic on the player
 -- Changing Mute state, sending discord request
-function GM:DTTTMute(ply, duration)
-    dttt.Mute(ply, duration)
+function GM:DTTTMute(ply, duration, auto)
+    dttt.Mute(ply, duration, auto)
 
     hook.Run("DTTTPostMute", ply, duration)
 end
@@ -50,7 +50,7 @@ function GM:DTTTPostUnmute(ply, duration) end
 ---------
 
 -- Should mute every human player in the lobby
-function GM:DTTTMuteAll(duration)
+function GM:DTTTPreMuteAll(duration)
     if hook.Run("DTTTPreLogic") ~= nil then return end
     if hook.Run("DTTTPreMuteLogic") ~= nil then return end
 
@@ -88,15 +88,15 @@ function GM:DTTTPostUnmuteAll(duration) end
 -- Should Deafen the player
 -- Runs DTTTPreDeafen first and checks if it returns anything
 
-function GM:DTTTPreUndeafen(ply, duration)
+function GM:DTTTPreDeafen(ply, duration)
     if hook.Run("DTTTPreLogic") ~= nil then return end
     if hook.Run("DTTTPreDeafenLogic") ~= nil then return end
 
-    hook.Run("DTTTDeafen", ply, duration)
+    hook.Run("DTTTDeafen", ply, duration, true)
 end
 
-function GM:DTTTDeafen(ply, duration)
-    dttt.Deafen(ply, duration)
+function GM:DTTTDeafen(ply, duration, auto)
+    dttt.Deafen(ply, duration, auto)
 
     hook.Run("DTTTPostDeafen", ply, duration)
 end
@@ -154,7 +154,7 @@ function GM:DTTTPostUndeafenAll(duration) end
 local function PlayerChatBlocked(ply)
     local ply_mute_state = ply:GetMuted()
 
-    ply:SetMuted(false)
+    ply:SetMuted(g_AUDIO_STATE.UNMUTED)
 
     if hook.Run("TTT2AvoidGeneralChat", ply, "") == false then return true end
     if hook.Run("TTTPlayerRadioCommand", ply, "","quick_nobody") == true then return true end
@@ -168,7 +168,7 @@ end
 local function VoiceChatBlocked(ply)
     local ply_deafen_state = ply:GetDeafened()
 
-    ply:SetDeafened(false)
+    ply:SetDeafened(g_AUDIO_STATE.UNMUTED)
 
     if hook.Run("TTT2CanSeeChat", ply, ply, false) == false then return true end
     if hook.Run("TTT2CanHearVoiceChat", ply, ply, false) == false then return true end
@@ -202,17 +202,24 @@ hook.Add("TTT2PrePrepareRound", "DTTTPrePrepareRound", function(duration)
     hook.Run("DTTTPreUnmuteAll")
 end)
 
-hook.Add("TTT2PreEndRound", "DTTTPreBeginRonud", function(result, duration)
+hook.Add("TTT2PreEndRound", "DTTTPreBeginRound", function(result, duration)
     hook.Run("DTTTPreUnmuteAll")
+end)
+
+hook.Add("TTT2UpdateSubrole", "DTTTUpdateSubrole", function(ply, oldSubrole, newSubrole)
+    if ply:GetMuted() ~= g_AUDIO_STATE.MUTED_MANUAL then SyncGameChat(ply) end
+
+    if ply:GetDeafened() ~= g_AUDIO_STATE.MUTED_MANUAL then SyncGameVoice(ply) end
 end)
 
 hook.Add("TTT2PostPlayerDeath", "DTTTPostPlayerDeath", function(victim, inflictor, attacker)
     -- Mute player if the Round is running, only when Mute/Deafen is initialized
     if getRoundState() ~= 3 then return end
 
-    if victim:GetMuted() == nil and victim:GetDeafened() == nil then return end
+    if victim:GetMuted() == nil or victim:GetDeafened() == nil then return end
 
     hook.Run("DTTTPreMute", victim, GetConVar("dttt_mute_duration"):GetInt())
+    hook.Run("DTTTPreUndeafen", victim)
 end)
 
 hook.Add("PlayerSpawn", "DTTTPlayerSpawn", function(ply, transition)
@@ -228,8 +235,8 @@ end)
 hook.Add("PlayerInitialSpawn", "DTTTPlayerInitialSpawn", function(ply ,transition)
     -- Should initialize Mute/Deafen states of player
 
-    ply:SetMuted(false)
-    ply:SetDeafened(false)
+    ply:SetMuted(g_AUDIO_STATE.UNMUTED)
+    ply:SetDeafened(g_AUDIO_STATE.UNMUTED)
 
     discord.AutoMap(ply)
 end)
@@ -253,7 +260,7 @@ hook.Add("TTT2AvoidGeneralChat", "DTTTAvoidGeneralChat", function(ply, message)
 
     if not ply:IsActive() then return end
 
-    if ply:GetMuted() then return false end
+    if ply:IsMuted() then return false end
 end)
 
 hook.Add("TTT2CanSeeChat", "DTTTCanSeeChat", function(reader, sender, isTeam)
@@ -264,7 +271,7 @@ hook.Add("TTT2CanSeeChat", "DTTTCanSeeChat", function(reader, sender, isTeam)
 
     if not reader:IsActive() then return end
 
-    if reader:GetDeafened() then return false end
+    if reader:IsDeafened() then return false end
 end)
 
 hook.Add("TTT2PlayerRadioCommand", "DTTTPlayerRadioCommand", function(ply, msgName, msgTarget)
@@ -275,7 +282,7 @@ hook.Add("TTT2PlayerRadioCommand", "DTTTPlayerRadioCommand", function(ply, msgNa
 
     if not ply:IsActive() then return end
 
-    if ply:GetMuted() then return true end
+    if ply:IsMuted() then return true end
 end)
 
 --- InGame Voice Chat
@@ -288,7 +295,7 @@ hook.Add("TTT2CanUseVoiceChat", "DTTTCanUseVoiceChat", function(listener, isTeam
 
     if not listener:IsActive() then return end
 
-    if listener:GetMuted() then return false end
+    if listener:IsMuted() then return false end
 end)
 
 hook.Add("TTT2CanHearVoiceChat", "DTTTCanHearVoiceChat", function(listener, speaker, isTeam)
@@ -296,5 +303,5 @@ hook.Add("TTT2CanHearVoiceChat", "DTTTCanHearVoiceChat", function(listener, spea
 
     if not listener:IsActive() then return end
 
-    if listener:GetDeafened() then return false end
+    if listener:IsDeafened() then return false end
 end)

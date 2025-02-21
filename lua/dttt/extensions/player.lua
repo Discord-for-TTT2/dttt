@@ -29,6 +29,14 @@ function plymeta:GetDeafened()
     return self.discord_deafen
 end
 
+function plymeta:IsMuted()
+    return self.discord_mute ~= g_AUDIO_STATE.UNMUTED
+end
+
+function plymeta:IsDeafened()
+    return self.discord_deafen ~= g_AUDIO_STATE.UNMUTED
+end
+
 function plymeta:SteamID64String()
     return tostring(self:SteamID64())
 end

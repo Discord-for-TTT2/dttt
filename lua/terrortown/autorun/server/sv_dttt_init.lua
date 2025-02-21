@@ -9,6 +9,12 @@ AddCSLuaFile("dttt/extensions/player.lua")
 
 g_convars = {}
 
+g_AUDIO_STATE = {
+    UNMUTED = false,
+    MUTED = true,
+    MUTED_MANUAL = 2
+}
+
 local function RegisterConVar(name, value, flags, description)
     local convar = CreateConVar(name, value, flags, description)
     table.insert(g_convars, convar)
