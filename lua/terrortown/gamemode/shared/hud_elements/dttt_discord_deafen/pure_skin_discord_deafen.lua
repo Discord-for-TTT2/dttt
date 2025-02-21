@@ -3,6 +3,8 @@ DEFINE_BASECLASS(base)
 HUDELEMENT.Base = base
 if CLIENT then
     local icon = Material("vgui/ttt/vskin/hudelements/deafened.png")
+    local color = Color(255, 13, 65, 255)
+
     local padding = 4
     local icon_size = 64
     local const_defaults = {
@@ -71,6 +73,6 @@ if CLIENT then
         self:DrawLines(x, y, w, h, self.basecolor.a)
 
         local draw_size = self.icon_size - self.padding * 2
-        draw.FilteredShadowedTexture(x + self.padding, y + self.padding, draw_size, draw_size, icon, 255, self.basecolor, self.scale)
+        draw.FilteredShadowedTexture(x + self.padding, y + self.padding, draw_size, draw_size, icon, 255, color, self.scale)
     end
 end

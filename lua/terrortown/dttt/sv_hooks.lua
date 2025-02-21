@@ -88,7 +88,7 @@ function GM:DTTTPostUnmuteAll(duration) end
 -- Should Deafen the player
 -- Runs DTTTPreDeafen first and checks if it returns anything
 
-function GM:DTTTPreUndeafen(ply, duration)
+function GM:DTTTPreDeafen(ply, duration)
     if hook.Run("DTTTPreLogic") ~= nil then return end
     if hook.Run("DTTTPreDeafenLogic") ~= nil then return end
 
