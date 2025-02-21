@@ -50,7 +50,7 @@ function GM:DTTTPostUnmute(ply, duration) end
 ---------
 
 -- Should mute every human player in the lobby
-function GM:DTTTMuteAll(duration)
+function GM:DTTTPreMuteAll(duration)
     if hook.Run("DTTTPreLogic") ~= nil then return end
     if hook.Run("DTTTPreMuteLogic") ~= nil then return end
 
