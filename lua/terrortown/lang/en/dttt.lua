@@ -57,3 +57,12 @@ L["desc_event_unmuted"] = "{nick} got Unmuted"
 
 L["desc_event_deafened"] = "{nick} got Deafened"
 L["desc_event_undeafened"] = "{nick} got Undeafened"
+
+L["dttt_state_title"] = "Player States"
+L["dttt_state_config_form"] = "Config Player States"
+L["dttt_player_state_form"] = "Player States"
+
+L["dttt_state_mute"] = "Mute"
+L["dttt_state_unmute"] = "Unmute"
+L["dttt_state_deafen"] = "Deafen"
+L["dttt_state_undeafen"] = "Undeafen"
