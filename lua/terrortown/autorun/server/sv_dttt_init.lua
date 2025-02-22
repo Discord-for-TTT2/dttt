@@ -155,3 +155,6 @@ resource.AddFile("materials/vgui/ttt/vskin/hudelements/deafened.png")
 
 resource.AddFile("materials/vgui/ttt/vskin/events/muted.png")
 resource.AddFile("materials/vgui/ttt/vskin/events/deafened.png")
+
+resource.AddFile("materials/vgui/ttt/vskin/icon_delete.png")
+resource.AddFile("materials/vgui/ttt/vskin/icon_copy.png")
