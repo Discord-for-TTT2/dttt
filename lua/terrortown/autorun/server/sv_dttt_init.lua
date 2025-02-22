@@ -158,3 +158,8 @@ resource.AddFile("materials/vgui/ttt/vskin/events/deafened.png")
 
 resource.AddFile("materials/vgui/ttt/vskin/icon_delete.png")
 resource.AddFile("materials/vgui/ttt/vskin/icon_copy.png")
+
+resource.AddFile("materials/vgui/ttt/vskin/states/muted.png")
+resource.AddFile("materials/vgui/ttt/vskin/states/unmute.png")
+resource.AddFile("materials/vgui/ttt/vskin/states/deafened.png")
+resource.AddFile("materials/vgui/ttt/vskin/states/undeafened.png")
