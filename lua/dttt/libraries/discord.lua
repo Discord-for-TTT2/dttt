@@ -18,6 +18,7 @@ local function GetRequest(url, params, headers, on_success, on_failure, retries,
         ["headers"] = headers,
         ["timeout"] = timeout,
         ["failed"] = function(err)
+            dttt_logger.Info("GET Request to " .. url .. " failed with err: " .. tostring(err))
             if on_failure ~= nil then
                 on_failure(err)
             end
@@ -27,6 +28,7 @@ local function GetRequest(url, params, headers, on_success, on_failure, retries,
             end
         end,
         ["success"] = function(response_code, response_body, response_headers)
+            dttt_logger.Debug("GET Request to " .. url .. " returned: " .. tostring(response_code) .. "-" .. response_body)
             if on_success ~= nil then
                 on_success(response_code, response_body, response_headers)
             end
@@ -49,6 +51,7 @@ local function PostRequest(url, body, headers, on_success, on_failure, content_t
         ["timeout"] = timeout,
         ["type"] = content_type,
         ["failed"] = function(err)
+            dttt_logger.Info("POST Request to " .. url .. " failed with err: " .. tostring(err))
             if on_failure ~= nil then
                 on_failure(err)
             end
@@ -58,6 +61,7 @@ local function PostRequest(url, body, headers, on_success, on_failure, content_t
             end
         end,
         ["success"] = function(response_code, response_body, response_headers)
+            dttt_logger.Debug("POST Request to " .. url .. " returned: " .. tostring(response_code) .. "-" .. response_body)
             if on_success ~= nil then
                 on_success(response_code, response_body, response_headers)
             end
@@ -132,7 +136,7 @@ function discord.Mute(plys, callback)
     for i, ply in ipairs(plys) do
         local mapping = discord.GetMapping(ply)
         local id = mapping.discord_id
-        local status = ply:GetMuted()
+        local status = ply:IsMuted()
 
         if id ~= nil and status ~= nil then
             table.insert(body, {
@@ -160,7 +164,7 @@ function discord.Deafen(plys, callback)
     for i, ply in ipairs(plys) do
         local mapping = discord.GetMapping(ply)
         local id = mapping.discord_id
-        local status = ply:GetDeafened()
+        local status = ply:IsDeafened()
 
         if id ~= nil and status ~= nil then
             table.insert(body, {
@@ -191,6 +195,13 @@ end
 function discord.Map(ply, discord_id)
     if discord_id == nil then return end
 
+    if string.Trim(discord_id) == "" then
+        discord.Unmap(ply)
+        return
+    end
+
+    dttt_logger.Debug("Mapping player " .. ply:Nick() .. " to " .. discord_id)
+
     discord.mappings[ply:SteamID64String()] = discord_id
     discord.SaveMapping()
 end
@@ -198,16 +209,27 @@ end
 function discord.MapById(steam_id, discord_id)
     if steam_id == nil or discord_id == nil then return end
 
+    if string.Trim(discord_id) == "" then
+        discord.UnmapById(steam_id)
+        return
+    end
+
+    dttt_logger.Debug("Mapping player " .. steam_id .. " to " .. discord_id)
+
     discord.mappings[steam_id] = discord_id
     discord.SaveMapping()
 end
 
 function discord.Unmap(ply)
+    dttt_logger.Debug("Unmapping player " .. ply:Nick())
+
     discord.mappings[ply:SteamID64String()] = nil
     discord.SaveMapping()
 end
 
 function discord.UnmapById(steam_id)
+    dttt_logger.Debug("Unmapping player " .. steam_id)
+
     discord.mappings[steam_id] = nil
     discord.SaveMapping()
 end
@@ -215,17 +237,23 @@ end
 function discord.SaveMapping()
     if not discord.cache_enabled then return end
 
+    dttt_logger.Info("Saving discord Mappings")
+
     local json = util.TableToJSON(discord.mappings, true)
     file.Write(discord.mapping_save_path .. ".json", json)
 end
 
 function discord.LoadMapping()
+    dttt_logger.Info("Loading discord Mappings")
+
     local json_string = file.Read(discord.mapping_save_path .. ".json", "DATA") or "{}"
 
     discord.mappings = util.JSONToTable(json_string, false, true)
 end
 
 function discord.ClearMapping()
+    dttt_logger.Info("Clearing Discord Mappings")
+
     discord.mappings = {}
     discord.SaveMapping()
 end
@@ -233,10 +261,25 @@ end
 function discord.AutoMap(ply, force)
     if ply:IsBot() then return end
 
-    if not discord.auto_map_enabled and discord.ContainsMapping(ply) and not force then return end
+    dttt_logger.Info("Automapping player " .. ply:Nick())
+
+    if not force then
+        if not discord.auto_map_enabled then return end
+        if discord.ContainsMapping(ply) then return end
+    end
 
     discord.GetDiscordId(ply, function(code, body, headers)
         local body = util.JSONToTable(body)
+        body = body or ""
+
+        local log = "Automapper GET Request returned body: "
+
+        if type(body) == "table" then
+            dttt_logger.Debug(log)
+            PrintTable(body)
+        else
+            dttt_logger.Debug(log .. body)
+        end
 
         if not body and not body.id then return end
 
