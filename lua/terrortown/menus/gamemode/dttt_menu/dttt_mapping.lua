@@ -52,7 +52,7 @@ function CLGAMEMODESUBMENU:Populate(parent)
             local player_name = player_map[steam_id] or "OFFLINE"
             local add_automap = player_map[steam_id] ~= nil
 
-            player_mappings_form:MakePlayerEntry({
+            player_mappings_form:MakeDiscordIDEntry({
                 player = {
                     steam_id = steam_id,
                     discord_id = discord_id,

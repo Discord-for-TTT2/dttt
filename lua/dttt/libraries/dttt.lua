@@ -165,7 +165,7 @@ function dttt.Deafen(ply, duration, auto)
     local state_different = ply:SetDeafened(new_state)
     if not state_different then return end
 
-    discord.deafen(ply)
+    discord.Deafen(ply)
     duration = ConvertDuration(duration, 0)
 
     events.Trigger(EVENT_DEAFENED, ply)
