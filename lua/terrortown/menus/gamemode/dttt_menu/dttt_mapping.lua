@@ -5,30 +5,6 @@ CLGAMEMODESUBMENU.priority = 99
 function CLGAMEMODESUBMENU:Initialize()
 end
 
-local function CreatePlayerEntry(form, ply_name, steam_id, discord_id, add_automap_button)
-    local data = {
-        label = ply_name .. ":" .. steam_id,
-        initial = discord_id,
-        OnChange = function(obj, value)
-            net.Start("dttt_sv_set_mapping")
-            net.WriteString(steam_id)
-            net.WriteString(value)
-            net.SendToServer()
-        end
-    }
-
-    if add_automap_button then
-        data["enableRun"] = true
-        data["OnClickRun"] = function()
-            net.Start("dttt_sv_map_player")
-            net.WriteString(steam_id)
-            net.SendToServer()
-        end
-    end
-
-    form:MakeTextEntry(data)
-end
-
 function CLGAMEMODESUBMENU:Populate(parent)
     local config_form = vgui.CreateTTT2Form(parent, "dttt_mapping_config_form")
 
@@ -52,23 +28,38 @@ function CLGAMEMODESUBMENU:Populate(parent)
         end
     })
 
-    local player_mappings = vgui.CreateTTT2Form(parent, "dttt_mapping_form")
+    local player_mappings_form = vgui.CreateDTTTForm(parent, "dttt_mapping_form")
 
     net.Receive("dttt_cl_get_mapping", function()
+        player_mappings_form:Clear()
+
         local mapping = net.ReadTable()
         local players = player.GetHumans()
 
         local player_map = {}
 
         for _, ply in ipairs(players) do
-            player_map[ply:SteamID64String()] = ply:Nick()
+            local steam_id = ply:SteamID64String()
+
+            player_map[steam_id] = ply:Nick()
+
+            if mapping[steam_id] == nil then
+                mapping[steam_id] = ""
+            end
         end
 
         for steam_id, discord_id in pairs(mapping) do
             local player_name = player_map[steam_id] or "OFFLINE"
             local add_automap = player_map[steam_id] ~= nil
 
-            CreatePlayerEntry(player_mappings, player_name, steam_id, discord_id or "", add_automap)
+            player_mappings_form:MakeDiscordIDEntry({
+                player = {
+                    steam_id = steam_id,
+                    discord_id = discord_id,
+                    name = player_name
+                },
+                automap_enabled = add_automap
+            })
         end
     end)
 

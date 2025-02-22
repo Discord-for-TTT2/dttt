@@ -10,7 +10,10 @@ L["dttt_config_title"] = "Config"
 L["dttt_config_debug_form"] = "Debugging"
 L["dttt_config_debug_enabled"] = "Debug Enabled"
 L["dttt_config_debug_timestamp_enabled"] = "Debug Timestamp Enabled"
-L["dttt_config_debug_levels"] = "Log Levels"
+L["dttt_config_debug_info"] = "Enable Info Log"
+L["dttt_config_debug_warning"] = "Enable Warning Log"
+L["dttt_config_debug_debug"] = "Enable Debug Log"
+L["dttt_config_debug_error"] = "Enable Error Log"
 
 
 -- Logic --
@@ -54,3 +57,12 @@ L["desc_event_unmuted"] = "{nick} got Unmuted"
 
 L["desc_event_deafened"] = "{nick} got Deafened"
 L["desc_event_undeafened"] = "{nick} got Undeafened"
+
+L["dttt_state_title"] = "Player States"
+L["dttt_state_config_form"] = "Config Player States"
+L["dttt_player_state_form"] = "Player States"
+
+L["dttt_state_mute"] = "Mute"
+L["dttt_state_unmute"] = "Unmute"
+L["dttt_state_deafen"] = "Deafen"
+L["dttt_state_undeafen"] = "Undeafen"

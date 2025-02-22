@@ -40,22 +40,22 @@ end)
 
 addCommand("dttt_run_automapper", function(ply, cmd, args, argStr)
     for _, ply in ipairs(player.GetHumans()) do
-        discord.AutoMap(ply)
+        discord.AutoMap(ply, true)
     end
 end)
 
 addCommand("dttt_mute_all", function(ply, cmd, args, argStr)
-    hook.Run("DTTTMuteAll")
+    dttt.MuteAll(0)
 end)
 
 addCommand("dttt_unmute_all", function(ply, cmd, args, argStr)
-    hook.Run("DTTTUnmuteAll")
+    dttt.UnmuteAll(0)
 end)
 
 addCommand("dttt_deafen_all", function(ply, cmd, args, argStr)
-    hook.Run("DTTTDeafenAll")
+    dttt.DeafenAll(0)
 end)
 
 addCommand("dttt_undeafen_all", function(ply, cmd, args, argStr)
-    hook.Run("DTTTUndeafenAll")
+    dttt.UndeafenAll(0)
 end)
