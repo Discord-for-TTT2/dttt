@@ -200,10 +200,12 @@ end
 
 hook.Add("TTT2PrePrepareRound", "DTTTPrePrepareRound", function(duration)
     hook.Run("DTTTPreUnmuteAll")
+    hook.Run("DTTTPreUndeafenAll")
 end)
 
 hook.Add("TTT2PreEndRound", "DTTTPreBeginRound", function(result, duration)
     hook.Run("DTTTPreUnmuteAll")
+    hook.Run("DTTTPreUndeafenAll")
 end)
 
 hook.Add("TTT2UpdateSubrole", "DTTTUpdateSubrole", function(ply, oldSubrole, newSubrole)
