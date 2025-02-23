@@ -33,26 +33,35 @@ function dttt_logger.PrintLog(log_level, msg, bypass_checks)
     print(log_message)
 end
 
-function dttt_logger.Info(msg)
+function dttt_logger.Info(msg, log_level_override)
     if not dttt_logger.log_info then return end
-    dttt_logger.PrintLog("INFO", msg)
+    log_level_override = log_level_override or "INFO"
+
+    dttt_logger.PrintLog(log_level_override, msg)
 end
 
-function dttt_logger.Warning(msg)
+function dttt_logger.Warning(msg, log_level_override)
     if not dttt_logger.log_warning then return end
-    dttt_logger.PrintLog("WARNING", msg)
+    log_level_override = log_level_override or "WARNING"
+
+    dttt_logger.PrintLog(log_level_override, msg)
 end
 
-function dttt_logger.Debug(msg)
+function dttt_logger.Debug(msg, log_level_override)
     if not dttt_logger.log_debug then return end
-    dttt_logger.PrintLog("DEBUG", msg)
+    log_level_override = log_level_override or "DEBUG"
+
+    dttt_logger.PrintLog(log_level_override, msg)
 end
 
-function dttt_logger.Error(msg)
+function dttt_logger.Error(msg, log_level_override)
     if not dttt_logger.log_error then return end
-    dttt_logger.PrintLog("ERROR", msg)
+    log_level_override = log_level_override or "ERROR"
+
+    dttt_logger.PrintLog(log_level_override, msg)
 end
 
-function dttt_logger.Force(msg)
-    dttt_logger.PrintLog("FORCE", msg, true)
+function dttt_logger.Force(msg, log_level_override)
+    log_level_override = log_level_override or "INFO"
+    dttt_logger.PrintLog(log_level_override, msg)
 end

@@ -1,5 +1,6 @@
 include("dttt/extensions/cvars.lua")
 include("dttt/extensions/player.lua")
+include("dttt/libraries/logger.lua")
 
 g_convars = {initialized = false}
 

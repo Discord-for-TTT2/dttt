@@ -6,6 +6,7 @@ include("dttt/libraries/dttt.lua")
 
 AddCSLuaFile("dttt/extensions/cvars.lua")
 AddCSLuaFile("dttt/extensions/player.lua")
+AddCSLuaFile("dttt/libraries/logger.lua")
 
 g_convars = {}
 
