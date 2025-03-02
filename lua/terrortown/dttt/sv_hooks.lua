@@ -307,3 +307,19 @@ hook.Add("TTT2CanHearVoiceChat", "DTTTCanHearVoiceChat", function(listener, spea
 
     if listener:IsDeafened() then return false end
 end)
+
+
+---
+---
+---
+
+hook.Add("PlayerSay", "DTTTDiscordAddClient", function(sender, text, teamChat)
+    if not IsValid(sender) or sender:IsBot() then return end
+
+    if string.lower(text) == "/discord" then
+        discord.AutoMap(sender)
+        return ""
+    end
+
+    return text
+end)
