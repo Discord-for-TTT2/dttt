@@ -314,7 +314,7 @@ end)
 ---
 
 hook.Add("PlayerSay", "DTTTDiscordAddClient", function(sender, text, teamChat)
-    if not IsValid(sender) and sender:IsBot() then return end
+    if not IsValid(sender) or sender:IsBot() then return end
 
     if string.lower(text) == "/discord" then
         discord.AutoMap(sender)
