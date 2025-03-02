@@ -28,10 +28,13 @@ function CLGAMEMODESUBMENU:Populate(parent)
         end
     })
 
-    local player_mappings_form = vgui.CreateDTTTForm(parent, "dttt_mapping_form")
+    local online_player_mappings_form = vgui.CreateDTTTForm(parent, "dttt_online_player_mapping_form")
+
+    local offline_player_mappings_form = vgui.CreateDTTTForm(parent, "dttt_offline_player_mapping_form")
 
     net.Receive("dttt_cl_get_mapping", function()
-        player_mappings_form:Clear()
+        online_player_mappings_form:Clear()
+        offline_player_mappings_form:Clear()
 
         local mapping = net.ReadTable()
         local players = player.GetHumans()
@@ -49,17 +52,28 @@ function CLGAMEMODESUBMENU:Populate(parent)
         end
 
         for steam_id, discord_id in pairs(mapping) do
+            local is_online = player_map[steam_id] ~= nil
             local player_name = player_map[steam_id] or "OFFLINE"
-            local add_automap = player_map[steam_id] ~= nil
 
-            player_mappings_form:MakeDiscordIDEntry({
-                player = {
-                    steam_id = steam_id,
-                    discord_id = discord_id,
-                    name = player_name
-                },
-                automap_enabled = add_automap
-            })
+            if is_online then
+                online_player_mappings_form:MakeDiscordIDEntry({
+                    player = {
+                        steam_id = steam_id,
+                        discord_id = discord_id,
+                        name = player_name
+                    },
+                    automap_enabled = true
+                })
+            else
+                offline_player_mappings_form:MakeDiscordIDEntry({
+                    player = {
+                        steam_id = steam_id,
+                        discord_id = discord_id,
+                        name = player_name
+                    },
+                    add_automap = false
+                })
+            end
         end
     end)
 
